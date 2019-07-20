@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>登录</title>
+<link rel="stylesheet" type="text/css" href="${webPath}css/login.css">
+<link rel="stylesheet" type="text/css" href="${webPath}css/jquery.slider.css">
+<link rel="stylesheet" type="text/css" href="${webPath}css/iconfont.css" media="all">
+<#include '/pubCSS.html'>
+
+</head>
+<style>
+
+
+.search{
+    width: 220px;
+    height: 40px;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.search_key{
+    width: 215px;
+    height: 38px;
+    line-height: 40px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    padding-right: 10px;
+    background: #f5f6f8;
+}
+
+.btn_submit{
+    width: 125px;
+    height: 40px;
+    font-size: 14px;
+    border: 0;
+}
+</style>
+<body class="login-bg">
+
+<div class="login-center">
+	<div class="wel-txt">
+	   <p class="p1">欢迎登录！</p>
+	   <p class="p2">ETV后台管理系统 V1.0</p>
+	</div>
+	<div class="login-content login">
+	   <div class="logo"><img src="${path}img/ys.png" /></div>
+	   <div class="login-box">
+		  <form action="loginadmin.htm" id="login" method="post" onsubmit="return check()">
+			  <div class="box">
+				  <i class="iconfont icon-user"></i>
+			      <input type="text" name="username" id="username" value="${username}" class="user-input input-txt" placeholder="请输入用户名">
+			  </div>
+			  <div class="box">
+				  <i class="iconfont icon-lock"></i>
+			      <input type="password" name="password" id="password" value="${password}" maxlength="22" class="pwd-input input-txt" placeholder="请输入密码">
+			  </div>
+			  <div class="yzm ui-slider-bg" onselectstart="return false;">
+				  <div id="slider1" class="slider"></div>
+			  </div>			  
+			  <!--错误提示-->
+				<#if shiroLoginFailure=="org.apache.shiro.authc.UnknownAccountException">
+				<div class="prompt prompt_show">
+					<i class="iconfont">&#xe61c;</i><span>账号不存在</span>
+				</div>
+				<#elseif shiroLoginFailure=="org.apache.shiro.authc.IncorrectCredentialsException">
+				<div class="prompt prompt_show">
+					<i class="iconfont">&#xe61c;</i><span>密码错误</span>
+				</div>
+				<#elseif shiroLoginFailure=="com.hz.apt.exception.UserLoggedOutException">
+				<div class="prompt prompt_show">
+					<i class="iconfont">&#xe61c;</i><span>该账号已注销</span>
+				</div>
+				<#elseif shiroLoginFailure!=''>
+				<div class="prompt prompt_show">
+					<i class="iconfont">&#xe61c;</i><span>登录错误</span>
+				</div>
+				</#if>
+			  <input type="submit" value="登录" class="btn" />  
+		  </form>
+		  <div class="forget-pwd"><a class="forget">忘记密码？</a></div>
+	   </div>
+	</div>
+	
+	
+	<!--  -->
+	<div class="login-content modify_pas" style="display:none">
+	   <div class="logo"><img src="${path}img/logo.png" /></div>
+	   <div class="login-box">
+		  <form action=""   method="post" >
+			  <div class="box">
+				  <i class="iconfont icon-user"></i>
+			      <input type="text" name="phone" id="phone"  class="user-input input-txt" placeholder="请输入电话号码">
+			  </div>
+				<!-- <div class="layui-form-item">
+					<div class="layui-row">
+						<div class="layui-col-xs7">
+							<label
+								class="layadmin-user-login-icon layui-icon layui-icon-vercode"
+								for="LAY-user-login-smscode"></label> <input type="text"
+								name="vercode" id="vercode"
+								lay-verify="required" placeholder="短信验证码" class="layui-input">
+						</div>
+						<div class="layui-col-xs5">
+							<div style="margin-left: 10px;">
+								<div type="button"
+									class="layui-btn layui-btn-primary layui-btn-fluid"
+									onclick="sendCode(this)" id="sendCode">获取验证码</div>
+							</div>
+						</div>
+					</div>
+				</div> -->
+				<div class="box"> 
+					<input type="text" class="user-input  search_key" id="code" placeholder="请输入验证码">
+					<input type="button" class="user-input  btn_submit"  onclick="sendCode(this)" value="发送验证码">
+				</div>
+				<div class="box">
+					<i class="iconfont icon-lock"></i> <input type="password"
+						name="newPassword" id="newPassword" 
+						class="user-input input-txt" maxlength="22" placeholder="请输入密码">
+				</div>
+				<div class="box">
+					<i class="iconfont icon-lock"></i> <input type="password"
+						name="confirmPassword" id="confirmPassword" 
+						class="user-input input-txt" maxlength="22" placeholder="请输入确认密码">
+				</div>
+				<div class="prompt prompt_show " style="display:none;color:red">
+					<i class="iconfont">&#xe61c;</i><span class="showTip"></span>
+				</div>
+				
+			  <input type="button" value="确定" class="btn" onclick="forgetPassword()">  
+		  </form>
+		  <div class="forget-pwd"><a href="${path}login.html">登入</a></div>
+	   </div>
+	   
+	  
+	</div>
+</div>
+<#include '/pubJS.html'>
+<script type="text/javascript" src="${path}js/jquery.slider.min.js"></script>
+<script>
+	$(function(){
+		$("#slider1").slider({
+			callback: function(result) {
+				sliderState=result;
+			}
+		});
+		layui.use(['layer'], function() {
+			layer = layui.layer;
+		});
+		document.onkeydown=function(event){
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if(e && e.keyCode==13){ // enter 键
+            	$("input[type='submit']").click();
+            }
+       	}; 
+	});
+	if (window != top){//从子页跳出
+			top.location.href = location.href; 
+	}
+	var sliderState=false;
+	
+	function check(){
+		if(sliderState){
+			if($("#username").val()==''||$("#password").val()==''){
+				layer.msg("请输入帐号和密码",function(){			
+				});
+				return false;
+			}
+			return true;
+		}else{
+			layer.msg("请按住滑块，拖动到最右边",function(){			
+			});
+			return false;
+		}
+	}
+	
+	//跳转忘记密码forget
+	$(".forget").click(function() {
+		$(".login").hide();
+		$(".modify_pas").show();
+
+	});
+	
+  /*验证码倒计时*/
+    var clock = '';
+    var nums = 60;
+    var btn;
+	
+		/*发送验证码  */
+	  function sendCode(thisBtn) {
+          var telephone = $('#phone').val();
+          if (telephone == "" ||
+              !(/^1(3|4|5|7|8)\d{9}$/.test(telephone))) {
+              showTips("#telphone", "请输入正确的手机号码");
+              return false;
+          }
+          $.ajax({
+              type: "POST",
+              url: "insertSmsCode.json",
+              dataType: "json",
+              data: {
+                  'phone': telephone,'sendType':'forget'
+              },
+              success: function(data) {
+                  if (data.bool) {
+                	  btn = thisBtn;
+                      btn.disabled = true; //将按钮置为不可点击disabled
+                      btn.value = nums + '重新获取';
+                      clock = setInterval(doLoop, 1000); //一秒执行一次
+                  } else {
+                      $('.prompt_show').show();
+    				  $('.showTip').html(data.result_msg);
+                  }
+              }
+          });
+
+      }
+	  
+	  function doLoop() {
+	            nums--;
+	            if (nums > 0) {
+	                btn.value = nums + '重新获取';
+	            } else {
+	                clearInterval(clock); //清除js定时器
+	                btn.disabled = false;
+	                btn.value = '获取验证码';
+	                nums = 60; //重置时间
+	            }
+      }
+	  
+	  /*找回密码  */
+	  function forgetPassword(){
+		  var newPassword=$('#newPassword').val();
+		  var confirmPassword=$('#confirmPassword').val();
+		  var code=$('#code').val();
+		  var phone=$('#phone').val();
+		  if(phone!=''&&phone!=null&&phone!=undefined){
+			  if(!(/^1(3|4|5|7|8)\d{9}$/.test(phone))) {
+				  $('.prompt_show').show();
+				  $('.showTip').html('请输入正确的手机号码！');
+	              return false;
+			  }
+		  }else{
+			  $('.prompt_show').show();
+			  $('.showTip').html('请输入手机号！');
+			  return;
+		  }
+		  if(code==null||code==''||code==undefined){
+			  $('.prompt_show').show();
+			  $('.showTip').html('请输入验证码！');
+			  return;
+		  }
+		  if(newPassword!=confirmPassword){
+			  $('.prompt_show').show();
+			  $('.showTip').html('两次密码输入不一致！');
+			  return;
+		  }
+		  
+		  /*  */
+		  $.ajax({
+	             type: "POST",
+	             url: "updateRetrievePassword.json",
+	             dataType: "json",
+	             data: {
+	                 'phone': phone,'code':code,'password':newPassword
+	             },
+	             success: function(data) {
+	                 if (data.bool) {
+	                	 layer.closeAll();
+	                	 layer.msg('修改成功,您可以登入了！', {time : 2000},function(){
+	                		 location.href='${webPath}login.html';
+	 					});
+	                 } else {
+	                  $('.prompt_show').show();
+	       			  $('.showTip').html(data.result_msg);
+	                 }
+	             }
+	         });
+	  }
+	  
+</script>
+
+</body>

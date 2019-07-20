@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.User">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="pwd" property="pwd" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="salt" property="salt" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, phone, user_name, pwd, remark, create_user_id, create_time, update_time, status,
+    salt, code
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_user
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from fr_user
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.faceRecog.manage.model.User">
+    insert into fr_user (id, phone, user_name,
+      pwd, remark, create_user_id,
+      create_time, update_time, status,
+      salt, code)
+    values (#{id,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+      #{pwd,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR},
+      #{salt,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.faceRecog.manage.model.User">
+        insert into fr_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="pwd != null">
+                pwd,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="salt != null">
+                salt,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="pwd != null">
+                #{pwd,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null">
+                #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.User">
+        update fr_user
+        <set>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="pwd != null">
+                pwd = #{pwd,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null">
+                salt = #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.User">
+    update fr_user
+    set phone = #{phone,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      pwd = #{pwd,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <!--自定义sql-->
+    <!--判断用户名是否注册-->
+    <select id="selectCountByUserName" parameterType="string" resultType="int">
+    select count(user_name) from fr_user
+    where user_name = #{userName,jdbcType=VARCHAR}
+  </select>
+
+    <!--判断手机号是否注册-->
+    <select id="selectCountByPhone" parameterType="string" resultType="int">
+    select count(phone) from fr_user
+    where phone = #{phone,jdbcType=VARCHAR}
+  </select>
+
+    <!--判断用户名是否注册 除去自己-->
+    <select id="selectCountByUserNameExceptOwn" parameterType="string" resultType="int">
+    select count(user_name) from fr_user
+    where user_name = #{userName,jdbcType=VARCHAR}
+    and id != #{id,jdbcType=VARCHAR}
+  </select>
+
+    <!--判断手机号是否注册 除去自己-->
+    <select id="selectCountByPhoneExceptOwn" parameterType="string" resultType="int">
+    select count(phone) from fr_user
+    where phone = #{phone,jdbcType=VARCHAR}
+    and id != #{id,jdbcType=VARCHAR}
+  </select>
+
+    <!--查询用户-->
+    <select id="selectUser" resultType="com.faceRecog.manage.model.vo.UserVO">
+     select u.id as id, user_name as userName,phone, u.remark as remark,role_id as roleId,role_name as roleName
+     from fr_user u
+     left join fr_user_role ur on u.id = ur.user_id
+     left join fr_role r on  r.id = ur.role_id
+     order by u.create_time desc
+  </select>
+
+    <!--根据用户名查询用户id-->
+    <select id="selectIdByUserName" parameterType="string" resultType="string">
+    select id from fr_user
+    where user_name = #{userName,jdbcType=VARCHAR}
+  </select>
+
+    <!--根据用户名查询用户信息-->
+    <select id="selectByUserName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM fr_user
+        WHERE user_name = #{userName,jdbcType=VARCHAR}
+    </select>
+
+    <!--修改密码-->
+    <update id="updatePassword" parameterType="string">
+    update fr_user
+    set pwd = #{pwd,jdbcType=VARCHAR},
+     salt = #{salt,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <!--判断用户手机号是否错误-->
+    <select id="selectCountByUserNameAndPhone" parameterType="string" resultType="int">
+    select count(0) from fr_user
+    where user_name = #{userName,jdbcType=VARCHAR}
+    and phone = #{phone,jdbcType=VARCHAR}
+  </select>
+
+    <!--判断验证码是否错误-->
+    <select id="selectCountByPhoneAndCode" parameterType="string" resultType="int">
+    select count(0) from fr_user
+    where phone = #{phone,jdbcType=VARCHAR}
+    and code = #{code,jdbcType=VARCHAR}
+  </select>
+
+    <!--忘记密码 修改密码-->
+    <update id="findBackPassword" parameterType="string">
+    update fr_user
+    set pwd = #{pwd,jdbcType=VARCHAR},
+        salt = #{salt,jdbcType=VARCHAR}
+    where code = #{code,jdbcType=VARCHAR}
+    and  phone = #{phone,jdbcType=VARCHAR}
+  </update>
+
+    <!--保存验证码-->
+    <update id="updateCodeByPhone" parameterType="string">
+        update fr_user
+        set code = #{code,jdbcType=VARCHAR}
+        where phone = #{phone,jdbcType=VARCHAR}
+    </update>
+  
+	<select id="selectAllTables"  resultType="string"  parameterType="string">
+		 select getTableName(#{name,jdbcType=VARCHAR})  from dual
+	</select>  
+</mapper>

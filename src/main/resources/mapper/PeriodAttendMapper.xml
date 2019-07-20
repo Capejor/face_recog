@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.PeriodAttendMapper" >
+  <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.PeriodAttend" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="period_id" property="periodId" jdbcType="VARCHAR" />
+    <result column="attend_id" property="attendId" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, period_id, attend_id, sort
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fr_period_attend
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fr_period_attend
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.faceRecog.manage.model.PeriodAttend" >
+    insert into fr_period_attend (id, period_id, attend_id, 
+      sort)
+    values (#{id,jdbcType=VARCHAR}, #{periodId,jdbcType=VARCHAR}, #{attendId,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceRecog.manage.model.PeriodAttend" >
+    insert into fr_period_attend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="periodId != null" >
+        period_id,
+      </if>
+      <if test="attendId != null" >
+        attend_id,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="periodId != null" >
+        #{periodId,jdbcType=VARCHAR},
+      </if>
+      <if test="attendId != null" >
+        #{attendId,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.PeriodAttend" >
+    update fr_period_attend
+    <set >
+      <if test="periodId != null" >
+        period_id = #{periodId,jdbcType=VARCHAR},
+      </if>
+      <if test="attendId != null" >
+        attend_id = #{attendId,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.PeriodAttend" >
+    update fr_period_attend
+    set period_id = #{periodId,jdbcType=VARCHAR},
+      attend_id = #{attendId,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!--自定义sql  -->
+
+	<!--查询所有周期班次-->
+  <select id="selectPeriodAttend" resultType="map">
+       select pa.id as id ,pa.period_id as periodId,a.id as attendId,a.`name` as attendName ,p.period_name as periodName
+      from fr_period_attend pa
+      left join fr_period p ON pa.period_id = p.id
+      left join fr_attendance a ON pa.attend_id = a.id
+      where period_id = #{periodId,jdbcType=VARCHAR}
+      order by sort asc
+  </select>
+  
+  <!--查询周期下某个星期天数的排班明细 设备端接口用 -->
+  <select id="selectPeriodAttendDetailByPrIdAndSortEq" resultType="map">
+	select tf.attend_time as workOnTime,tf.close_time as workOffTime,tf.sort,tf.in_across as inAcorss,tf.out_across as outAcross
+        FROM fr_period_attend pa
+        LEFT JOIN fr_period p ON pa.period_id = p.id
+        LEFT JOIN fr_attendance a ON pa.attend_id = a.id
+		LEFT JOIN fr_time_frame tf on tf.attend_id=a.id
+     where  pa.period_id =#{prId,jdbcType=VARCHAR}  and pa.sort=#{sort,jdbcType=INTEGER}
+  </select>
+  
+  <!--查询周期下某个星期天数的排班明细   前端接口用-->
+  <select id="selectPeriodAttendDetailByPrIdAndSortCms" resultType="map">
+	select 
+		ae.allow_late as allowLate,ae.allow_early as allowEarly,
+		CONCAT(#{dateStr},' ',tf.attend_time) as workOnTime,CONCAT(#{dateStr},' ',tf.close_time) as workOffTime
+		,ae.type,ae.after_overtime afterOvertime,ae.id,tf.in_across as inAcross,tf.out_across as outAcross
+        from fr_period_attend pa
+        left join fr_period p on pa.period_id = p.id
+        left join fr_attendance ae on pa.attend_id = ae.id
+		left join fr_time_frame tf on tf.attend_id=ae.id
+     where  pa.period_id =#{prId,jdbcType=VARCHAR}  and pa.sort=#{sort,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deletePeriodAttendByPeriodId" parameterType="string">
+  delete from fr_period_attend
+  where period_id =#{periodId,jdbcType=VARCHAR}
+  </delete>
+  
+  <!--根据考勤组id查询周期班次信息  -->
+  <select id="selectPeriodAttendByAgId" parameterType="string" resultType="com.faceRecog.manage.model.Attendance">
+  select  ad.id,ad.name
+	from fr_attend_group_period agp
+	left join fr_period p on agp.pr_id=p.id
+	left join fr_period_attend pa on pa.period_id=p.id
+	left join fr_attendance ad on ad.id=pa.attend_id
+	where agp.ag_id=#{agId,jdbcType=VARCHAR} order by pa.sort
+  </select>
+
+  <select id="selectCountByAttIds" parameterType="string" resultType="int">
+    select count(attend_id) from fr_period_attend
+    where attend_id = #{id,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.BasicParamMapper" >
+  <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.BasicParam" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="eq_id" property="eqId" jdbcType="VARCHAR" />
+    <result column="rec_distance" property="recDistance" jdbcType="VARCHAR" />
+    <result column="rec_score" property="recScore" jdbcType="VARCHAR" />
+    <result column="rec_interval" property="recInterval" jdbcType="VARCHAR" />
+    <result column="speech_pattern" property="speechPattern" jdbcType="VARCHAR" />
+    <result column="speech_cust" property="speechCust" jdbcType="VARCHAR" />
+    <result column="display_pattern" property="displayPattern" jdbcType="VARCHAR" />
+    <result column="display_cust" property="displayCust" jdbcType="VARCHAR" />
+    <result column="door_delay" property="doorDelay" jdbcType="VARCHAR" />
+    <result column="face_rec" property="faceRec" jdbcType="VARCHAR" />
+    <result column="serial_port" property="serialPort" jdbcType="VARCHAR" />
+    <result column="serial_port_cust" property="serialPortCust" jdbcType="VARCHAR" />
+    <result column="stranger_switch" property="strangerSwitch" jdbcType="VARCHAR" />
+    <result column="stranger_times" property="strangerTimes" jdbcType="VARCHAR" />
+    <result column="stranger_spe_pat" property="strangerSpePat" jdbcType="VARCHAR" />
+    <result column="stranger_spe_cust" property="strangerSpeCust" jdbcType="VARCHAR" />
+    <result column="wiggins_output" property="wigginsOutput" jdbcType="VARCHAR" />
+    <result column="photo_sec_level" property="photoSecLevel" jdbcType="VARCHAR" />
+    <result column="comparison" property="comparison" jdbcType="VARCHAR" />
+    <result column="recog_pattern" property="recogPattern" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="screen_direction" property="screenDirection" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, eq_id, rec_distance, rec_score, rec_interval, speech_pattern, speech_cust, display_pattern, 
+    display_cust, door_delay, face_rec, serial_port, serial_port_cust, stranger_switch, 
+    stranger_times, stranger_spe_pat, stranger_spe_cust, wiggins_output, photo_sec_level, 
+    comparison, recog_pattern, create_user_id, create_time, update_time, status, screen_direction
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fr_basic_param
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fr_basic_param
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.faceRecog.manage.model.BasicParam" >
+    insert into fr_basic_param (id, eq_id, rec_distance, 
+      rec_score, rec_interval, speech_pattern, 
+      speech_cust, display_pattern, display_cust, 
+      door_delay, face_rec, serial_port, 
+      serial_port_cust, stranger_switch, stranger_times, 
+      stranger_spe_pat, stranger_spe_cust, wiggins_output, 
+      photo_sec_level, comparison, recog_pattern, 
+      create_user_id, create_time, update_time, 
+      status, screen_direction)
+    values (#{id,jdbcType=VARCHAR}, #{eqId,jdbcType=VARCHAR}, #{recDistance,jdbcType=VARCHAR}, 
+      #{recScore,jdbcType=VARCHAR}, #{recInterval,jdbcType=VARCHAR}, #{speechPattern,jdbcType=VARCHAR}, 
+      #{speechCust,jdbcType=VARCHAR}, #{displayPattern,jdbcType=VARCHAR}, #{displayCust,jdbcType=VARCHAR}, 
+      #{doorDelay,jdbcType=VARCHAR}, #{faceRec,jdbcType=VARCHAR}, #{serialPort,jdbcType=VARCHAR}, 
+      #{serialPortCust,jdbcType=VARCHAR}, #{strangerSwitch,jdbcType=VARCHAR}, #{strangerTimes,jdbcType=VARCHAR}, 
+      #{strangerSpePat,jdbcType=VARCHAR}, #{strangerSpeCust,jdbcType=VARCHAR}, #{wigginsOutput,jdbcType=VARCHAR}, 
+      #{photoSecLevel,jdbcType=VARCHAR}, #{comparison,jdbcType=VARCHAR}, #{recogPattern,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR}, #{screenDirection,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceRecog.manage.model.BasicParam" >
+    insert into fr_basic_param
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="eqId != null" >
+        eq_id,
+      </if>
+      <if test="recDistance != null" >
+        rec_distance,
+      </if>
+      <if test="recScore != null" >
+        rec_score,
+      </if>
+      <if test="recInterval != null" >
+        rec_interval,
+      </if>
+      <if test="speechPattern != null" >
+        speech_pattern,
+      </if>
+      <if test="speechCust != null" >
+        speech_cust,
+      </if>
+      <if test="displayPattern != null" >
+        display_pattern,
+      </if>
+      <if test="displayCust != null" >
+        display_cust,
+      </if>
+      <if test="doorDelay != null" >
+        door_delay,
+      </if>
+      <if test="faceRec != null" >
+        face_rec,
+      </if>
+      <if test="serialPort != null" >
+        serial_port,
+      </if>
+      <if test="serialPortCust != null" >
+        serial_port_cust,
+      </if>
+      <if test="strangerSwitch != null" >
+        stranger_switch,
+      </if>
+      <if test="strangerTimes != null" >
+        stranger_times,
+      </if>
+      <if test="strangerSpePat != null" >
+        stranger_spe_pat,
+      </if>
+      <if test="strangerSpeCust != null" >
+        stranger_spe_cust,
+      </if>
+      <if test="wigginsOutput != null" >
+        wiggins_output,
+      </if>
+      <if test="photoSecLevel != null" >
+        photo_sec_level,
+      </if>
+      <if test="comparison != null" >
+        comparison,
+      </if>
+      <if test="recogPattern != null" >
+        recog_pattern,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="screenDirection != null" >
+        screen_direction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="eqId != null" >
+        #{eqId,jdbcType=VARCHAR},
+      </if>
+      <if test="recDistance != null" >
+        #{recDistance,jdbcType=VARCHAR},
+      </if>
+      <if test="recScore != null" >
+        #{recScore,jdbcType=VARCHAR},
+      </if>
+      <if test="recInterval != null" >
+        #{recInterval,jdbcType=VARCHAR},
+      </if>
+      <if test="speechPattern != null" >
+        #{speechPattern,jdbcType=VARCHAR},
+      </if>
+      <if test="speechCust != null" >
+        #{speechCust,jdbcType=VARCHAR},
+      </if>
+      <if test="displayPattern != null" >
+        #{displayPattern,jdbcType=VARCHAR},
+      </if>
+      <if test="displayCust != null" >
+        #{displayCust,jdbcType=VARCHAR},
+      </if>
+      <if test="doorDelay != null" >
+        #{doorDelay,jdbcType=VARCHAR},
+      </if>
+      <if test="faceRec != null" >
+        #{faceRec,jdbcType=VARCHAR},
+      </if>
+      <if test="serialPort != null" >
+        #{serialPort,jdbcType=VARCHAR},
+      </if>
+      <if test="serialPortCust != null" >
+        #{serialPortCust,jdbcType=VARCHAR},
+      </if>
+      <if test="strangerSwitch != null" >
+        #{strangerSwitch,jdbcType=VARCHAR},
+      </if>
+      <if test="strangerTimes != null" >
+        #{strangerTimes,jdbcType=VARCHAR},
+      </if>
+      <if test="strangerSpePat != null" >
+        #{strangerSpePat,jdbcType=VARCHAR},
+      </if>
+      <if test="strangerSpeCust != null" >
+        #{strangerSpeCust,jdbcType=VARCHAR},
+      </if>
+      <if test="wigginsOutput != null" >
+        #{wigginsOutput,jdbcType=VARCHAR},
+      </if>
+      <if test="photoSecLevel != null" >
+        #{photoSecLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="comparison != null" >
+        #{comparison,jdbcType=VARCHAR},
+      </if>
+      <if test="recogPattern != null" >
+        #{recogPattern,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="screenDirection != null" >
+        #{screenDirection,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.BasicParam" >
+    update fr_basic_param
+    <set >
+      <if test="eqId != null" >
+        eq_id = #{eqId,jdbcType=VARCHAR},
+      </if>
+      <if test="recDistance != null" >
+        rec_distance = #{recDistance,jdbcType=VARCHAR},
+      </if>
+      <if test="recScore != null" >
+        rec_score = #{recScore,jdbcType=VARCHAR},
+      </if>
+      <if test="recInterval != null" >
+        rec_interval = #{recInterval,jdbcType=VARCHAR},
+      </if>
+      <if test="speechPattern != null" >
+        speech_pattern = #{speechPattern,jdbcType=VARCHAR},
+      </if>
+      <if test="speechCust != null" >
+        speech_cust = #{speechCust,jdbcType=VARCHAR},
+      </if>
+      <if test="displayPattern != null" >
+        display_pattern = #{displayPattern,jdbcType=VARCHAR},
+      </if>
+      <if test="displayCust != null" >
+        display_cust = #{displayCust,jdbcType=VARCHAR},
+      </if>
+      <if test="doorDelay != null" >
+        door_delay = #{doorDelay,jdbcType=VARCHAR},
+      </if>
+      <if test="faceRec != null" >
+        face_rec = #{faceRec,jdbcType=VARCHAR},
+      </if>
+      <if test="serialPort != null" >
+        serial_port = #{serialPort,jdbcType=VARCHAR},
+      </if>
+      <if test="serialPortCust != null" >
+        serial_port_cust = #{serialPortCust,jdbcType=VARCHAR},
+      </if>
+      <if test="strangerSwitch != null" >
+        stranger_switch = #{strangerSwitch,jdbcType=VARCHAR},
+      </if>
+      <if test="strangerTimes != null" >
+        stranger_times = #{strangerTimes,jdbcType=VARCHAR},
+      </if>
+      <if test="strangerSpePat != null" >
+        stranger_spe_pat = #{strangerSpePat,jdbcType=VARCHAR},
+      </if>
+      <if test="strangerSpeCust != null" >
+        stranger_spe_cust = #{strangerSpeCust,jdbcType=VARCHAR},
+      </if>
+      <if test="wigginsOutput != null" >
+        wiggins_output = #{wigginsOutput,jdbcType=VARCHAR},
+      </if>
+      <if test="photoSecLevel != null" >
+        photo_sec_level = #{photoSecLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="comparison != null" >
+        comparison = #{comparison,jdbcType=VARCHAR},
+      </if>
+      <if test="recogPattern != null" >
+        recog_pattern = #{recogPattern,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="screenDirection != null" >
+        screen_direction = #{screenDirection,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.BasicParam" >
+    update fr_basic_param
+    set eq_id = #{eqId,jdbcType=VARCHAR},
+      rec_distance = #{recDistance,jdbcType=VARCHAR},
+      rec_score = #{recScore,jdbcType=VARCHAR},
+      rec_interval = #{recInterval,jdbcType=VARCHAR},
+      speech_pattern = #{speechPattern,jdbcType=VARCHAR},
+      speech_cust = #{speechCust,jdbcType=VARCHAR},
+      display_pattern = #{displayPattern,jdbcType=VARCHAR},
+      display_cust = #{displayCust,jdbcType=VARCHAR},
+      door_delay = #{doorDelay,jdbcType=VARCHAR},
+      face_rec = #{faceRec,jdbcType=VARCHAR},
+      serial_port = #{serialPort,jdbcType=VARCHAR},
+      serial_port_cust = #{serialPortCust,jdbcType=VARCHAR},
+      stranger_switch = #{strangerSwitch,jdbcType=VARCHAR},
+      stranger_times = #{strangerTimes,jdbcType=VARCHAR},
+      stranger_spe_pat = #{strangerSpePat,jdbcType=VARCHAR},
+      stranger_spe_cust = #{strangerSpeCust,jdbcType=VARCHAR},
+      wiggins_output = #{wigginsOutput,jdbcType=VARCHAR},
+      photo_sec_level = #{photoSecLevel,jdbcType=VARCHAR},
+      comparison = #{comparison,jdbcType=VARCHAR},
+      recog_pattern = #{recogPattern,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      screen_direction = #{screenDirection,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!--自定义sql  -->
+  
+  
+  <!--根据设备id查询基本参数信息  -->
+  <select id="selectBasicByEquipId" parameterType="string" resultType="map">
+   select 
+      bp.id, bp.rec_distance as recDistance , bp.rec_score as recScore, bp.rec_interval as recInterval, 
+      bp.speech_pattern as speechPattern,
+      bp.speech_cust as speechCust, bp.display_pattern as displayPattern, bp.display_cust as displayCust, 
+      bp.door_delay as doorDelay, bp.face_rec as faceRec, bp.serial_port as serialPort, bp.serial_port_cust as serialPortCust, 
+      bp.stranger_switch as strangerSwitch, bp.stranger_times as strangerTimes, bp.stranger_spe_pat as strangerSpePat, 
+      bp.stranger_spe_cust as strangerSpeCust, bp.wiggins_output as wigginsOutput, bp.photo_sec_level as photoSecLevel, 
+    bp.comparison, bp.recog_pattern as recogPattern, bp.status, bp.screen_direction as screenDirection,eq.eq_name as eqName
+    from fr_basic_param bp
+    left join fr_equipment eq on bp.eq_id=eq.id
+    where eq_id = #{eqId,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>

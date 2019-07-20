@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.EmpClockMapper" >
+  <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.EmpClock" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="clock_id" property="clockId" jdbcType="VARCHAR" />
+    <result column="emp_id" property="empId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, clock_id, emp_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fr_emp_clock
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fr_emp_clock
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.faceRecog.manage.model.EmpClock" >
+    insert into fr_emp_clock (id, clock_id, emp_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{clockId,jdbcType=VARCHAR}, #{empId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceRecog.manage.model.EmpClock" >
+    insert into fr_emp_clock
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="clockId != null" >
+        clock_id,
+      </if>
+      <if test="empId != null" >
+        emp_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="clockId != null" >
+        #{clockId,jdbcType=VARCHAR},
+      </if>
+      <if test="empId != null" >
+        #{empId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.EmpClock" >
+    update fr_emp_clock
+    <set >
+      <if test="clockId != null" >
+        clock_id = #{clockId,jdbcType=VARCHAR},
+      </if>
+      <if test="empId != null" >
+        emp_id = #{empId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.EmpClock" >
+    update fr_emp_clock
+    set clock_id = #{clockId,jdbcType=VARCHAR},
+      emp_id = #{empId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

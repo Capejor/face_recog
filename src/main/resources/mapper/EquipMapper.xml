@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.EquipMapper">
+    <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.Equip">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="room_num" property="roomNum" jdbcType="VARCHAR"/>
+        <result column="bind_sn" property="bindSn" jdbcType="VARCHAR"/>
+        <result column="soft_version" property="softVersion" jdbcType="VARCHAR"/>
+        <result column="sn" property="sn" jdbcType="VARCHAR"/>
+        <result column="equip_name" property="equipName" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, room_num, bind_sn, soft_version, sn, equip_name, type, password, ip, create_user_id, 
+    create_time, update_time, status
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from equipment
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from equipment
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.faceRecog.manage.model.Equip">
+    insert into equipment (id, room_num, bind_sn, 
+      soft_version, sn, equip_name, 
+      type, password, ip, 
+      create_user_id, create_time, update_time, 
+      status)
+    values (#{id,jdbcType=VARCHAR}, #{roomNum,jdbcType=VARCHAR}, #{bindSn,jdbcType=VARCHAR}, 
+      #{softVersion,jdbcType=VARCHAR}, #{sn,jdbcType=VARCHAR}, #{equipName,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.faceRecog.manage.model.Equip">
+        insert into equipment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="roomNum != null">
+                room_num,
+            </if>
+            <if test="bindSn != null">
+                bind_sn,
+            </if>
+            <if test="softVersion != null">
+                soft_version,
+            </if>
+            <if test="sn != null">
+                sn,
+            </if>
+            <if test="equipName != null">
+                equip_name,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="roomNum != null">
+                #{roomNum,jdbcType=VARCHAR},
+            </if>
+            <if test="bindSn != null">
+                #{bindSn,jdbcType=VARCHAR},
+            </if>
+            <if test="softVersion != null">
+                #{softVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="sn != null">
+                #{sn,jdbcType=VARCHAR},
+            </if>
+            <if test="equipName != null">
+                #{equipName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.Equip">
+        update equipment
+        <set>
+            <if test="roomNum != null">
+                room_num = #{roomNum,jdbcType=VARCHAR},
+            </if>
+            <if test="bindSn != null">
+                bind_sn = #{bindSn,jdbcType=VARCHAR},
+            </if>
+            <if test="softVersion != null">
+                soft_version = #{softVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="sn != null">
+                sn = #{sn,jdbcType=VARCHAR},
+            </if>
+            <if test="equipName != null">
+                equip_name = #{equipName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.Equip">
+    update equipment
+    set room_num = #{roomNum,jdbcType=VARCHAR},
+      bind_sn = #{bindSn,jdbcType=VARCHAR},
+      soft_version = #{softVersion,jdbcType=VARCHAR},
+      sn = #{sn,jdbcType=VARCHAR},
+      equip_name = #{equipName,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <!--自定义sql-->
+    <!--绑定设备-->
+    <update id="bindEquipment" parameterType="string">
+      update equipment
+      set bind_sn = #{bindSn,jdbcType=VARCHAR}
+      where sn = #{sn,jdbcType=VARCHAR}
+  </update>
+
+    <!--修改房间号-->
+    <update id="updateRoomNum" parameterType="string">
+      update equipment
+      set room_num = #{roomNum,jdbcType=VARCHAR}
+      where sn = #{sn,jdbcType=VARCHAR}
+  </update>
+
+    <select id="selectEquipment" parameterType="string" resultType="com.faceRecog.manage.model.Equip">
+    select id, room_num as roomNum, bind_sn as bindSn, soft_version as softVersion, sn, equip_name as equipName, type, password, ip
+     from equipment
+     where room_num = #{roomNum,jdbcType=VARCHAR}
+ </select>
+
+</mapper>

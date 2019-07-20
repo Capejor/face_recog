@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.AttendGroupLeaderMapper" >
+  <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.AttendGroupLeader" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="emp_id" property="empId" jdbcType="VARCHAR" />
+    <result column="ag_id" property="agId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, emp_id, ag_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fr_attend_group_leader
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fr_attend_group_leader
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.faceRecog.manage.model.AttendGroupLeader" >
+    insert into fr_attend_group_leader (id, emp_id, ag_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{empId,jdbcType=VARCHAR}, #{agId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceRecog.manage.model.AttendGroupLeader" >
+    insert into fr_attend_group_leader
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="empId != null" >
+        emp_id,
+      </if>
+      <if test="agId != null" >
+        ag_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="empId != null" >
+        #{empId,jdbcType=VARCHAR},
+      </if>
+      <if test="agId != null" >
+        #{agId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.AttendGroupLeader" >
+    update fr_attend_group_leader
+    <set >
+      <if test="empId != null" >
+        emp_id = #{empId,jdbcType=VARCHAR},
+      </if>
+      <if test="agId != null" >
+        ag_id = #{agId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.AttendGroupLeader" >
+    update fr_attend_group_leader
+    set emp_id = #{empId,jdbcType=VARCHAR},
+      ag_id = #{agId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!--自定义的sql  -->
+  
+  <!--批量新增负责人考勤组中间表  -->
+  <insert id="insertBatchAttendGroupLeader" parameterType="java.util.List">
+	  insert fr_attend_group_leader
+	  (id,ag_id,emp_id) values
+	   <foreach collection="leaderIds" item="leaderId" index="index"  separator =",">
+          (#{leaderId.id,jdbcType=VARCHAR},#{agId,jdbcType=VARCHAR},#{leaderId.leaderId,jdbcType=VARCHAR})
+	   </foreach>
+  </insert>
+  
+  <!--根据考勤组id删除数据  -->
+  <delete id="deleteAttendGroupLeaderByAgId" parameterType="string">
+  delete from fr_attend_group_leader
+  where ag_id = #{agId,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="selectAgLeaderByAgId" parameterType="string" resultMap="BaseResultMap">
+  select GROUP_CONCAT(emp_id)as emp_id from fr_attend_group_leader
+  where ag_id = #{agId,jdbcType=VARCHAR}
+  </select>
+  
+  <!--根据员工id删除考勤组负责人信息  -->
+  <delete id="deleteAttendGroupLeaderByEmpId" parameterType="string">
+  delete from fr_attend_group_leader
+  where emp_id = #{empId,jdbcType=VARCHAR}
+  </delete>
+</mapper>

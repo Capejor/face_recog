@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.CardMapper">
+    <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.Card">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="card_num" property="cardNum" jdbcType="VARCHAR"/>
+        <result column="in_use" property="inUse" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, card_num, in_use, status, create_user_id, create_time
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_card
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from fr_card
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.faceRecog.manage.model.Card">
+    insert into fr_card (id, card_num,
+      in_use, status, create_user_id, 
+      create_time)
+    values (#{id,jdbcType=VARCHAR}, #{cardNum,jdbcType=VARCHAR},
+      #{inUse,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.faceRecog.manage.model.Card">
+        insert into fr_card
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="cardNum != null">
+                card_num,
+            </if>
+            <if test="inUse != null">
+                in_use,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="cardNum != null">
+                #{cardNum,jdbcType=VARCHAR},
+            </if>
+            <if test="inUse != null">
+                #{inUse,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.Card">
+        update fr_card
+        <set>
+            <if test="cardNum != null">
+                card_num = #{cardNum,jdbcType=VARCHAR},
+            </if>
+            <if test="inUse != null">
+                in_use = #{inUse,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.Card">
+    update fr_card
+    set card_num = #{cardNum,jdbcType=VARCHAR},
+      in_use = #{inUse,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <!--自定义sql-->
+    <!--查询未被占用卡片-->
+    <select id="selectNotOccupyCard" resultType="com.faceRecog.manage.model.vo.CardVO">
+        select id, card_num as cardNum,in_use as inUse
+        from fr_card
+        where in_use = 0
+    </select>
+
+
+    <!--设备端 查询所有卡片-->
+    <select id="selectAllCard" resultType="com.faceRecog.manage.model.vo.CardVO">
+        select id, card_num as cardNum,in_use as inUse
+        from fr_card
+        order by create_time desc
+    </select>
+
+    <!--自定义sql-->
+
+    <!--判断卡号是否重复录入-->
+    <select id="selectCountByCardNum" parameterType="string" resultType="int">
+      select count(card_num) from fr_card
+      where card_num = #{cardNum,jdbcType=VARCHAR}
+  </select>
+
+    <!--判断卡号是否被占用-->
+    <select id="selectCountByCardId" parameterType="string" resultType="int">
+      select count(0) from fr_card
+      where id = #{cardId,jdbcType=VARCHAR}
+      and in_use = 1
+  </select>
+
+    <!--解绑员工 将 inUse 置为 0-->
+    <update id="inUseToNotOccupy" parameterType="string">
+        update fr_card
+        set in_use = 0
+        where id = #{cardId,jdbcType=VARCHAR}
+    </update>
+
+    <!--绑定员工 将 inUse 置为 1-->
+    <update id="inUseToOccupy" parameterType="string">
+        update fr_card
+        set in_use = 1
+        where id = #{cardId,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

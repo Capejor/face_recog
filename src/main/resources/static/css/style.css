@@ -1,0 +1,126 @@
+@charset "utf-8";
+/* CSS Document */
+ 
+ .clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.clearfix { zoom:1; }
+iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.layui-layout-admin .layui-logo{ width: 100px;}
+.my-user-img{ font-size: 22px;position: relative; top: 2px;}
+.layui-nav-item .icon-sign-out{ margin-right: 6px;}
+.logo-font{ color: #fff; font-size: 16px;opacity: .8; position: absolute;left: 100px;height: 60px;line-height: 60px;}
+i.nav-ico{ position: absolute;}
+.layui-nav-item .icon-business{ font-size: 14px; left: 16px;}
+.layui-nav-item .icon-search{font-size: 20px; left: 14px;}
+.layui-nav-item .icon-Recon{font-size: 18px; left: 14px;}
+.layui-nav-item .icon-agent{ font-size: 18px; left: 15px;}
+.layui-nav .layui-nav-item a{ padding: 0 20px 0 36px;}
+
+.right-con{ padding:15px;}
+.right-con .con-title{ background:#f2f2f2; border-left:4px solid #4bbcb4; height:40px; line-height:40px; padding:0 15px;}
+.right-con .con-title .title{ float:left;  font-weight:700;}
+.right-con .con-title .position{ float:right; font-size:12px;}
+.con-top{ margin-top: 15px;}
+.time-box{ position:relative;}
+.time-box .iconfont{ position:absolute; left:10px;top:8px;}
+.time-box .icon-calendar{ font-size:12px;}
+.search-box .separate{ position:relative; left:-5px; color:#999;float: left; top:10px;}
+.search-box .time-box{ float:left;}
+.layui-form-item .custom-size{ width:120px; height:30px; margin-bottom: 10px;}
+.layui-form-item .custom-size .layui-input, .layui-select{height:30px;}
+.layui-form-item .custom-size-btn{ height: 30px;width:50px;}
+.layui-form-item .custom-size-btn .layui-btn{ height:30px; line-height:30px; padding:0 12px;}
+.search-box .layui-form-item{ margin-bottom: 0;}
+
+.layui-tree li a,.layui-tree li i,.layui-tree li .layui-tree-spread, .layui-tree li a{color:#fff;opacity: .8;}
+.layui-tree li a,.layui-tree li i{ height: 40px; line-height: 40px;}
+.layui-tree li ul{ margin-left: 0; padding-left: 10px; background:#23262E;}
+.layui-tree li a:hover{opacity: 1;}
+.layui-tree li a cite{font-size:13px;}
+.layui-layout-admin .layui-side{padding-top: 10px;}
+
+.info-detail{ padding: 20px 0;}
+.info-detail .info2{margin-top: 20px;}
+.info-detail .info1 .info-list{ float: left; margin-bottom: 10px;}
+.info-detail .info2 .info-list{ padding: 0 5px;}
+.info-detail span{ margin-right:5px; color: #ec0000;} 
+.layui-tab-content{ padding: 15px 10px;}
+.layui-tab-card{box-shadow: none;}
+.layui-form-label{width: 140px;}
+.layui-form-item .layui-input-inline{ width: 200px;}
+.layui-input, .layui-select{ height: 30px;}
+.layui-form-label{padding: 5px 15px;}
+.layui-form-select dl{ top:32px; padding: 0;}
+.info-detail .info2 .layui-input-inline{ width: 300px;}
+.info-detail .layui-form-checkbox{margin-top: 6px;}
+.operation-top{color: #337ab7;}
+.operation-top a{ color: #337ab7; margin: 0 20px; font-size: 12px;}
+.download-box .download-title{ padding: 10px 20px; border-bottom: 1px solid #eaeaea; }
+.download-box .download-title .add-files-btn{ float: left; margin-right: 15px;}
+.download-box .download-title .all-files{ float: left;} 
+.download-box .download-title .all-files span{ color: #FF5722;}
+.download-box .download-title .all-remove{ float: right; margin-left: 15px;}
+.download-box .download-title .play-btn{ float: right;}
+.download-box .files-list{padding: 10px 20px;border-bottom: 1px solid #eaeaea;}
+.download-box .files-list .files-info{ float: left;}
+.download-box .files-list .progress-bar{ float: right; width: 200px; margin-top: 15px;}
+.download-box .files-list .files-info .img-name{}
+.download-box .files-list .files-info .img-size{color: #ccc; margin-top: 5px; font-size: 12px;}
+.download-box .files-list .img-mark{ float: left; margin-right: 10px;}
+.download-box .files-list .img-mark .layui-icon{ font-size: 32px; color: #999;}
+.download-box .files-list .download-succuss{ float: right;margin-left: 40px; margin-top: 7px;}
+.download-box .files-list .download-succuss .layui-icon{ color: #009688; font-size: 20px; }
+.search-box{ float: left;}
+.con-top .operation-btn{ float: right;}
+.operation-btn .layui-btn { height: 30px;line-height: 30px;padding: 0 12px}
+.setting-info p{ margin-bottom: 10px;}
+.setting-info p span{ color: #e50d0d;}
+.layui-layout-body{overflow: auto;}
+.area-position .layui-form-item .layui-input-inline{ width:140px;}
+.area-position .layui-form-item .area-long{ width:200px;}
+.map { margin-left: 170px; margin-top: 25px;height:340px;}
+.info-detail .layui-input-block{margin-left:170px;}
+.info-detail .textarea-txt{width:300px;}
+.short-txt .layui-input{ width:60px; display: inline; margin: 0 10px;}
+.folde-panel .label{ float:left; width:140px; text-align: right;padding: 5px 15px;}
+.folde-panel .layui-collapse{ float:left; width: 86%;}
+.folde-panel .layui-colla-icon{ right: 15px; left: auto}
+.folde-panel .layui-colla-title{ padding: 0 15px 0 10px;}
+.folde-panel span{color: #333; margin-right: 20px;}
+.layui-form-item .short-txt2{ width: 70px;}
+.short-txt2 .layui-input{ width: 70px;}
+.layui-form-item font{ float: left; line-height: 30px; margin-right: 30px;}
+.layui-form-item .short-txt3{ width: 100px;}
+.short-txt3 .layui-input{ width: 110px;}
+.info-detail .layui-form-checkbox span{height: auto}
+.info-detail .layui-form-item .layui-form-checkbox[lay-skin=primary]{ margin-top: 6px;}
+.add-tip{ margin-left: 170px; margin-top: 10px; color: #999;}
+.danger-tip{ margin-left: 170px; margin-top: 10px; color: #ff0000;}
+.layui-form-item .textarea-txt{ width: 600px;}
+.layui-form-item .custom-size{ width: 120px}
+.popup-con .folde-panel .layui-collapse{ width: 80%;}
+.province{ float: left;width:80%;}
+.province .layui-unselect.layui-form-select{ margin-right: 20px;float: left; width: 200px;margin-bottom: 10px;}
+.province .layui-input{ width:200px;display:inline-block;}
+.layui-layer-content{position: static;}
+.oper-btn{position: absolute; bottom: 15px;left: 50%; margin-left:-100px;}
+.upload-img-items{ width:120px; height:140px; position:relative; float:left; margin-right:15px;margin-bottom:10px;}
+.upload-img-items img{ width:100%; height:100%}
+.upload-img-items .img-progress{ position: absolute;bottom: 0px; width: 100%; border-radius: 0;}
+.upload-img-items .img-progress .layui-progress-bar{border-radius: 0;}
+.upload-img-items .upload-info{ position: absolute;bottom: 10px; color:#fff; text-align:center;width:100%}
+.upload-img-items .upload-close{position: absolute; top:5px; right:5px;cursor: pointer;}
+.upload-img-items .upload-close .layui-icon{ font-size:20px; color:#fff;}
+.upload-img-items .block-bg{position: absolute; top:0; left:0;  width:100%; height:100%; background:#000; opacity:0;}
+.picshow img{ width:100%; height:100%;}

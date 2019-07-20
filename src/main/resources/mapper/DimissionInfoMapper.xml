@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.DimissionInfoMapper">
+    <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.DimissionInfo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="emp_id" property="empId" jdbcType="VARCHAR"/>
+        <result column="dim_date" property="dimDate" jdbcType="VARCHAR"/>
+        <result column="dim_type" property="dimType" jdbcType="VARCHAR"/>
+        <result column="dim_reason" property="dimReason" jdbcType="VARCHAR"/>
+        <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, emp_id, dim_date, dim_type, dim_reason, create_user_id, create_time, status
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_dimission_info
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from fr_dimission_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.faceRecog.manage.model.DimissionInfo">
+    insert into fr_dimission_info (id, emp_id, dim_date, 
+      dim_type, dim_reason, create_user_id, 
+      create_time, status)
+    values (#{id,jdbcType=VARCHAR}, #{empId,jdbcType=VARCHAR}, #{dimDate,jdbcType=VARCHAR}, 
+      #{dimType,jdbcType=VARCHAR}, #{dimReason,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.faceRecog.manage.model.DimissionInfo">
+        insert into fr_dimission_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="empId != null">
+                emp_id,
+            </if>
+            <if test="dimDate != null">
+                dim_date,
+            </if>
+            <if test="dimType != null">
+                dim_type,
+            </if>
+            <if test="dimReason != null">
+                dim_reason,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="empId != null">
+                #{empId,jdbcType=VARCHAR},
+            </if>
+            <if test="dimDate != null">
+                #{dimDate,jdbcType=VARCHAR},
+            </if>
+            <if test="dimType != null">
+                #{dimType,jdbcType=VARCHAR},
+            </if>
+            <if test="dimReason != null">
+                #{dimReason,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.DimissionInfo">
+        update fr_dimission_info
+        <set>
+            <if test="empId != null">
+                emp_id = #{empId,jdbcType=VARCHAR},
+            </if>
+            <if test="dimDate != null">
+                dim_date = #{dimDate,jdbcType=VARCHAR},
+            </if>
+            <if test="dimType != null">
+                dim_type = #{dimType,jdbcType=VARCHAR},
+            </if>
+            <if test="dimReason != null">
+                dim_reason = #{dimReason,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.DimissionInfo">
+    update fr_dimission_info
+    set emp_id = #{empId,jdbcType=VARCHAR},
+      dim_date = #{dimDate,jdbcType=VARCHAR},
+      dim_type = #{dimType,jdbcType=VARCHAR},
+      dim_reason = #{dimReason,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+    <!--自定义sql-->
+
+    <!--员工离职 isDimiss改为0-->
+    <update id="empToDimissById" parameterType="string">
+    update fr_employee
+    set is_dimiss= 0
+    where id= #{empId,jdbcType=VARCHAR}
+  </update>
+
+    <!--员工复职 删除离职信息-->
+    <delete id="deleteByEmpId" parameterType="java.lang.String">
+    delete from fr_dimission_info
+    where emp_id = #{empId,jdbcType=VARCHAR}
+  </delete>
+
+    <!--员工复职 isDimiss改为1-->
+    <update id="dimissToEmpById" parameterType="map">
+    update fr_employee
+    set is_dimiss= 1,
+        employ_time = #{employTime,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=VARCHAR}
+    where id = #{empId,jdbcType=VARCHAR}
+    </update>
+
+    <!--指定部门复职 isDimiss改为1-->
+    <update id="dimissToEmpUpdateDept" parameterType="map">
+        update fr_employee
+        set is_dimiss= 1,
+            dept_id = #{deptId,jdbcType = VARCHAR},
+            employ_time = #{employTime,jdbcType=VARCHAR},
+            create_time = #{createTime,jdbcType=VARCHAR}
+        where id = #{empId,jdbcType=VARCHAR}
+    </update>
+
+
+    <!--查询全公司的离职员工-->
+    <select id="selectAllDimissInfo" resultType="com.faceRecog.manage.model.vo.DimissInfoVO">
+        SELECT e.id,e.`name` as name ,d.dept_name as deptName,id_card as idCard, sex,job_post as jobPost, phone,
+        address,employ_time as employTime,
+        di.dim_date as dimDate, di.dim_type as dimType, di.dim_reason as dimReason
+        FROM fr_employee e
+        LEFT JOIN fr_department d ON e.dept_id = d.id
+        LEFT JOIN fr_dimission_info di ON e.id = di.emp_id
+        where e.is_dimiss = 0
+        ORDER BY di.create_time DESC
+    </select>
+
+
+    <!--查询当前部门的离职员工-->
+    <select id="selectDimissByDeptId" parameterType="string" resultType="com.faceRecog.manage.model.vo.DimissInfoVO">
+        SELECT e.id,e.`name` as name ,d.dept_name as deptName,id_card as idCard, sex,job_post as jobPost, phone,
+        address,employ_time as employTime,
+        di.dim_date as dimDate, di.dim_type as dimType, di.dim_reason as dimReason
+        FROM fr_employee e
+        LEFT JOIN fr_department d ON e.dept_id = d.id
+        LEFT JOIN fr_dimission_info di ON e.id = di.emp_id
+        where dept_id = #{deptId,jdbcType=VARCHAR}
+        and e.is_dimiss = 0
+        ORDER BY di.create_time DESC
+    </select>
+
+
+    <!--查询全公司的离职员工-->
+    <select id="selectAllByParams" parameterType="string" resultType="com.faceRecog.manage.model.vo.DimissInfoVO">
+        SELECT e.id,e.`name` as name ,d.dept_name as deptName,id_card as idCard, sex,job_post as jobPost, phone,
+        address,employ_time as employTime,
+        di.dim_date as dimDate, di.dim_type as dimType, di.dim_reason as dimReason
+        FROM fr_employee e
+        LEFT JOIN fr_department d ON e.dept_id = d.id
+        LEFT JOIN fr_dimission_info di ON e.id = di.emp_id
+        where e.is_dimiss = 0
+        <if test="searchParam != null and searchParam !=''">
+            and CONCAT(e.name,e.id_card) LIKE CONCAT('%', #{searchParam}, '%')
+        </if>
+        ORDER BY di.create_time DESC
+    </select>
+
+    <!--根据员工id查询离职日期-->
+    <select id="selectDimissTimeByEmpId" parameterType="string" resultType="string">
+        select dim_date
+        from fr_dimission_info
+        where emp_id = #{empId,jdbcType=VARCHAR}
+    </select>
+
+
+</mapper>

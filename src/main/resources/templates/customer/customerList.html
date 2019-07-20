@@ -1,0 +1,300 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>设备列表</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="${webPath}/css/upgradeFile/upgradeFile.css?123">
+<#include 'pubCSS.html'>
+
+</head>
+
+<body class="layui-layout-body">
+   <div class="right-con">
+    <div class="con-top clearfix">
+      <div class="search-box clearfix">
+        <form class="layui-form" action="" id="submit_query_form">
+          <div class="layui-form-item">
+            <div class="layui-input-inline custom-size">
+              <input type="text" name="name" id="name" value="${name}" placeholder="客户名" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-input-inline custom-size-btn">
+              <div class="layui-btn" onclick="selecedPage('${actionName}')">搜索</div>
+            </div>
+          </div>
+        </form>
+      </div>
+     <button data-method="offset" data-type="top" class="layui-btn layui-btn-small add_admi add_admi1">新增</button>
+    </div>
+    <div class="table-con">
+      <table class="layui-table">
+        <thead>
+        <tr>
+       	 	<th style="width:8px;">
+       	 	 <div class="layui-input-inline layui-form"> 
+	          <input type="checkbox" name="" lay-skin="primary" title=""  lay-filter="allChoose">
+	         </div> 
+       	 	</th>
+	        <th>客户名</th>
+	        <th>已授权台数</th>
+	        <th>授权剩余台数</th>
+	        <th>创建时间</th>
+	        <th>操作</th>
+        </tr> 
+        </thead>
+        <tbody>
+       		<#list customerList as customer>
+		        <tr>
+		          <td><div class="layui-input-inline layui-form"> 
+		          <input type="checkbox" name="id" lay-skin="primary" title="" value="${customer.id}"></div></td>
+		          <td>${customer.cuName}</td>
+		          <td>${customer.authorizedNum}</td>
+		          <td>${customer.unauthorizedNum}</td>
+		          <td>${customer.cuCreateTime?string("yyyy-MM-dd HH:mm:ss")}</td>
+		          <td>
+		          	<button data-method="offset" data-type="top" class="layui-btn  layui-btn-small add_admi add_admi1" onclick="selecCustomerInfo(${customer.id})">编辑</button>
+		          	<button data-method="offset" data-type="top" class="layui-btn  layui-btn-small add_admi add_admi2" onclick="selecMachineList(${customer.id})">查看设备</button>
+		          </td>
+		        </tr>
+	        </#list>
+        </tbody>
+      </table>
+       <#include 'pagination.html'>
+    </div>
+   </div>
+   <#include 'pubJS.html'>
+</body>
+<!--编辑开始-->
+		<div class="bomb_box1">
+			<form class="layui-form  action="">
+				<div class="layui-form-item " pane=" ">
+					<label class="layui-form-label ">客户名</label>
+					<input type="hidden" name="id" id="id"  value="" placeholder="" class="layui-input id">
+					<div class="layui-input-inline textarea_width">
+						<input type="text" name="userName"  id="userName" placeholder=" " class="layui-input title" required lay-verify="required">
+					</div>
+				</div>
+				<div class="layui-form-item " pane=" ">
+					<label class="layui-form-label ">授权设备数</label>
+					<div class="layui-input-inline textarea_width">
+						<input type="text" name="authNum" id="authNum" placeholder=" " class="layui-input title" required lay-verify="required|number">
+					</div>
+				</div>
+				<div class="layui-form-item for_but ">
+					<button class="layui-btn upgradeFile" lay-submit="" lay-filter="formDate" style="display:none">保存</button>
+				</div>
+			</form>
+		</div>
+		<!--弹框结束-->
+		<!--编辑开始-->
+		<div class="bomb_box2">
+			<form class="layui-form  action="">
+				<div class="table-con">
+					<table class="layui-table">
+						<thead>
+							<tr>
+								<th style="width: 8px;">
+									<div class="layui-input-inline layui-form">
+										<input type="checkbox" name="" lay-skin="primary" title=""
+											lay-filter="allChoose">
+									</div>
+								</th>
+								<th>设备编号</th>
+								<th>授权状态</th>
+								<th>注册时间</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody id="machineList">
+						</tbody>
+					</table>
+				</div>
+			</form>
+		</div>
+<!--弹框结束-->
+<script type="text/javascript">
+	var element;
+	var layer;
+	var form;
+	var laydate;
+	var webPath='${webPath}';
+	var jsonFiles;
+	var jsonFiles=new Array();
+	layui.use(['form','element', 'layer','laydate'], function(){
+		  element = layui.element;
+		  layer = layui.layer;
+		  form = layui.form;
+		  laydate = layui.laydate;
+		  //监听折叠
+		  element.on('collapse(filter)', function(data){
+	
+		  });
+		//日期范围
+		  laydate.render({
+		    elem: '#rentTime'
+		    ,range: true
+		  });
+	    
+		//日期范围
+		  laydate.render({
+		    elem: '#paymentTime'
+		    ,range: true
+		  });
+		
+	 
+		
+		  //全选  
+	      form.on('checkbox(allChoose)', function(data){
+	          var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');  
+	          child.each(function(index, item){
+	            item.checked = data.elem.checked;
+	          });
+	          form.render('checkbox');  
+	      });  
+		  
+	       
+		  
+		  
+	});
+	
+	/*新增修改弹框  */
+    $(".add_admi1 ").click(function() {
+			clearInput();
+				layer.open({
+					type: 1,
+					title: "客户",
+					skin: 'admi',
+					btn:['保存','返回'],
+					area: ['595px', '300px'],
+					content: $(".bomb_box1 "),
+					success: function(layero, index){
+				    	form.render();
+				    	form.render('select');
+			    		form.on('submit(formDate)', function(data){
+				        	insertCustomer(data.field);
+				        	return false;
+				       });
+				    },
+				    yes:function(index, layero){
+					layero.find('.upgradeFile').click();
+				    }
+				});
+		});
+	  
+	
+    /*新增修改弹框  */
+    $(".add_admi2").click(function() {
+			clearInput();
+				layer.open({
+					type: 1,
+					title: "设备列表",
+					skin: 'admi',
+					btn:['关闭'],
+					area: ['595px', '450px'],
+					content: $(".bomb_box2 "),
+					success: function(layero, index){
+				    	form.render();
+				    	form.render('select');
+				    },
+				});
+		});
+	
+    /*新增或修改客戶信息  */
+    function insertCustomer(date){
+		console.log(date)
+		$.ajax({
+			url:'insertCustomer.json',
+			data:date,
+			dataType:'json',
+			type:'post',
+			success:function(data){
+				if (data.code==0) {
+					layer.msg('保存成功！', {icon : 1,time : 2000
+					}, function() {
+						layer.closeAll();
+						location.reload();
+					});
+				} else {
+					layer.msg('保存失败！', {icon : 2,time : 3000
+					});
+				}
+			}
+		});	
+	}
+    
+    
+    function selecCustomerInfo(id){
+		console.log(id)
+		$.ajax({
+			url:'selectCustomerById.json',
+			data:{'id':id},
+			dataType:'json',
+			type:'post',
+			success:function(data){
+				if (data.code==0) {
+					$('#userName').val(data.data.cuName);
+					$('#authNum').val(data.data.cuAuthNum);
+					$('#id').val(data.data.id);
+				} else {
+					layer.msg('查询失败！', {icon : 2,time : 3000
+					});
+				}
+			}
+		});	
+	}
+    
+    /* 查询授权设备列表 */
+    function selecMachineList(id){
+		console.log(id)
+		$.ajax({
+			url:'selectAuthMachineList.json',
+			data:{'id':id},
+			dataType:'json',
+			type:'post',
+			success:function(data){
+				if (data.code==0) {
+					var html='';
+					var machineList=data.data;
+					if(machineList.length>0){
+						for(var i=0;i<machineList.length;i++){
+							var authstate='';
+							if(machineList[i].maAuthState==1){
+								authstate='已授权';
+							}else{
+								authstate='未授权';
+							}
+							html+='<tr><td><div class="layui-input-inline layui-form">'
+								+'<input type="checkbox" name="id" lay-skin="primary" title="" value="'+machineList[i].id+'">'
+								+'</div></td><td>'+machineList[i].maNo+'</td>'
+								+'<td>'+authstate+'</td>'
+							    +'<td>'+machineList[i].maCreateTime+'</td><td>操作</td></tr>';
+						}
+						$('#machineList').html(html);
+					}else{
+						$('#machineList').html('');
+					}
+					form.render();
+				} else {
+					layer.msg('保存失败！', {icon : 2,time : 3000});
+				}
+			}
+		});	
+	}
+    
+    
+    /*清空input框  */
+    function clearInput(){
+  	   $(".bomb_box1").find("input").each(function(){
+  		   $(this).val("");
+  	   });
+  	   $(".bomb_box1").find("select").each(function(){
+  		   $(this).val("");
+  	   });
+  	   $(".bomb_box1").find("textarea").each(function(){
+  		   $(this).val("");
+  	   });
+  	 
+     }
+</script>
+</html>

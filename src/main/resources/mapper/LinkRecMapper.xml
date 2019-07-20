@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.LinkRecMapper" >
+  <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.LinkRec" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="new_link_time" property="newLinkTime" jdbcType="TIMESTAMP" />
+    <result column="disc_time" property="discTime" jdbcType="TIMESTAMP" />
+    <result column="sn" property="sn" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, status, create_time, new_link_time, disc_time, sn
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fr_link_rec
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fr_link_rec
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.faceRecog.manage.model.LinkRec" >
+    insert into fr_link_rec (id, status, create_time, 
+      new_link_time, disc_time, sn
+      )
+    values (#{id,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{newLinkTime,jdbcType=TIMESTAMP}, #{discTime,jdbcType=TIMESTAMP}, #{sn,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceRecog.manage.model.LinkRec" >
+    insert into fr_link_rec
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="newLinkTime != null" >
+        new_link_time,
+      </if>
+      <if test="discTime != null" >
+        disc_time,
+      </if>
+      <if test="sn != null" >
+        sn,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newLinkTime != null" >
+        #{newLinkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="discTime != null" >
+        #{discTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sn != null" >
+        #{sn,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.LinkRec" >
+    update fr_link_rec
+    <set >
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newLinkTime != null" >
+        new_link_time = #{newLinkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="discTime != null" >
+        disc_time = #{discTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sn != null" >
+        sn = #{sn,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.LinkRec" >
+    update fr_link_rec
+    set status = #{status,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      new_link_time = #{newLinkTime,jdbcType=TIMESTAMP},
+      disc_time = #{discTime,jdbcType=TIMESTAMP},
+      sn = #{sn,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+   <!--自定义的sql  -->
+  
+  <!--根据sn修改设备连接状态  -->
+  <update id="updateLinkRecStateBySn" parameterType="com.faceRecog.manage.model.LinkRec">
+  update fr_link_rec
+   	<set >
+		status =#{status,jdbcType=VARCHAR},
+		<if test="newLinkTime != null">
+			new_link_time=#{newLinkTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="discTime != null">
+			disc_time=#{discTime,jdbcType=TIMESTAMP}
+		</if>
+    </set>
+   where sn = #{sn,jdbcType=VARCHAR}
+  </update>
+  
+  <!--根据设备sn号查询设备连接信息  -->
+  <select id="selectLinkRecBySn" parameterType="string" resultMap="BaseResultMap">
+  select 
+    <include refid="Base_Column_List" />
+    from fr_link_rec
+    where  sn = #{sn,jdbcType=VARCHAR}
+  </select>
+</mapper>

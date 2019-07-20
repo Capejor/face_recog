@@ -1,0 +1,120 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>升级文件列表</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="${webPath}/css/upgradeFile/upgradeFile.css">
+<#include 'pubCSS.html'>
+
+</head>
+
+<body class="layui-layout-body">
+   <div class="right-con">
+      <div class="search-box clearfix">
+      </div>
+    <div class="table-con">
+      <table class="layui-table">
+        <thead>
+        <tr>
+	        <th>邀请码</th>
+	        <th>更新时间</th>
+	        <th>操作</th>
+        </tr> 
+        </thead>
+        <tbody>
+	        <tr>
+	          <td id="invatcode">${authInvatcode.aiInvatcode}</td>
+	          <td>${authInvatcode.aiCreateTime?string("yyyy-MM-dd HH:mm")}</td>
+	          <td><button data-method="offset" data-type="top" class="layui-btn layui-btn-normal layui-btn-small add_admi " onclick="copyCode()">复制</button></td>
+	        </tr>
+        </tbody>
+      </table>
+    </div>
+   </div>
+   <#include 'pubJS.html'>
+</body>
+
+<script type="text/javascript" src="${webPath}js/import_excel.js?201901221"></script>
+<script type="text/javascript">
+	var element;
+	var layer;
+	var form;
+	var laydate;
+	var webPath='${webPath}';
+	var jsonFiles;
+	var jsonFiles=new Array();
+	layui.use(['form','element', 'layer','laydate'], function(){
+		  element = layui.element;
+		  layer = layui.layer;
+		  form = layui.form;
+		  laydate = layui.laydate;
+		  //监听折叠
+		  element.on('collapse(filter)', function(data){
+	
+		  });
+		//日期范围
+		  laydate.render({
+		    elem: '#rentTime'
+		    ,range: true
+		  });
+	    
+		//日期范围
+		  laydate.render({
+		    elem: '#paymentTime'
+		    ,range: true
+		  });
+		
+	 
+		
+		  //全选  
+	      form.on('checkbox(allChoose1)', function(data){
+	          var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');  
+	          child.each(function(index, item){
+	            item.checked = data.elem.checked;
+	          });
+	          form.render('checkbox');  
+	      });  
+		  
+	      //全选  
+	      form.on('checkbox(allChoose2)', function(data){
+	          var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');  
+	          child.each(function(index, item){
+	            item.checked = data.elem.checked;
+	          });
+	          form.render('checkbox');  
+	      });  
+		  
+	     
+	
+	})
+  /*清空input框  */
+  function clearInput(){
+	   $(".bomb_box1").find("input").each(function(){
+		   $(this).val("");
+	   });
+	   $(".bomb_box1").find("select").each(function(){
+		   $(this).val("");
+	   });
+	   $(".bomb_box1").find("textarea").each(function(){
+		   $(this).val("");
+	   });
+   }
+	 
+	  
+  function copyCode()
+  {
+      var Url2=document.getElementById("invatcode").innerText;
+      var oInput = document.createElement('input');
+      oInput.value = Url2;
+      document.body.appendChild(oInput);
+      oInput.select(); // 选择对象
+      document.execCommand("Copy"); // 执行浏览器复制命令
+      oInput.className = 'oInput';
+      oInput.style.display='none';
+      layer.alert('复制成功');
+  }
+	  
+</script>
+</html>

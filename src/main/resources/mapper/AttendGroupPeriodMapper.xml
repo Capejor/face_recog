@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.AttendGroupPeriodMapper" >
+  <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.AttendGroupPeriod" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="pr_id" property="prId" jdbcType="VARCHAR" />
+    <result column="ag_id" property="agId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, pr_id, ag_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fr_attend_group_period
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fr_attend_group_period
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.faceRecog.manage.model.AttendGroupPeriod" >
+    insert into fr_attend_group_period (id, pr_id, ag_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{prId,jdbcType=VARCHAR}, #{agId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceRecog.manage.model.AttendGroupPeriod" >
+    insert into fr_attend_group_period
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="prId != null" >
+        pr_id,
+      </if>
+      <if test="agId != null" >
+        ag_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="prId != null" >
+        #{prId,jdbcType=VARCHAR},
+      </if>
+      <if test="agId != null" >
+        #{agId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.AttendGroupPeriod" >
+    update fr_attend_group_period
+    <set >
+      <if test="prId != null" >
+        pr_id = #{prId,jdbcType=VARCHAR},
+      </if>
+      <if test="agId != null" >
+        ag_id = #{agId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.AttendGroupPeriod" >
+    update fr_attend_group_period
+    set pr_id = #{prId,jdbcType=VARCHAR},
+      ag_id = #{agId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!--自定义sql  -->
+  
+  <!--批量新增考勤组周期排班信息  -->
+  <insert id="insertBatchAttendGroupPeriod" parameterType="map">
+  	insert fr_attend_group_period
+	  (id,ag_id,pr_id) values
+	   <foreach collection="periodIds" item="periodId" index="index" separator=",">
+            (#{periodId.id,jdbcType=VARCHAR},#{agId,jdbcType=VARCHAR},#{periodId.periodId,jdbcType=VARCHAR} )
+	   </foreach>
+  </insert>
+  
+  <!--根据考勤组id查询考勤组周期排班信息  -->
+  <select id="selectAgPeriodByAgId" parameterType="string" resultMap="BaseResultMap">
+  select GROUP_CONCAT(pr_id)as pr_id from fr_attend_group_period
+  where ag_id = #{agId,jdbcType=VARCHAR}
+  </select>
+  
+  <!--根据考勤组id删除考勤组 周期排班信息  -->
+  <delete id="deleteAttendGroupPeriod" parameterType="string">
+  delete from fr_attend_group_period
+  where ag_id = #{agId,jdbcType=VARCHAR}
+  </delete>
+  
+  <!--根据考勤组id查询考勤组周期班次信息  -->
+  <select id="selectAgPeriodInfoByAgId" parameterType="string" resultType="map">
+  select ad.id,ad.name,pr.id as prId,pa.sort
+  from fr_attend_group_period ap
+  left join fr_period pr on pr.id=ap.pr_id
+  left join fr_period_attend pa on pa.period_id=pr.id
+  left join fr_attendance ad on ad.id=pa.attend_id
+  where ap.pr_id= #{prId,jdbcType=VARCHAR}
+  </select>
+  
+ <!--根据员工id查询固定班制员工所属考勤组的周期信息  -->
+  <select id="selectPeriodByEmpId" parameterType="string" resultMap="BaseResultMap">
+  select agp.pr_id
+  from fr_attend_group_period agp
+  left join fr_emp_attend_group eag on eag.ag_id=agp.ag_id
+  left join fr_employee emp on emp.id=eag.emp_id
+  where  eag.emp_id= #{empId,jdbcType=VARCHAR}
+  </select>
+</mapper>

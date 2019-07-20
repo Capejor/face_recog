@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.EmpEquipmentMapper">
+    <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.EmpEquipment">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="emp_id" property="empId" jdbcType="VARCHAR"/>
+        <result column="equip_id" property="equipId" jdbcType="VARCHAR"/>
+        <result column="auth_id" property="authId" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, emp_id, equip_id, auth_id
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_emp_equip
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from fr_emp_equip
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.faceRecog.manage.model.EmpEquipment">
+    insert into fr_emp_equip (id, emp_id, equip_id, 
+      auth_id)
+    values (#{id,jdbcType=VARCHAR}, #{empId,jdbcType=VARCHAR}, #{equipId,jdbcType=VARCHAR}, 
+      #{authId,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.faceRecog.manage.model.EmpEquipment">
+        insert into fr_emp_equip
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="empId != null">
+                emp_id,
+            </if>
+            <if test="equipId != null">
+                equip_id,
+            </if>
+            <if test="authId != null">
+                auth_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="empId != null">
+                #{empId,jdbcType=VARCHAR},
+            </if>
+            <if test="equipId != null">
+                #{equipId,jdbcType=VARCHAR},
+            </if>
+            <if test="authId != null">
+                #{authId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.EmpEquipment">
+        update fr_emp_equip
+        <set>
+            <if test="empId != null">
+                emp_id = #{empId,jdbcType=VARCHAR},
+            </if>
+            <if test="equipId != null">
+                equip_id = #{equipId,jdbcType=VARCHAR},
+            </if>
+            <if test="authId != null">
+                auth_id = #{authId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.EmpEquipment">
+    update fr_emp_equip
+    set emp_id = #{empId,jdbcType=VARCHAR},
+      equip_id = #{equipId,jdbcType=VARCHAR},
+      auth_id = #{authId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <!--自定义sql-->
+
+    <!--根据员工删除设备员工中间表  -->
+    <delete id="deleteEmpEquipByEmpIdAndEquipId" parameterType="string">
+        delete from fr_emp_equip
+        where emp_id = #{empId,jdbcType=VARCHAR}
+        and equip_id = #{equipId,jdbcType=VARCHAR}
+       <!-- <where> emp_id in
+            <foreach collection="empIds" item="empId" open="(" close=")" separator=",">
+                #{empId}
+            </foreach>
+            and equip_id in
+            <foreach collection="equipIds" item="equipId" open="(" close=")" separator=",">
+                #{equipId}
+            </foreach>
+            &lt;!&ndash;and equip_id = #{equipId,jdbcType=VARCHAR}&ndash;&gt;
+        </where>-->
+    </delete>
+
+    <update id="updateByEmpIdAndEqId" parameterType="com.faceRecog.manage.model.EmpEquipment">
+        update fr_emp_equip
+        <set>
+            <if test="id != null">
+                id = #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="authId != null">
+                auth_id = #{authId,jdbcType=VARCHAR}
+            </if>
+        </set>
+        <where>
+            emp_id = #{empId,jdbcType=VARCHAR}
+            and equip_id = #{equipId,jdbcType=VARCHAR}
+        </where>
+    </update>
+
+    <select id="selectCountById" parameterType="string" resultType="int">
+        SELECT count(auth_id)
+        FROM fr_emp_equip
+        WHERE auth_id = #{id,jdbcType=VARCHAR}
+    </select>
+    
+    <!--根据权限id查询员工设备门禁权限信息  -->
+    <select id="selectBatchEmpEquipmentByAuthId" resultType="map" parameterType="string">
+    	select
+    	 eq.sn
+    	from fr_emp_equip ee
+    	left join fr_equipment eq on ee.equip_id=eq.id
+    	where ee.auth_id in 
+    	<foreach collection="ids" item="authId" open="(" close=")" separator=",">
+    		#{authId,jdbcType=VARCHAR}
+    	</foreach>
+    </select>
+
+</mapper>

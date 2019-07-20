@@ -1,0 +1,175 @@
+﻿@charset "utf-8";
+/* CSS Document */
+@charset "utf-8";
+/* CSS Document */
+
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+button,
+textarea,
+p,
+blockquote,
+th,
+td {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+
+body {
+	background: #fff;
+	color: #333;
+	font-size: 14px;
+	font-family:  Microsoft YaHei,tahoma,arial,Hiragino Sans GB,sans-serif;
+}
+
+td,
+th,
+caption {
+	font-size: 14px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: normal;
+	font-size: 100%;
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+strong,
+th,
+var {
+	font-style: normal;
+	font-weight: normal;
+}
+
+a {
+	color: #333;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+img {
+	border: none;
+}
+
+ol,
+ul,
+li {
+	list-style: none;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="button"],
+textarea,
+select,
+button {
+	outline: none;
+	appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	border: 0;
+	cursor: pointer;
+}
+input::-webkit-input-placeholder{color: #b2b2b2;}
+table {
+	border-collapse: collapse;
+}
+
+html {
+	overflow-y: scroll;
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+
+/*.clearfix { *zoom:1; }*/
+
+select::-ms-expand {
+	display: none;
+}
+
+* {
+	margin: 0;
+	padding: 0
+}
+
+.clear {
+	clear: both;
+}
+
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+/*----------------------登录-----------------------*/
+.login-bg{ background: url(../img/login-bg.png) no-repeat;}
+.login-center{width: 80%; height: 660px; margin: 6% auto 0; position: relative;}
+.wel-txt{ position: absolute; bottom: 16%; left: 4%;}
+.wel-txt p{ color: #ffffff;}
+.wel-txt .p1{ font-size: 48px; margin-bottom: 30px;}
+.wel-txt .p2{ font-size: 30px;}
+.login-content{ background: #fff; width: 460px; height: 100%; position: absolute; right: 0; top: 0; border-top: 4px solid #ff7c24;}
+.login-content .logo{ text-align: center; margin-top: 100px;}
+.login-content .login-box{ width: 80%; margin: 60px auto 0;}
+.login-content .login-box .box{width: 100%; height: 45px; background: #f5f6f8; margin-bottom: 20px; padding: 0 12px;}
+.login-content .login-box .box i{ font-size: 22px; color: #b2b2b2; position: relative; top: 2px;}
+.login-content .login-box .input-txt{ height: 100%; width: 80%; background: #f5f6f8; font-size: 14px;}
+.login-content .login-box .yzm{ width: 100%; height: 40px; line-height: 40px; background: #f5f6f8; text-align: center; position: relative; color: #999;}
+.login-content .login-box .yzm span{ display: block; position: absolute; left: 0; top: 0; width: 50px; background: #c3c3c3; height: 100%; cursor: move;}
+.login-content .login-box .yzm span i{ color: #fff; position: relative;}
+.login-content .login-box .yzm span i.arrow1{ left: 4px;} 
+.login-content .login-box .yzm span i.arrow2{ right: 4px;} 
+.login-content .login-box .btn{ text-align:center; width: 100%; height: 45px; background: #ff7c24; color: #fff; margin-top:50px; font-size: 16px; font-weight: 700;}
+.login-content .login-box .forget-pwd{ width: 100%; margin-top: 15px;}
+.login-content .login-box .forget-pwd a{ float: right; color: #4bbcb4;}
+.logo img{width:240px}
+

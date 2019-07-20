@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.VisitorMapper">
+    <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.Visitor">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="id_card" property="idCard" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="company" property="company" jdbcType="VARCHAR"/>
+        <result column="car_num" property="carNum" jdbcType="VARCHAR"/>
+        <result column="visitor_num" property="visitorNum" jdbcType="VARCHAR"/>
+        <result column="emp_name" property="empName" jdbcType="VARCHAR"/>
+        <result column="emp_phone" property="empPhone" jdbcType="VARCHAR"/>
+        <result column="visit_reason" property="visitReason" jdbcType="VARCHAR"/>
+        <result column="appoint_time" property="appointTime" jdbcType="VARCHAR"/>
+        <result column="approve_status" property="approveStatus" jdbcType="VARCHAR"/>
+        <result column="visit_time" property="visitTime" jdbcType="VARCHAR"/>
+        <result column="leave_time" property="leaveTime" jdbcType="VARCHAR"/>
+        <result column="is_appointed" property="isAppointed" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="photo" property="photo" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, name, sex, id_card, phone, company, car_num, visitor_num, emp_name, emp_phone, 
+    visit_reason, appoint_time, approve_status, visit_time, leave_time, is_appointed, 
+    create_time, status, photo
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_visitor
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from fr_visitor
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.faceRecog.manage.model.Visitor">
+    insert into fr_visitor (id, name, sex, 
+      id_card, phone, company, 
+      car_num, visitor_num, emp_name, 
+      emp_phone, visit_reason, appoint_time, 
+      approve_status, visit_time, leave_time, 
+      is_appointed, create_time, status, 
+      photo)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{idCard,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, 
+      #{carNum,jdbcType=VARCHAR}, #{visitorNum,jdbcType=VARCHAR}, #{empName,jdbcType=VARCHAR}, 
+      #{empPhone,jdbcType=VARCHAR}, #{visitReason,jdbcType=VARCHAR}, #{appointTime,jdbcType=VARCHAR}, 
+      #{approveStatus,jdbcType=VARCHAR}, #{visitTime,jdbcType=VARCHAR}, #{leaveTime,jdbcType=VARCHAR}, 
+      #{isAppointed,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{photo,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.faceRecog.manage.model.Visitor">
+        insert into fr_visitor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="idCard != null">
+                id_card,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="company != null">
+                company,
+            </if>
+            <if test="carNum != null">
+                car_num,
+            </if>
+            <if test="visitorNum != null">
+                visitor_num,
+            </if>
+            <if test="empName != null">
+                emp_name,
+            </if>
+            <if test="empPhone != null">
+                emp_phone,
+            </if>
+            <if test="visitReason != null">
+                visit_reason,
+            </if>
+            <if test="appointTime != null">
+                appoint_time,
+            </if>
+            <if test="approveStatus != null">
+                approve_status,
+            </if>
+            <if test="visitTime != null">
+                visit_time,
+            </if>
+            <if test="leaveTime != null">
+                leave_time,
+            </if>
+            <if test="isAppointed != null">
+                is_appointed,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="photo != null">
+                photo,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="idCard != null">
+                #{idCard,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+                #{company,jdbcType=VARCHAR},
+            </if>
+            <if test="carNum != null">
+                #{carNum,jdbcType=VARCHAR},
+            </if>
+            <if test="visitorNum != null">
+                #{visitorNum,jdbcType=VARCHAR},
+            </if>
+            <if test="empName != null">
+                #{empName,jdbcType=VARCHAR},
+            </if>
+            <if test="empPhone != null">
+                #{empPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="visitReason != null">
+                #{visitReason,jdbcType=VARCHAR},
+            </if>
+            <if test="appointTime != null">
+                #{appointTime,jdbcType=VARCHAR},
+            </if>
+            <if test="approveStatus != null">
+                #{approveStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="visitTime != null">
+                #{visitTime,jdbcType=VARCHAR},
+            </if>
+            <if test="leaveTime != null">
+                #{leaveTime,jdbcType=VARCHAR},
+            </if>
+            <if test="isAppointed != null">
+                #{isAppointed,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="photo != null">
+                #{photo,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.Visitor">
+        update fr_visitor
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="idCard != null">
+                id_card = #{idCard,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+                company = #{company,jdbcType=VARCHAR},
+            </if>
+            <if test="carNum != null">
+                car_num = #{carNum,jdbcType=VARCHAR},
+            </if>
+            <if test="visitorNum != null">
+                visitor_num = #{visitorNum,jdbcType=VARCHAR},
+            </if>
+            <if test="empName != null">
+                emp_name = #{empName,jdbcType=VARCHAR},
+            </if>
+            <if test="empPhone != null">
+                emp_phone = #{empPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="visitReason != null">
+                visit_reason = #{visitReason,jdbcType=VARCHAR},
+            </if>
+            <if test="appointTime != null">
+                appoint_time = #{appointTime,jdbcType=VARCHAR},
+            </if>
+            <if test="approveStatus != null">
+                approve_status = #{approveStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="visitTime != null">
+                visit_time = #{visitTime,jdbcType=VARCHAR},
+            </if>
+            <if test="leaveTime != null">
+                leave_time = #{leaveTime,jdbcType=VARCHAR},
+            </if>
+            <if test="isAppointed != null">
+                is_appointed = #{isAppointed,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="photo != null">
+                photo = #{photo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.Visitor">
+    update fr_visitor
+    set name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      id_card = #{idCard,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      car_num = #{carNum,jdbcType=VARCHAR},
+      visitor_num = #{visitorNum,jdbcType=VARCHAR},
+      emp_name = #{empName,jdbcType=VARCHAR},
+      emp_phone = #{empPhone,jdbcType=VARCHAR},
+      visit_reason = #{visitReason,jdbcType=VARCHAR},
+      appoint_time = #{appointTime,jdbcType=VARCHAR},
+      approve_status = #{approveStatus,jdbcType=VARCHAR},
+      visit_time = #{visitTime,jdbcType=VARCHAR},
+      leave_time = #{leaveTime,jdbcType=VARCHAR},
+      is_appointed = #{isAppointed,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <!--自定义sql-->
+    <!--查询预约访客信息-->
+    <select id="selectVisitor" parameterType="string" resultType="com.faceRecog.manage.model.vo.VisitVO">
+        SELECT v.id as id, v.name as name, v.sex as sex , v.id_card as idCard, v.phone, company, v.car_num as
+        carNum,visitor_num as visitorNum, v.emp_phone as empPhone,v.emp_name as empName,visit_reason as visitReason,
+        appoint_time as appointTime,approve_status as approveStatus, visit_time as visitTime, leave_time as leaveTime,
+        is_appointed as isAppointed,photo
+        FROM fr_visitor v
+        <where>is_appointed = 1
+            <!-- approve_status = 1-->
+            <if test="phone !=''">
+                and CONCAT(v.phone) LIKE CONCAT('%', #{phone}, '%')
+            </if>
+        </where>
+        order by v.create_time desc
+    </select>
+
+
+    <!--判断是否已登记或已预约-->
+    <select id="selectByPhoneAndVisitTime" parameterType="string" resultType="int">
+       SELECT count(0) FROM fr_visitor
+       WHERE phone = #{phone,jdbcType=VARCHAR}
+       AND CONCAT(visit_time) LIKE CONCAT('%', #{visitTime}, '%')
+    </select>
+
+    <!--判断是否已登记或已预约 除去自己 -->
+    <select id="selectByPhoneAndAppointTimeExceptOwn" parameterType="string" resultType="int">
+       SELECT count(0)
+       FROM fr_visitor
+       WHERE phone = #{phone,jdbcType=VARCHAR}
+       AND CONCAT(appoint_time) LIKE CONCAT('%', #{appointTime}, '%')
+       AND  id !=#{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--根据电话查询访客id-->
+    <select id="selectIdByPhone" parameterType="string" resultType="string">
+       SELECT  id
+       FROM fr_visitor
+       WHERE phone = #{phone,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--查询今日来访访客-->
+    <select id="selectVisitorByDate" parameterType="string" resultType="com.faceRecog.manage.model.vo.VisitVO">
+        SELECT v.id as id, v.name as name, v.sex as sex , v.id_card as idCard, v.phone, company, v.car_num as
+        carNum,photo ,
+        visitor_num as visitorNum, v.emp_phone as empPhone,v.emp_name as empName,visit_reason as visitReason,
+        appoint_time as appointTime,approve_status as approveStatus, visit_time as visitTime, leave_time as leaveTime,
+        is_appointed as isAppointed,va.start_time as startTime, va.end_time as endTime,ep.eq_name as equipName,equip_id
+        as equipId
+        FROM fr_visitor v
+        LEFT JOIN fr_visit_auth va ON v.id = va.visit_id
+        LEFT JOIN fr_visit_equip ve ON va.id = ve.visit_auth_id
+        LEFT JOIN fr_equipment ep ON ve.equip_id = ep.id
+        <where>approve_status = 1
+                AND v.visit_time =#{today,jdbcType=VARCHAR}
+        </where>
+        ORDER BY v.appoint_time DESC,v.create_time DESC
+    </select>
+
+
+    <select id="selectStatusByVisitId" parameterType="string" resultType="int">
+        select count(0) from fr_visitor
+        where approve_status = 3
+        and id =#{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--访客审核-->
+    <update id="updateApproveStatus" parameterType="string">
+        update fr_visitor
+        set approve_status =#{approveStatus,jdbcType=VARCHAR}
+        where id =#{id,jdbcType=VARCHAR}
+    </update>
+
+    <!--批量删除访客-->
+    <delete id="deleteByIds" parameterType="list">
+        delete from fr_visitor
+        <where>
+            id in
+            <foreach collection="ids" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+
+
+    <!--查询所有访客记录-->
+    <select id="selectVisitorRecord" parameterType="map" resultType="com.faceRecog.manage.model.vo.VisitVO">
+        SELECT v.id as id, v.name as name, v.sex as sex , v.id_card as idCard, v.phone, company, v.car_num as
+        carNum,visitor_num as visitorNum, v.emp_phone as empPhone,v.emp_name as empName,visit_reason as visitReason,
+        appoint_time as appointTime,approve_status as approveStatus, visit_time as visitTime, leave_time as leaveTime,
+        is_appointed as isAppointed,photo
+        FROM fr_visitor v
+        <where>
+            <if test="startTime != ''">
+                visit_time <![CDATA[ >= ]]> #{startTime}
+            </if>
+            <if test="endTime != ''">
+                and visit_time <![CDATA[ <= ]]> #{endTime}
+            </if>
+            <if test="searchParam !=''">
+                and CONCAT(v.name,v.id_card) LIKE CONCAT('%', #{searchParam}, '%')
+            </if>
+        </where>
+        ORDER BY v.visit_time DESC,v.create_time DESC
+    </select>
+
+
+    <!--查询设备的访客门禁权限-->
+    <select id="selectVisitAuthBySn" parameterType="string"
+            resultType="com.faceRecog.manage.model.serverVO.VisitServer">
+        SELECT v.id, v.name,v.photo ,eq.sn as sn,va.start_time as startTime,va.end_time as endTime
+        FROM fr_visitor v
+        LEFT JOIN fr_visit_auth va ON va.visit_id = v.id
+        LEFT JOIN fr_visit_equip ve ON v.id = ve.visit_id
+        LEFT JOIN fr_equipment eq ON ve.equip_id = eq.id
+        WHERE sn = #{sn,jdbcType= VARCHAR}
+        AND  v.visit_time <![CDATA[ >= ]]>  #{todayStr}
+    </select>
+
+</mapper>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.GroupInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.GroupInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="group_id" property="groupId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, group_id, name, sort, create_user_id, create_time, update_time, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fr_group_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fr_group_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.faceRecog.manage.model.GroupInfo" >
+    insert into fr_group_info (id, group_id, name, 
+      sort, create_user_id, create_time, 
+      update_time, status)
+    values (#{id,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER}, #{createUserId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceRecog.manage.model.GroupInfo" >
+    insert into fr_group_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="groupId != null" >
+        group_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.GroupInfo" >
+    update fr_group_info
+    <set >
+      <if test="groupId != null" >
+        group_id = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.GroupInfo" >
+    update fr_group_info
+    set group_id = #{groupId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+    <!--自定义sql-->
+    <!--根据分组id查询所有分组详情-->
+    <select id="selectByGroupId" parameterType="string" resultType="com.faceRecog.manage.model.vo.GroupInfoVO">
+        select
+           id, group_id as groupId, name, sort, create_user_id as createUserId, status
+        from fr_group_info
+        where group_id = #{groupId,jdbcType=VARCHAR}
+        order by sort asc
+    </select>
+
+    <!--添加分组详情名称不能重复-->
+    <select id="selectByName" parameterType="map" resultType="int">
+        select count(0)
+        from fr_group_info
+        where name = #{name ,jdbcType=VARCHAR}
+        and  group_id = #{groupId ,jdbcType=VARCHAR}
+    </select>
+
+    <!--序号不能重复-->
+    <select id="selectBySort" parameterType="map" resultType="int">
+         select count(0)
+        from fr_group_info
+        where sort = #{sort ,jdbcType=INTEGER}
+         and  group_id = #{groupId ,jdbcType=VARCHAR}
+    </select>
+
+    <!--修改分组详情名称不能重复 除去自己-->
+    <select id="selectByNameExceptOwn" parameterType="map" resultType="int">
+        select count(0)
+        from fr_group_info
+        where name = #{name ,jdbcType=VARCHAR}
+        and  group_id = #{groupId ,jdbcType=VARCHAR}
+        and  id != #{id ,jdbcType=VARCHAR}
+    </select>
+
+    <!--序号不能重复 除去自己-->
+    <select id="selectBySortExceptOwn" parameterType="map" resultType="int">
+         select count(0)
+        from fr_group_info
+        where sort = #{sort ,jdbcType=INTEGER}
+         and  group_id = #{groupId ,jdbcType=VARCHAR}
+         and  id != #{id ,jdbcType=VARCHAR}
+    </select>
+
+    <!--批量删除-->
+    <delete id="deleteByList" parameterType="list">
+        delete from fr_group_info
+        <where>
+            id IN
+            <foreach collection="ids" item="arr" open="(" close=")" separator=",">
+                #{arr}
+            </foreach>
+        </where>
+    </delete>
+</mapper>

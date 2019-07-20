@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.AttendanceMapper">
+    <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.Attendance">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="allow_late" property="allowLate" jdbcType="VARCHAR"/>
+        <result column="allow_early" property="allowEarly" jdbcType="VARCHAR"/>
+        <result column="work_time" property="workTime" jdbcType="VARCHAR"/>
+        <result column="after_overtime" property="afterOvertime" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, name, type, allow_late, allow_early, work_time, after_overtime, create_time, 
+    update_time, create_user_id, status
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_attendance
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from fr_attendance
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.faceRecog.manage.model.Attendance">
+    insert into fr_attendance (id, name, type, 
+      allow_late, allow_early, work_time, 
+      after_overtime, create_time, update_time, 
+      create_user_id, status)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{allowLate,jdbcType=VARCHAR}, #{allowEarly,jdbcType=VARCHAR}, #{workTime,jdbcType=VARCHAR}, 
+      #{afterOvertime,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.faceRecog.manage.model.Attendance">
+        insert into fr_attendance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="allowLate != null">
+                allow_late,
+            </if>
+            <if test="allowEarly != null">
+                allow_early,
+            </if>
+            <if test="workTime != null">
+                work_time,
+            </if>
+            <if test="afterOvertime != null">
+                after_overtime,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="allowLate != null">
+                #{allowLate,jdbcType=VARCHAR},
+            </if>
+            <if test="allowEarly != null">
+                #{allowEarly,jdbcType=VARCHAR},
+            </if>
+            <if test="workTime != null">
+                #{workTime,jdbcType=VARCHAR},
+            </if>
+            <if test="afterOvertime != null">
+                #{afterOvertime,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.Attendance">
+        update fr_attendance
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="allowLate != null">
+                allow_late = #{allowLate,jdbcType=VARCHAR},
+            </if>
+            <if test="allowEarly != null">
+                allow_early = #{allowEarly,jdbcType=VARCHAR},
+            </if>
+            <if test="workTime != null">
+                work_time = #{workTime,jdbcType=VARCHAR},
+            </if>
+            <if test="afterOvertime != null">
+                after_overtime = #{afterOvertime,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.Attendance">
+    update fr_attendance
+    set name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      allow_late = #{allowLate,jdbcType=VARCHAR},
+      allow_early = #{allowEarly,jdbcType=VARCHAR},
+      work_time = #{workTime,jdbcType=VARCHAR},
+      after_overtime = #{afterOvertime,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+    <!--自定义SQL-->
+    <!--查询所有考勤-->
+    <select id="selectAllAttend" resultType="com.faceRecog.manage.model.vo.AttendVO">
+        SELECT a.id, name, type, allow_late as allowLate, allow_early as allowEarly, work_time as
+        workTime,after_overtime as afterOvertime,sort,
+        <!--create_time as createTime,update_time as updateTime,create_user_id as createUserId, status,-->
+        attend_time as attendTime, close_time as closeTime, is_overtime as isOvertime
+        FROM fr_attendance a
+        LEFT JOIN fr_time_frame t ON a.id = t.attend_id
+        ORDER BY a.create_time desc ,sort ASC
+    </select>
+
+    <delete id="deleteAttendance" parameterType="string">
+        delete from fr_attendance
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <!--考勤名称不能重复-->
+    <select id="selectCountByAttName" parameterType="string" resultType="int">
+        SELECT COUNT(name)
+        FROM fr_attendance
+        WHERE name = #{name,jdbcType=VARCHAR}
+    </select>
+
+    <!--考勤名称不能重复 除去自己-->
+    <select id="selectCountByAttNameExceptOwn" parameterType="string" resultType="int">
+        SELECT COUNT(name)
+        FROM fr_attendance
+        WHERE name = #{attName,jdbcType=VARCHAR}
+        AND id != #{id,jdbcType=VARCHAR}
+    </select>
+    
+    <!--查询考勤班次信息根据班次id  -->
+    <select id="selectAttendInfoByAtId" parameterType="string" resultType="map">
+    select tf.attend_time as workOnTime, tf.close_time as workOffTime
+    from fr_attendance ad
+    left join fr_time_frame tf on tf.attend_id=ad.id
+    where ad.id=#{adId,jdbcType=VARCHAR} and tf.sort=1
+    </select>
+    
+    <!--查询固定班制员工考勤信息  -->
+    <select id="selectFixedAttendEmpInfo" resultType="map">
+	    select emp.id as empId,agp.pr_id as attendId,ag.type
+		  from fr_attend_group ag
+			right join fr_emp_attend_group eag on eag.ag_id=ag.id
+			right join fr_employee emp on emp.id=eag.emp_id
+			left join fr_attend_group_period agp on agp.ag_id=eag.ag_id
+		where    ag.type=1  
+    </select>
+    
+    <!--查询排班制员工考勤信息  -->
+    <select id="selectSchedulAttendEmpInfo" resultType="map">
+	    select emp.id as empId,ifnull(ad.id as attendId,''),ag.type
+		  from fr_attend_group ag
+			right join fr_emp_attend_group eag on eag.ag_id=ag.id
+			left join fr_employee emp on emp.id=eag.emp_id
+			left join attend_detail ad on ad.emp_id=emp.id
+		where    ag.type=2
+    </select>
+    
+    <!--查询无考勤组人员考勤  -->
+    <select id="selectNoAttendEmpInfo" resultType="map">
+    <!-- select id as empId ,''  as  attendId,'3' as type
+		 from fr_employee where id not exists(select emp_id from fr_emp_attend_group) -->
+		 select emp.id as empId ,''  as  attendId,'3' as type  from fr_employee emp where  not exists(select * from fr_emp_attend_group eag where eag.emp_id=emp.id)
+		 
+    </select>
+</mapper>

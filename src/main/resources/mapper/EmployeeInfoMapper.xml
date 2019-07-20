@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.EmployeeInfoMapper">
+    <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.EmployeeInfo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="emp_id" property="empId" jdbcType="VARCHAR"/>
+        <result column="education" property="education" jdbcType="VARCHAR"/>
+        <result column="politics" property="politics" jdbcType="VARCHAR"/>
+        <result column="is_married" property="isMarried" jdbcType="VARCHAR"/>
+        <result column="blood" property="blood" jdbcType="VARCHAR"/>
+        <result column="emer_per" property="emerPer" jdbcType="VARCHAR"/>
+        <result column="emer_phone" property="emerPhone" jdbcType="VARCHAR"/>
+        <result column="car_no" property="carNo" jdbcType="VARCHAR"/>
+        <result column="labor_con" property="laborCon" jdbcType="VARCHAR"/>
+        <result column="labor_con_no" property="laborConNo" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, emp_id, education, politics, is_married, blood, emer_per, emer_phone, car_no, 
+    labor_con, labor_con_no,remark, status, create_user_id, create_time
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_employee_info
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from fr_employee_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.faceRecog.manage.model.EmployeeInfo">
+    insert into fr_employee_info (id, emp_id, education, 
+      politics, is_married, blood, 
+      emer_per, emer_phone, car_no, 
+      labor_con, labor_con_no,
+      remark, status, create_user_id, 
+      create_time)
+    values (#{id,jdbcType=VARCHAR}, #{empId,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
+      #{politics,jdbcType=VARCHAR}, #{isMarried,jdbcType=VARCHAR}, #{blood,jdbcType=VARCHAR}, 
+      #{emerPer,jdbcType=VARCHAR}, #{emerPhone,jdbcType=VARCHAR}, #{carNo,jdbcType=VARCHAR},
+      #{laborCon,jdbcType=VARCHAR}, #{laborConNo,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.faceRecog.manage.model.EmployeeInfo">
+        insert into fr_employee_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="empId != null">
+                emp_id,
+            </if>
+            <if test="education != null">
+                education,
+            </if>
+            <if test="politics != null">
+                politics,
+            </if>
+            <if test="isMarried != null">
+                is_married,
+            </if>
+            <if test="blood != null">
+                blood,
+            </if>
+            <if test="emerPer != null">
+                emer_per,
+            </if>
+            <if test="emerPhone != null">
+                emer_phone,
+            </if>
+            <if test="carNo != null">
+                car_no,
+            </if>
+            <if test="laborCon != null">
+                labor_con,
+            </if>
+            <if test="laborConNo != null">
+                labor_con_no,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="empId != null">
+                #{empId,jdbcType=VARCHAR},
+            </if>
+            <if test="education != null">
+                #{education,jdbcType=VARCHAR},
+            </if>
+            <if test="politics != null">
+                #{politics,jdbcType=VARCHAR},
+            </if>
+            <if test="isMarried != null">
+                #{isMarried,jdbcType=VARCHAR},
+            </if>
+            <if test="blood != null">
+                #{blood,jdbcType=VARCHAR},
+            </if>
+            <if test="emerPer != null">
+                #{emerPer,jdbcType=VARCHAR},
+            </if>
+            <if test="emerPhone != null">
+                #{emerPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="carNo != null">
+                #{carNo,jdbcType=VARCHAR},
+            </if>
+            <if test="laborCon != null">
+                #{laborCon,jdbcType=VARCHAR},
+            </if>
+            <if test="laborConNo != null">
+                #{laborConNo,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.EmployeeInfo">
+        update fr_employee_info
+        <set>
+            <if test="empId != null">
+                emp_id = #{empId,jdbcType=VARCHAR},
+            </if>
+            <if test="education != null">
+                education = #{education,jdbcType=VARCHAR},
+            </if>
+            <if test="politics != null">
+                politics = #{politics,jdbcType=VARCHAR},
+            </if>
+            <if test="isMarried != null">
+                is_married = #{isMarried,jdbcType=VARCHAR},
+            </if>
+            <if test="blood != null">
+                blood = #{blood,jdbcType=VARCHAR},
+            </if>
+            <if test="emerPer != null">
+                emer_per = #{emerPer,jdbcType=VARCHAR},
+            </if>
+            <if test="emerPhone != null">
+                emer_phone = #{emerPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="carNo != null">
+                car_no = #{carNo,jdbcType=VARCHAR},
+            </if>
+            <if test="laborCon != null">
+                labor_con = #{laborCon,jdbcType=VARCHAR},
+            </if>
+            <if test="laborConNo != null">
+                labor_con_no = #{laborConNo,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.EmployeeInfo">
+    update fr_employee_info
+    set emp_id = #{empId,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      politics = #{politics,jdbcType=VARCHAR},
+      is_married = #{isMarried,jdbcType=VARCHAR},
+      blood = #{blood,jdbcType=VARCHAR},
+      emer_per = #{emerPer,jdbcType=VARCHAR},
+      emer_phone = #{emerPhone,jdbcType=VARCHAR},
+      car_no = #{carNo,jdbcType=VARCHAR},
+      labor_con = #{laborCon,jdbcType=VARCHAR},
+      labor_con_no = #{laborConNo,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+    <!--自定义SQL-->
+    <!--根据 empId 修改员工详情-->
+    <update id="updateByEmpId" parameterType="com.faceRecog.manage.model.EmployeeInfo">
+        update fr_employee_info
+        <set>
+            <if test="education != null">
+                education = #{education,jdbcType=VARCHAR},
+            </if>
+            <if test="politics != null">
+                politics = #{politics,jdbcType=VARCHAR},
+            </if>
+            <if test="isMarried != null">
+                is_married = #{isMarried,jdbcType=VARCHAR},
+            </if>
+            <if test="blood != null">
+                blood = #{blood,jdbcType=VARCHAR},
+            </if>
+            <if test="emerPer != null">
+                emer_per = #{emerPer,jdbcType=VARCHAR},
+            </if>
+            <if test="emerPhone != null">
+                emer_phone = #{emerPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="carNo != null">
+                car_no = #{carNo,jdbcType=VARCHAR},
+            </if>
+            <if test="laborCon != null">
+                labor_con = #{laborCon,jdbcType=VARCHAR},
+            </if>
+            <if test="laborConNo != null">
+                labor_con_no = #{laborConNo,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where emp_id = #{empId,jdbcType=VARCHAR}
+    </update>
+</mapper>

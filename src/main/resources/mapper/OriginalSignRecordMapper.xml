@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.OriginalSignRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.OriginalSignRecord" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="emp_id" property="empId" jdbcType="VARCHAR" />
+    <result column="date_str" property="dateStr" jdbcType="VARCHAR" />
+    <result column="sign_time" property="signTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, emp_id, date_str, sign_time, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from original_sign_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from original_sign_record
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.faceRecog.manage.model.OriginalSignRecord" >
+    insert into original_sign_record (id, emp_id, date_str, 
+      sign_time, create_time)
+    values (#{id,jdbcType=VARCHAR}, #{empId,jdbcType=VARCHAR}, #{dateStr,jdbcType=VARCHAR}, 
+      #{signTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceRecog.manage.model.OriginalSignRecord" >
+    insert into original_sign_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="empId != null" >
+        emp_id,
+      </if>
+      <if test="dateStr != null" >
+        date_str,
+      </if>
+      <if test="signTime != null" >
+        sign_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="empId != null" >
+        #{empId,jdbcType=VARCHAR},
+      </if>
+      <if test="dateStr != null" >
+        #{dateStr,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.OriginalSignRecord" >
+    update original_sign_record
+    <set >
+      <if test="empId != null" >
+        emp_id = #{empId,jdbcType=VARCHAR},
+      </if>
+      <if test="dateStr != null" >
+        date_str = #{dateStr,jdbcType=VARCHAR},
+      </if>
+      <if test="signTime != null" >
+        sign_time = #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.OriginalSignRecord" >
+    update original_sign_record
+    set emp_id = #{empId,jdbcType=VARCHAR},
+      date_str = #{dateStr,jdbcType=VARCHAR},
+      sign_time = #{signTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <!--自定义sql  -->
+  
+  <!--根据员工id查询原始打卡记录  -->
+  <select id="selectOriginalSignRecordByEmpId" parameterType="string" resultMap="BaseResultMap">
+  	select id, emp_id, date_str, sign_time
+  	from original_sign_record
+	where emp_id = #{empId,jdbcType=VARCHAR}
+  </select>
+  
+  <!--查询已结算考勤的打卡情况  -->
+  <select id="selectOriginalSignRecordByDateAndEmpId" parameterType="map" resultType="map">
+  select IFNULL(a.signOneInTime,''),IFNULL(b.signOneOutTime,'')
+   <if test="signMap.signInStTwoTime!=null ">
+   ,IFNULL(c.signTwoInTime,''),IFNULL(d.signTwoOutTime,'')
+   </if>
+   <if test="signMap.signInStThreeTime!=null">
+   ,IFNULL(e.signThreeInTime,''),IFNULL(f.signThreeOutTime,'')
+   </if>
+   from(
+  select min(sign_time) as signOneInTime,date_str from original_sign_record
+  where emp_id = #{signMap.empId,jdbcType=VARCHAR} and sign_time &lt; #{signMap.signInEndOneTime,jdbcType=TIMESTAMP} 
+  and sign_time &gt; #{signMap.signInStOneTime,jdbcType=TIMESTAMP}
+  )a 
+  left join (select max(sign_time)as signOneOutTime,date_str from original_sign_record
+  where emp_id = #{signMap.empId,jdbcType=VARCHAR} and sign_time &lt; #{signMap.signOutEndOneTime,jdbcType=TIMESTAMP} 
+  and sign_time &gt; #{signMap.signOutStOneTime,jdbcType=TIMESTAMP})b on a.date_str=b.date_str
+  <if test="signMap.signInStTwoTime!=null">
+  left join(
+  select min(sign_time) as signTwoInTime,date_str from original_sign_record
+  where emp_id = #{signMap.empId,jdbcType=VARCHAR} and sign_time &lt; #{signMap.signInEndTwoTime,jdbcType=TIMESTAMP} 
+  and sign_time &gt; #{signMap.signInStTwoTime,jdbcType=TIMESTAMP}
+  )c on a.date_str=c.date_str
+  left join (select max(sign_time)as signTwoOutTime,date_str from original_sign_record
+  where emp_id = #{signMap.empId,jdbcType=VARCHAR} and sign_time &lt; #{signMap.signOutEndTwoTime,jdbcType=TIMESTAMP} 
+  and sign_time &gt; #{signMap.signOutStTwoTime,jdbcType=TIMESTAMP})d on a.date_str=d.date_str
+  </if>
+  <if test="signMap.signInStThreeTime!=null">
+  left join(
+  select min(sign_time) as signThreeInTime,date_str from original_sign_record
+  where emp_id = #{signMap.empId,jdbcType=VARCHAR} and sign_time &lt; #{signMap.signInEndThreeTime,jdbcType=TIMESTAMP} 
+  and sign_time &gt; #{signMap.signInStThreeTime,jdbcType=TIMESTAMP}
+  )e on a.date_str=e.date_str
+  left join (select max(sign_time)as signThreeOutTime,date_str from original_sign_record
+  where emp_id = #{signMap.empId,jdbcType=VARCHAR} and sign_time &lt; #{signMap.signOutEndThreeTime,jdbcType=TIMESTAMP} 
+  and sign_time &gt; #{signMap.signOutStThreeTime,jdbcType=TIMESTAMP})f on a.date_str=f.date_str
+  </if>
+  
+  </select>
+  
+  
+  <!--根据查询参数查询原始打卡记录  -->
+  <select id="selectPageOrigSignInfo" parameterType="map" resultMap="BaseResultMap">
+  	select 
+  	emp_id, date_str, sign_time
+  	from original_sign_record
+  	where emp_id =#{empId,jdbcType=VARCHAR}
+  	and DATE_FORMAT(date_str,'%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate,jdbcType=VARCHAR},'%Y-%m-%d') and  DATE_FORMAT(date_str,'%Y-%m-%d')
+  	 &gt;= DATE_FORMAT(#{startDate,jdbcType=VARCHAR} ,'%Y-%m-%d')
+  </select>
+</mapper>

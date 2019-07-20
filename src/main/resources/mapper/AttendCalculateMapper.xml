@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.AttendCalculateMapper" >
+  <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.AttendCalculate" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="emp_id" property="empId" jdbcType="VARCHAR" />
+    <result column="sign_date" property="signDate" jdbcType="VARCHAR" />
+    <result column="overtime_num" property="overtimeNum" jdbcType="INTEGER" />
+    <result column="overtime_times" property="overtimeTimes" jdbcType="DECIMAL" />
+    <result column="delay_num" property="delayNum" jdbcType="INTEGER" />
+    <result column="delay_times" property="delayTimes" jdbcType="DECIMAL" />
+    <result column="early_num" property="earlyNum" jdbcType="INTEGER" />
+    <result column="early_times" property="earlyTimes" jdbcType="DECIMAL" />
+    <result column="work_times" property="workTimes" jdbcType="DECIMAL" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="miss_sign" property="missSign" jdbcType="INTEGER" />
+    <result column="sign_in_miss" property="signInMiss" jdbcType="INTEGER" />
+    <result column="sign_out_miss" property="signOutMiss" jdbcType="INTEGER" />
+    <result column="is_absenteeism" property="isAbsenteeism" jdbcType="INTEGER" />
+    <result column="is_rest" property="isRest" jdbcType="INTEGER" />
+    <result column="is_attend_group" property="isAttendGroup" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, emp_id, sign_date, overtime_num, overtime_times, delay_num, delay_times, early_num, 
+    early_times, work_times, create_time, status, miss_sign, sign_in_miss, sign_out_miss, 
+    is_absenteeism, is_rest, is_attend_group
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fr_attend_calculate
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fr_attend_calculate
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.faceRecog.manage.model.AttendCalculate" >
+    insert into fr_attend_calculate (id, emp_id, sign_date, 
+      overtime_num, overtime_times, delay_num, 
+      delay_times, early_num, early_times, 
+      work_times, create_time, status, 
+      miss_sign, sign_in_miss, sign_out_miss, 
+      is_absenteeism, is_rest, is_attend_group
+      )
+    values (#{id,jdbcType=VARCHAR}, #{empId,jdbcType=VARCHAR}, #{signDate,jdbcType=VARCHAR}, 
+      #{overtimeNum,jdbcType=INTEGER}, #{overtimeTimes,jdbcType=DECIMAL}, #{delayNum,jdbcType=INTEGER}, 
+      #{delayTimes,jdbcType=DECIMAL}, #{earlyNum,jdbcType=INTEGER}, #{earlyTimes,jdbcType=DECIMAL}, 
+      #{workTimes,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{missSign,jdbcType=INTEGER}, #{signInMiss,jdbcType=INTEGER}, #{signOutMiss,jdbcType=INTEGER}, 
+      #{isAbsenteeism,jdbcType=INTEGER}, #{isRest,jdbcType=INTEGER}, #{isAttendGroup,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceRecog.manage.model.AttendCalculate" >
+    insert into fr_attend_calculate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="empId != null" >
+        emp_id,
+      </if>
+      <if test="signDate != null" >
+        sign_date,
+      </if>
+      <if test="overtimeNum != null" >
+        overtime_num,
+      </if>
+      <if test="overtimeTimes != null" >
+        overtime_times,
+      </if>
+      <if test="delayNum != null" >
+        delay_num,
+      </if>
+      <if test="delayTimes != null" >
+        delay_times,
+      </if>
+      <if test="earlyNum != null" >
+        early_num,
+      </if>
+      <if test="earlyTimes != null" >
+        early_times,
+      </if>
+      <if test="workTimes != null" >
+        work_times,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="missSign != null" >
+        miss_sign,
+      </if>
+      <if test="signInMiss != null" >
+        sign_in_miss,
+      </if>
+      <if test="signOutMiss != null" >
+        sign_out_miss,
+      </if>
+      <if test="isAbsenteeism != null" >
+        is_absenteeism,
+      </if>
+      <if test="isRest != null" >
+        is_rest,
+      </if>
+      <if test="isAttendGroup != null" >
+        is_attend_group,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="empId != null" >
+        #{empId,jdbcType=VARCHAR},
+      </if>
+      <if test="signDate != null" >
+        #{signDate,jdbcType=VARCHAR},
+      </if>
+      <if test="overtimeNum != null" >
+        #{overtimeNum,jdbcType=INTEGER},
+      </if>
+      <if test="overtimeTimes != null" >
+        #{overtimeTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="delayNum != null" >
+        #{delayNum,jdbcType=INTEGER},
+      </if>
+      <if test="delayTimes != null" >
+        #{delayTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="earlyNum != null" >
+        #{earlyNum,jdbcType=INTEGER},
+      </if>
+      <if test="earlyTimes != null" >
+        #{earlyTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="workTimes != null" >
+        #{workTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="missSign != null" >
+        #{missSign,jdbcType=INTEGER},
+      </if>
+      <if test="signInMiss != null" >
+        #{signInMiss,jdbcType=INTEGER},
+      </if>
+      <if test="signOutMiss != null" >
+        #{signOutMiss,jdbcType=INTEGER},
+      </if>
+      <if test="isAbsenteeism != null" >
+        #{isAbsenteeism,jdbcType=INTEGER},
+      </if>
+      <if test="isRest != null" >
+        #{isRest,jdbcType=INTEGER},
+      </if>
+      <if test="isAttendGroup != null" >
+        #{isAttendGroup,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.AttendCalculate" >
+    update fr_attend_calculate
+    <set >
+      <if test="empId != null" >
+        emp_id = #{empId,jdbcType=VARCHAR},
+      </if>
+      <if test="signDate != null" >
+        sign_date = #{signDate,jdbcType=VARCHAR},
+      </if>
+      <if test="overtimeNum != null" >
+        overtime_num = #{overtimeNum,jdbcType=INTEGER},
+      </if>
+      <if test="overtimeTimes != null" >
+        overtime_times = #{overtimeTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="delayNum != null" >
+        delay_num = #{delayNum,jdbcType=INTEGER},
+      </if>
+      <if test="delayTimes != null" >
+        delay_times = #{delayTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="earlyNum != null" >
+        early_num = #{earlyNum,jdbcType=INTEGER},
+      </if>
+      <if test="earlyTimes != null" >
+        early_times = #{earlyTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="workTimes != null" >
+        work_times = #{workTimes,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="missSign != null" >
+        miss_sign = #{missSign,jdbcType=INTEGER},
+      </if>
+      <if test="signInMiss != null" >
+        sign_in_miss = #{signInMiss,jdbcType=INTEGER},
+      </if>
+      <if test="signOutMiss != null" >
+        sign_out_miss = #{signOutMiss,jdbcType=INTEGER},
+      </if>
+      <if test="isAbsenteeism != null" >
+        is_absenteeism = #{isAbsenteeism,jdbcType=INTEGER},
+      </if>
+      <if test="isRest != null" >
+        is_rest = #{isRest,jdbcType=INTEGER},
+      </if>
+      <if test="isAttendGroup != null" >
+        is_attend_group = #{isAttendGroup,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.AttendCalculate" >
+    update fr_attend_calculate
+    set emp_id = #{empId,jdbcType=VARCHAR},
+      sign_date = #{signDate,jdbcType=VARCHAR},
+      overtime_num = #{overtimeNum,jdbcType=INTEGER},
+      overtime_times = #{overtimeTimes,jdbcType=DECIMAL},
+      delay_num = #{delayNum,jdbcType=INTEGER},
+      delay_times = #{delayTimes,jdbcType=DECIMAL},
+      early_num = #{earlyNum,jdbcType=INTEGER},
+      early_times = #{earlyTimes,jdbcType=DECIMAL},
+      work_times = #{workTimes,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      miss_sign = #{missSign,jdbcType=INTEGER},
+      sign_in_miss = #{signInMiss,jdbcType=INTEGER},
+      sign_out_miss = #{signOutMiss,jdbcType=INTEGER},
+      is_absenteeism = #{isAbsenteeism,jdbcType=INTEGER},
+      is_rest = #{isRest,jdbcType=INTEGER},
+      is_attend_group = #{isAttendGroup,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+    <!--自定义sql  -->
+  
+  <!--根据员工id和日期查询考勤计算信息   -->
+  <select id="selectAttendCalculateInfoByEmpId" parameterType="map" resultMap="BaseResultMap">
+  select 
+  <include refid="Base_Column_List" />
+  from fr_attend_calculate
+  where emp_id = #{empId,jdbcType=VARCHAR} and sign_date = #{date,jdbcType=VARCHAR}
+  </select>
+  
+  <!--根据员工id和日期修改考勤计算信息   -->
+  <update id="updateAttendCalculateByEmpId" parameterType="map">
+  update fr_attend_calculate
+    <set >
+      <if test="missSign != null" >
+        miss_sign = #{missSign,jdbcType=VARCHAR},
+      </if>
+      <if test="signInMiss != null" >
+        sign_in_miss = #{signInMiss,jdbcType=INTEGER},
+      </if>
+      <if test="signOutMiss != null" >
+        sign_out_miss = #{signOutMiss,jdbcType=INTEGER},
+      </if>
+    </set>
+    where emp_id = #{empId,jdbcType=VARCHAR} and sign_date = #{signDate,jdbcType=VARCHAR}
+  </update>
+  
+  <!--查询考勤明细分页  -->
+  <select id="selectPageAttendCalculate" parameterType="map" resultType="com.faceRecog.manage.model.vo.AttendCalculateVO">
+  select ac.emp_id as empId, ac.sign_date as signDate, sum(ac.overtime_num) as overTimeNum,
+   sum(ac.overtime_times) as overTimes, sum(ac.delay_num) as delayNum, sum(ac.delay_times) as delayTimes, sum(ac.early_num) as earlyNum, 
+    sum(ac.early_times) as earlyTimes, sum(ac.work_times) as workTimes,
+    sum(ac.miss_sign) as missSign, sum(ac.sign_in_miss) as signInMiss, sum(ac.sign_out_miss) as signOutMiss,
+    sum(ac.is_absenteeism) as isAbsenteeism,em.name,dpt.dept_name as deptName
+	from  fr_employee em
+	left join fr_attend_calculate ac on em.id=ac.emp_id
+	left join fr_department dpt on dpt.id=em.dept_id
+	where 1=1
+	<if test="endDate != null and endDate != ''">
+		and DATE_FORMAT(ac.sign_date,'%Y-%m-%d')&lt;=DATE_FORMAT(#{endDate,jdbcType=VARCHAR},'%Y-%m-%d')
+	</if>
+	<if test="startDate!=null and startDate != ''">
+		and DATE_FORMAT(ac.sign_date,'%Y-%m-%d')&gt;=DATE_FORMAT(#{startDate,jdbcType=VARCHAR},'%Y-%m-%d')
+	</if>
+	<if test="empId!=null and empId!=''">
+		and em.id=#{empId,jdbcType=VARCHAR}
+	</if>
+	<if test="deptId!=null and deptId!=''">
+		and dpt.id=#{deptId,jdbcType=VARCHAR}
+	</if>
+	<if test="name!=null and name!=''">
+		and em.name like CONCAT(CONCAT('%', ltrim(rtrim(#{name,jdbcType=VARCHAR}))),'%')
+	</if>
+	group by em.id order by em.create_time asc
+  </select>
+  
+  <!--查询考勤明细  -->
+  <select id="selectPageAttendCalculateDetail" parameterType="map" resultType="com.faceRecog.manage.model.vo.AttendCalculateVO">
+  select 
+   ac.emp_id as empId, ac.sign_date as signDate, ac.overtime_num as overTimeNum,
+    ac.overtime_times as overTimes, ac.delay_num as delayNum, ac.delay_times as delayTimes, ac.early_num as earlyNum, 
+    ac.early_times as earlyTimes, ac.work_times as workTimes,
+    ac.miss_sign as missSign, ac.sign_in_miss as signInMiss, ac.sign_out_miss as signOutMiss,
+    ac.is_absenteeism as isAbsenteeism,em.name,dpt.dept_name as deptName,ac.is_rest as isRest,ac.is_attend_group as isAttendGroup
+	from  fr_attend_calculate  ac
+	left join fr_employee em on em.id=ac.emp_id
+	left join fr_department dpt on dpt.id=em.dept_id
+	where ac.emp_id=#{empId,jdbcType=VARCHAR} and ac.sign_date=#{date,jdbcType=VARCHAR}
+	group by ac.emp_id
+  </select>
+  
+  <!--查询员工月缺卡记录  -->
+  <select id="selectSignMissAttendDetail" parameterType="map" resultType="map">
+  select sign_date as signDate,emp_id as empId,id
+  from fr_attend_calculate 
+  where emp_id = #{empId,jdbcType=VARCHAR} and DATE_FORMAT(sign_date,'%Y-%m') = #{dateStr,jdbcType=VARCHAR} and miss_sign=1
+  </select>
+  
+  <!--根据员工id和日期删除相应数据  -->
+  <delete id="deleteAttendCalcuateByEmpIdAnDate" parameterType="map">
+  delete from fr_attend_calculate
+  where emp_id = #{empId,jdbcType=VARCHAR} and sign_date= #{dateStr,jdbcType=VARCHAR}
+  </delete>
+</mapper>

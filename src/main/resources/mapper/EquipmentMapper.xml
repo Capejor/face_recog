@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.EquipmentMapper">
+    <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.Equipment">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="soft_version" property="softVersion" jdbcType="VARCHAR"/>
+        <result column="sn" property="sn" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="eq_name" property="eqName" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="scene" property="scene" jdbcType="VARCHAR"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="direction" property="direction" jdbcType="VARCHAR"/>
+        <result column="creater_id" property="createrId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="line_state" property="lineState" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, soft_version, sn, type, eq_name, password, scene, ip, direction, creater_id, 
+    create_time, update_time, status, line_state
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_equipment
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from fr_equipment
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.faceRecog.manage.model.Equipment">
+    insert into fr_equipment (id, soft_version, sn, 
+      type, eq_name, password, 
+      scene, ip, direction, 
+      creater_id, create_time, update_time, 
+      status, line_state)
+    values (#{id,jdbcType=VARCHAR}, #{softVersion,jdbcType=VARCHAR}, #{sn,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{eqName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{scene,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{direction,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR}, #{lineState,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.faceRecog.manage.model.Equipment">
+        insert into fr_equipment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="softVersion != null">
+                soft_version,
+            </if>
+            <if test="sn != null">
+                sn,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="eqName != null">
+                eq_name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="scene != null">
+                scene,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="direction != null">
+                direction,
+            </if>
+            <if test="createrId != null">
+                creater_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="lineState != null">
+                line_state,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="softVersion != null">
+                #{softVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="sn != null">
+                #{sn,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="eqName != null">
+                #{eqName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="scene != null">
+                #{scene,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="direction != null">
+                #{direction,jdbcType=VARCHAR},
+            </if>
+            <if test="createrId != null">
+                #{createrId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="lineState != null">
+                #{lineState,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.Equipment">
+        update fr_equipment
+        <set>
+            <if test="softVersion != null">
+                soft_version = #{softVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="sn != null">
+                sn = #{sn,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="eqName != null">
+                eq_name = #{eqName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="scene != null">
+                scene = #{scene,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="direction != null">
+                direction = #{direction,jdbcType=VARCHAR},
+            </if>
+            <if test="createrId != null">
+                creater_id = #{createrId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="lineState != null">
+                line_state = #{lineState,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.Equipment">
+    update fr_equipment
+    set soft_version = #{softVersion,jdbcType=VARCHAR},
+      sn = #{sn,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      eq_name = #{eqName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      scene = #{scene,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      direction = #{direction,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      line_state = #{lineState,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+    <!--自定义sql-->
+    <!--查询所有设备-->
+    <select id="selectEquipment" resultType="map">
+        select eq.id, eq.sn, eq_name as eqName,type,password,scene,direction, eq.create_time as createTime,
+        ifnull(eq.line_state,'') as lineState, soft_version as softVersion
+        from fr_equipment eq
+        left join fr_link_rec lr on lr.sn=eq.sn
+        where eq.status = 1
+        order by eq.create_time desc
+    </select>
+
+    <!--批量删除设备-->
+    <delete id="deleteEquipment" parameterType="list">
+        delete from fr_equipment
+        <where>
+            id in
+            <foreach collection="ids" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+
+    <!--根据sn号查询设备是否注册  -->
+    <select id="selectEquipmentBySn" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_equipment where sn = #{sn,jdbcType=VARCHAR}
+    </select>
+
+    <!--根据id查询设备昵称是否存在-->
+    <select id="selectEqNickNameExistByPrimaryKey" parameterType="map" resultType="int">
+    select count(id) from fr_equipment
+    where id!=#{id,jdbcType=VARCHAR} and eq_name = #{eqName,jdbcType=VARCHAR}
+    </select>
+
+    <!--根据设备编号查询当前昵称是否被占用  -->
+    <select id="selectEqNickNameExistBySn" parameterType="map" resultType="int">
+    select count(id) from fr_equipment
+    where id!=(select id from fr_equipment where sn = #{sn,jdbcType=VARCHAR}) and eq_name = #{eqName,jdbcType=VARCHAR}
+    </select>
+
+    <!--根据设备编号修改设备信息  -->
+    <update id="updateEquipmentInfoBySn" parameterType="com.faceRecog.manage.model.Equipment">
+        update fr_equipment
+        <set>
+            <if test="eqName != null">
+                eq_name = #{eqName,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="softVersion != null">
+                soft_version = #{softVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where sn = #{sn,jdbcType=VARCHAR}
+    </update>
+
+
+    <!--查询设备名称是否存在-->
+    <select id="selectCountByEqName" parameterType="map" resultType="int">
+    select count(eq_name) from fr_equipment
+    where eq_name = #{eqName,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--判断设备是否被注册-->
+    <select id="judgeEquipmentRegister" parameterType="string" resultType="int">
+        select count(sn) from fr_equipment
+        where sn = #{sn,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--根据用户id查询所有的考勤设备  -->
+    <select id="selectAllEquipmentByUsId" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_equipment
+        where creater_id=(select create_user_id from fr_user where id=#{usId,jdbcType=VARCHAR})
+    </select>
+
+    <!--查询所有的在线设备的信息  -->
+    <select id="selectAllOnLineEquipmentInfo" resultType="map">
+	select eq.sn,lr.new_link_time as newLinkTime
+	from fr_equipment eq
+	left join fr_link_rec lr on lr.sn=eq.sn
+	where  eq.line_state=1
+	</select>
+
+    <!--根据设备编号修改设备在线状态  -->
+    <update id="updateEquipmentLineStateBySn" parameterType="map">
+	update fr_equipment
+	set line_state=#{lineState,jdbcType=VARCHAR}
+	where sn= #{sn,jdbcType=VARCHAR}
+	</update>
+
+    <!--根据sn查询设备id-->
+    <select id="selectEquipIdBySn" parameterType="string" resultType="string">
+    select id from fr_equipment
+    where sn= #{sn,jdbcType=VARCHAR}
+  </select>
+</mapper>

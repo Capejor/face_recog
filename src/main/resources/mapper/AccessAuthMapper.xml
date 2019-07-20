@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.AccessAuthMapper">
+    <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.AccessAuth">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="auth_name" property="authName" jdbcType="VARCHAR"/>
+        <result column="time_one" property="timeOne" jdbcType="VARCHAR"/>
+        <result column="time_two" property="timeTwo" jdbcType="VARCHAR"/>
+        <result column="time_three" property="timeThree" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="update_time" property="updateTime" jdbcType="DATE"/>
+        <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, auth_name as authName, time_one as timeOne, time_two as timeTwo, time_three as timeThree, status,
+    create_time as createTime, update_time as updateTime, create_user_id as createUserId
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_access_auth
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from fr_access_auth
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.faceRecog.manage.model.AccessAuth">
+    insert into fr_access_auth (id, auth_name, time_one, 
+      time_two, time_three, status,
+      create_time, update_time, create_user_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{authName,jdbcType=VARCHAR}, #{timeOne,jdbcType=VARCHAR}, 
+      #{timeTwo,jdbcType=VARCHAR}, #{timeThree,jdbcType=VARCHAR},
+      #{status,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},
+       #{updateTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.faceRecog.manage.model.AccessAuth">
+        insert into fr_access_auth
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="authName != null">
+                auth_name,
+            </if>
+            <if test="timeOne != null">
+                time_one,
+            </if>
+            <if test="timeTwo != null">
+                time_two,
+            </if>
+            <if test="timeThree != null">
+                time_three,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="authName != null">
+                #{authName,jdbcType=VARCHAR},
+            </if>
+            <if test="timeOne != null">
+                #{timeOne,jdbcType=VARCHAR},
+            </if>
+            <if test="timeTwo != null">
+                #{timeTwo,jdbcType=VARCHAR},
+            </if>
+            <if test="timeThree != null">
+                #{timeThree,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.AccessAuth">
+        update fr_access_auth
+        <set>
+            <if test="authName != null">
+                auth_name = #{authName,jdbcType=VARCHAR},
+            </if>
+            <if test="timeOne != null">
+                time_one = #{timeOne,jdbcType=VARCHAR},
+            </if>
+            <if test="timeTwo != null">
+                time_two = #{timeTwo,jdbcType=VARCHAR},
+            </if>
+            <if test="timeThree != null">
+                time_three = #{timeThree,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.AccessAuth">
+    update fr_access_auth
+    set auth_name = #{authName,jdbcType=VARCHAR},
+      time_one = #{timeOne,jdbcType=VARCHAR},
+      time_two = #{timeTwo,jdbcType=VARCHAR},
+      time_three = #{timeThree,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <!--自定义sql-->
+    <!--查询所有门禁-->
+    <select id="selectAllAccessAuth" resultType="com.faceRecog.manage.model.AccessAuth">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_access_auth
+        order by create_time desc
+    </select>
+
+    <!--查询所有门禁-->
+    <select id="selectAccessAuth" resultType="com.faceRecog.manage.model.AccessAuth">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_access_auth
+        where status = 1
+        order by create_time desc
+
+    </select>
+
+    <delete id="deleteByIds" parameterType="list">
+        delete from fr_access_auth
+        <where>
+            id in
+            <foreach collection="ids" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+
+    <select id="selectCountByAuthName" parameterType="string" resultType="int">
+    select count(auth_name)
+    from fr_access_auth
+    where auth_name = #{authName,jdbcType=VARCHAR}
+  </select>
+
+
+    <select id="selectCountByAuthNameExceptOwn" parameterType="string" resultType="int">
+    select count(auth_name)
+    from fr_access_auth
+    where auth_name = #{authName,jdbcType=VARCHAR}
+    and id != #{id,jdbcType=VARCHAR}
+  </select>
+
+
+    <!--查询全公司员工门禁权限-->
+    <select id="selectAllEmpAuth" resultType="com.faceRecog.manage.model.vo.AuthVO">
+    SELECT e.id as empId,e.name,c.card_num as cardNum,d.dept_name as deptName,eq.eq_name as eqName,a.id as accAuthId,
+    a.auth_name as authName,eq.id as equipId
+    FROM fr_emp_equip ee
+    LEFT JOIN fr_access_auth a ON ee.auth_id = a.id
+    LEFT JOIN fr_employee e ON ee.emp_id = e.id
+    LEFT JOIN fr_department d ON e.dept_id = d.id
+    LEFT JOIN fr_emp_card ec ON e.id = ec.emp_id
+    LEFT JOIN fr_card c ON c.id = ec.card_id
+    LEFT JOIN fr_equipment eq ON ee.equip_id = eq.id
+    where e.is_dimiss = 1
+    order by e.create_time desc
+  </select>
+
+    <!--查询当前部门员工权限-->
+    <select id="selectAuthByDeptId" parameterType="string" resultType="com.faceRecog.manage.model.vo.AuthVO">
+    SELECT e.id as empId,e.name,c.card_num as cardNum,d.dept_name as deptName,eq.eq_name as eqName,a.id as accAuthId,
+    a.auth_name as authName,eq.id as equipId
+    FROM fr_emp_equip ee
+    LEFT JOIN fr_access_auth a ON ee.auth_id = a.id
+    LEFT JOIN fr_employee e ON ee.emp_id = e.id
+    LEFT JOIN fr_department d ON e.dept_id = d.id
+    LEFT JOIN fr_emp_card ec ON e.id = ec.emp_id
+    LEFT JOIN fr_card c ON c.id = ec.card_id
+    LEFT JOIN fr_equipment eq ON ee.equip_id = eq.id
+    where e.is_dimiss = 1
+    and e.dept_id = #{deptId,jdbcType=VARCHAR}
+    order by e.create_time desc
+  </select>
+
+    <!--模糊搜索全公司员工权限-->
+    <select id="selectEmpAuthByParams" parameterType="string" resultType="com.faceRecog.manage.model.vo.AuthVO">
+        SELECT e.id as empId,e.name,c.card_num as cardNum,d.dept_name as deptName,eq.eq_name as eqName,a.id as accAuthId,
+        a.auth_name as authName,eq.id as equipId
+        FROM fr_emp_equip ee
+        LEFT JOIN fr_access_auth a ON ee.auth_id = a.id
+        LEFT JOIN fr_employee e ON ee.emp_id = e.id
+        LEFT JOIN fr_department d ON e.dept_id = d.id
+        LEFT JOIN fr_emp_card ec ON e.id = ec.emp_id
+        LEFT JOIN fr_card c ON c.id = ec.card_id
+        LEFT JOIN fr_equipment eq ON ee.equip_id = eq.id
+        <where>e.is_dimiss = 1
+            <if test="searchParam != null and searchParam != '' ">
+                and CONCAT(e.name,c.card_num) LIKE CONCAT('%', #{searchParam}, '%')
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectTimezoneById" parameterType="string" resultType="com.faceRecog.manage.model.vo.AccessTimeVO">
+    select time_one as timeOne, time_two as timeTwo, time_three as timeThree
+    from fr_access_auth
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+
+    <!--设备端 查询员工门禁权限-->
+    <select id="selectEmpAuthBySn" parameterType="string" resultType="com.faceRecog.manage.model.serverVO.EmpAuthServer">
+        SELECT e.id,e.name,eq.sn AS sn,a.time_one AS timeOne,a.time_two AS timeTwo,a.time_three AS timeThree
+        FROM fr_emp_equip ee
+        LEFT JOIN fr_access_auth a ON ee.auth_id = a.id
+        LEFT JOIN fr_employee e ON ee.emp_id = e.id
+        LEFT JOIN fr_equipment eq ON ee.equip_id = eq.id
+        WHERE e.is_dimiss = 1
+        AND a.status = 1
+        AND eq.sn = #{sn,jdbcType= VARCHAR}
+    </select>
+
+
+    <!--启用禁用-->
+    <update id="updateStatus" parameterType="string">
+    update fr_access_auth
+    set  status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

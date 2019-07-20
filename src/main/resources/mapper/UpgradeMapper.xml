@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.UpgradeMapper">
+    <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.Upgrade">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="equip_id" property="equipId" jdbcType="VARCHAR"/>
+        <result column="suffix" property="suffix" jdbcType="VARCHAR"/>
+        <result column="ori_name" property="oriName" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="VARCHAR"/>
+        <result column="version_desc" property="versionDesc" jdbcType="VARCHAR"/>
+        <result column="size" property="size" jdbcType="VARCHAR"/>
+        <result column="save_url" property="saveUrl" jdbcType="VARCHAR"/>
+        <result column="save_name" property="saveName" jdbcType="VARCHAR"/>
+        <result column="down_kb" property="downKb" jdbcType="VARCHAR"/>
+        <result column="percent" property="percent" jdbcType="VARCHAR"/>
+        <result column="download_status" property="downloadStatus" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, equip_id, suffix, ori_name, version, version_desc, size, save_url, save_name,
+    down_kb, percent, download_status, status, create_user_id, create_time, update_time
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_upgrade
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from fr_upgrade
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.faceRecog.manage.model.Upgrade">
+    insert into fr_upgrade (id, equip_id, suffix, 
+      ori_name, version, version_desc, 
+      size, save_url, save_name, 
+      down_kb, percent, download_status, 
+      status, create_user_id, create_time, 
+      update_time)
+    values (#{id,jdbcType=VARCHAR}, #{equipId,jdbcType=VARCHAR}, #{suffix,jdbcType=VARCHAR}, 
+      #{oriName,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, #{versionDesc,jdbcType=VARCHAR}, 
+      #{size,jdbcType=VARCHAR}, #{saveUrl,jdbcType=VARCHAR}, #{saveName,jdbcType=VARCHAR}, 
+      #{downKb,jdbcType=VARCHAR}, #{percent,jdbcType=VARCHAR}, #{downloadStatus,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.faceRecog.manage.model.Upgrade">
+        insert into fr_upgrade
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="equipId != null">
+                equip_id,
+            </if>
+            <if test="suffix != null">
+                suffix,
+            </if>
+            <if test="oriName != null">
+                ori_name,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="versionDesc != null">
+                version_desc,
+            </if>
+            <if test="size != null">
+                size,
+            </if>
+            <if test="saveUrl != null">
+                save_url,
+            </if>
+            <if test="saveName != null">
+                save_name,
+            </if>
+            <if test="downKb != null">
+                down_kb,
+            </if>
+            <if test="percent != null">
+                percent,
+            </if>
+            <if test="downloadStatus != null">
+                download_status,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="equipId != null">
+                #{equipId,jdbcType=VARCHAR},
+            </if>
+            <if test="suffix != null">
+                #{suffix,jdbcType=VARCHAR},
+            </if>
+            <if test="oriName != null">
+                #{oriName,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="versionDesc != null">
+                #{versionDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="size != null">
+                #{size,jdbcType=VARCHAR},
+            </if>
+            <if test="saveUrl != null">
+                #{saveUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="saveName != null">
+                #{saveName,jdbcType=VARCHAR},
+            </if>
+            <if test="downKb != null">
+                #{downKb,jdbcType=VARCHAR},
+            </if>
+            <if test="percent != null">
+                #{percent,jdbcType=VARCHAR},
+            </if>
+            <if test="downloadStatus != null">
+                #{downloadStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.Upgrade">
+        update fr_upgrade
+        <set>
+            <if test="equipId != null">
+                equip_id = #{equipId,jdbcType=VARCHAR},
+            </if>
+            <if test="suffix != null">
+                suffix = #{suffix,jdbcType=VARCHAR},
+            </if>
+            <if test="oriName != null">
+                ori_name = #{oriName,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                version = #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="versionDesc != null">
+                version_desc = #{versionDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="size != null">
+                size = #{size,jdbcType=VARCHAR},
+            </if>
+            <if test="saveUrl != null">
+                save_url = #{saveUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="saveName != null">
+                save_name = #{saveName,jdbcType=VARCHAR},
+            </if>
+            <if test="downKb != null">
+                down_kb = #{downKb,jdbcType=VARCHAR},
+            </if>
+            <if test="percent != null">
+                percent = #{percent,jdbcType=VARCHAR},
+            </if>
+            <if test="downloadStatus != null">
+                download_status = #{downloadStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.Upgrade">
+    update fr_upgrade
+    set equip_id = #{equipId,jdbcType=VARCHAR},
+      suffix = #{suffix,jdbcType=VARCHAR},
+      ori_name = #{oriName,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      version_desc = #{versionDesc,jdbcType=VARCHAR},
+      size = #{size,jdbcType=VARCHAR},
+      save_url = #{saveUrl,jdbcType=VARCHAR},
+      save_name = #{saveName,jdbcType=VARCHAR},
+      down_kb = #{downKb,jdbcType=VARCHAR},
+      percent = #{percent,jdbcType=VARCHAR},
+      download_status = #{downloadStatus,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+    <!--自定义sql-->
+    <!--判断是否存在数据-->
+    <select id="selectCount" resultType="int">
+    select count(0) from fr_upgrade
+  </select>
+
+    <delete id="deleteAllData">
+    Delete from fr_upgrade where 1=1
+  </delete>
+
+    <select id="selectUpgrade" resultType="com.faceRecog.manage.model.Upgrade">
+        <!--select id, equip_id as equipId, suffix, ori_name as oriName, version, version_desc as versionDesc, size,
+            save_url as saveUrl, save_name as saveName,down_kb as downKb, percent, download_status as downloadStatus,
+            status, create_user_id, create_time, update_time
+            from fr_upgrade
+            where equip_id = #{equipId,jdbcType=VARCHAR}-->
+        select id, equip_id as equipId, suffix, ori_name as oriName, version, version_desc as versionDesc, size,
+        save_url as saveUrl, save_name as saveName,down_kb as downKb, percent, download_status as downloadStatus,
+        status, create_user_id, create_time, update_time
+        from fr_upgrade
+        <where>
+            <if test="equipId != null and equipId != ''">
+                equip_id = #{equipId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+
+    <!---->
+    <update id="updateEquipUpgrade" parameterType="map">
+     update fr_upgrade
+     set down_kb = #{downKb,jdbcType=VARCHAR},
+     percent = #{percent,jdbcType=VARCHAR},
+     download_status = #{downloadStatus,jdbcType=VARCHAR}
+     where id = #{upgradeId,jdbcType=VARCHAR}
+  </update>
+
+    <!--判断设备是否存在apk-->
+    <select id="selectCountByEquip" parameterType="string" resultType="int">
+    select count(equip_id)
+    from fr_upgrade
+    where equip_id = #{equipId,jdbcType=VARCHAR}
+  </select>
+
+    <!--根据设备id删除apk-->
+    <delete id="deleteByEquipId" parameterType="string" >
+        delete from fr_upgrade
+        where equip_id = #{equipId,jdbcType =VARCHAR }
+    </delete>
+</mapper>

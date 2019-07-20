@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.TimeFrameMapper" >
+  <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.TimeFrame" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="attend_id" property="attendId" jdbcType="VARCHAR" />
+    <result column="attend_time" property="attendTime" jdbcType="VARCHAR" />
+    <result column="close_time" property="closeTime" jdbcType="VARCHAR" />
+    <result column="is_overtime" property="isOvertime" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="VARCHAR" />
+    <result column="in_across" property="inAcross" jdbcType="VARCHAR" />
+    <result column="out_across" property="outAcross" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, attend_id, attend_time, close_time, is_overtime, sort, in_across, out_across
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fr_time_frame
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fr_time_frame
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.faceRecog.manage.model.TimeFrame" >
+    insert into fr_time_frame (id, attend_id, attend_time, 
+      close_time, is_overtime, sort, 
+      in_across, out_across)
+    values (#{id,jdbcType=VARCHAR}, #{attendId,jdbcType=VARCHAR}, #{attendTime,jdbcType=VARCHAR}, 
+      #{closeTime,jdbcType=VARCHAR}, #{isOvertime,jdbcType=VARCHAR}, #{sort,jdbcType=VARCHAR}, 
+      #{inAcross,jdbcType=VARCHAR}, #{outAcross,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceRecog.manage.model.TimeFrame" >
+    insert into fr_time_frame
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="attendId != null" >
+        attend_id,
+      </if>
+      <if test="attendTime != null" >
+        attend_time,
+      </if>
+      <if test="closeTime != null" >
+        close_time,
+      </if>
+      <if test="isOvertime != null" >
+        is_overtime,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="inAcross != null" >
+        in_across,
+      </if>
+      <if test="outAcross != null" >
+        out_across,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="attendId != null" >
+        #{attendId,jdbcType=VARCHAR},
+      </if>
+      <if test="attendTime != null" >
+        #{attendTime,jdbcType=VARCHAR},
+      </if>
+      <if test="closeTime != null" >
+        #{closeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="isOvertime != null" >
+        #{isOvertime,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="inAcross != null" >
+        #{inAcross,jdbcType=VARCHAR},
+      </if>
+      <if test="outAcross != null" >
+        #{outAcross,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.TimeFrame" >
+    update fr_time_frame
+    <set >
+      <if test="attendId != null" >
+        attend_id = #{attendId,jdbcType=VARCHAR},
+      </if>
+      <if test="attendTime != null" >
+        attend_time = #{attendTime,jdbcType=VARCHAR},
+      </if>
+      <if test="closeTime != null" >
+        close_time = #{closeTime,jdbcType=VARCHAR},
+      </if>
+      <if test="isOvertime != null" >
+        is_overtime = #{isOvertime,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="inAcross != null" >
+        in_across = #{inAcross,jdbcType=VARCHAR},
+      </if>
+      <if test="outAcross != null" >
+        out_across = #{outAcross,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.TimeFrame" >
+    update fr_time_frame
+    set attend_id = #{attendId,jdbcType=VARCHAR},
+      attend_time = #{attendTime,jdbcType=VARCHAR},
+      close_time = #{closeTime,jdbcType=VARCHAR},
+      is_overtime = #{isOvertime,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=VARCHAR},
+      in_across = #{inAcross,jdbcType=VARCHAR},
+      out_across = #{outAcross,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <delete id="deleteByAttendId"  parameterType="string" >
+    delete from fr_time_frame
+    where attend_id = #{attendId,jdbcType=VARCHAR}
+  </delete>
+</mapper>

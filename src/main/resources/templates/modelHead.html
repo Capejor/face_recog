@@ -1,0 +1,101 @@
+<link rel="icon" href="${webPath}img/favicon.ico" type="image/x-icon">
+<script type="text/javascript" src="${webPath}js/index.js"></script>
+<!--页眉开始-->
+<div class="header" >
+	<div class="head_box">
+		<!--logo开始-->			
+		 <div class="header_left">
+				<a href="${webPath}index.htm"><img src="${webPath}img/login.png" alt="" class="logo" /></a>
+		 </div>
+		<div class="header_rigth1">				
+			<!--未登录状态开始-->
+			<@shiro.guest>
+			<div class="icon search_but">
+				<a href="projectPage/searchPage.html"><i class="iconfont">&#xe60e;</i></a>
+			</div>
+			<div class="icon">
+				<a href="${webPath}login.html"><i class="iconfont">&#xe614;</i></a>
+			</div>
+			<div class="but">
+				<div class="but_TBbor newProject">
+					<div class="but_bg"><a href="${webPath}login.html">登录新建项目</a></div>
+				</div>
+			</div>
+			</@shiro.guest>
+			<@shiro.user>
+			<!--登录状态开始-->				
+			<div class="icon search_but">
+				<a href="projectPage/searchPage.html"><i class="iconfont">&#xe60e;</i></a>
+			</div>
+			<div class="icon news">
+				<i class="iconfont">&#xe666;</i> <!-- <span class="icon_nub"></span> -->
+				<div class="news_box">
+					<h6>消息盒子</h6>
+					<ul class="news_con">
+						<!--<p>空空如野~</p>-->							
+					</ul>
+					<div class="all_messages">
+						<a href='${webPath}personalPage/myNews.html'>查看全部消息</a>
+					</div>
+				</div>
+			</div>
+			<div class="img my_nav">
+				<input type="hidden" value="<@shiro.principal property='picUrl'/>" id="picUrl"/>
+				<img src="downLoadFile?URL=<@shiro.principal property='picUrl'/>" id="picUrlImage" />
+				<div class="my_nav_box">
+					<ul class="my_nav_con">
+						<li><a href='${webPath}personalPage/myProject.html'>我的项目</a></li>
+						<li><a href='${webPath}personalPage/myCollection.html'>我的收藏</a></li>
+						<li><a href='${webPath}recharge.htm'>充值</a></li>
+						<li><a href='${webPath}accountSetting.htm'>账户设置</a></li>
+						<li><a href='${webPath}personalData.htm'>个人资料</a></li>	
+					</ul>
+					<div class="sign_out">
+						<a href="${webPath}logout.htm">退出系统</a>
+					</div>
+				</div>
+			</div>
+			<div class="but">
+				<div class="but_TBbor newProject">
+					<div class="but_bg"><a href="${webPath}jumpNewProject.htm">+新建项目</a></div>
+				</div>
+			</div>
+			<!--<script type="text/javascript" src="${webPath}js/public-js/jquery2.2.4.js"></script> -->
+			<!-- 显示未读消息数量和最新的前5个 -->
+			<script type="text/javascript">
+			if($("#picUrl").val()=='null'){
+				$("#picUrlImage").attr("src",'${webPath}'+"img/user.png");
+			}else{
+				$("#picUrlImage").attr("src",'${webPath}'+"downLoadFile?URL="+$("#picUrl").val());
+			}
+			function queryMsgUnreadNum(){
+				$.ajax({
+					url : '${webPath}queryMsgUnreadNum.json',
+					type : "get",
+					dataType : "json",
+					success : function(data) {
+						var str = "";
+						if (data.unreadNum > 0){
+							$(".icon.news").append("<span class=\"icon_nub\">"+ data.unreadNum + "</span>") ;
+						}
+						for (var i = 0 ; i < data.msgRecDetailList.length ; i++){
+							//console.log(data.msgRecDetailList[i].MSG_CONTENT)
+							str += "<li><a href=\"${webPath}newsRechage.htm?msgDetailId=" + data.msgRecDetailList[i].ID + "\">" + data.msgRecDetailList[i].MSG_CONTENT + "</a></li>";
+						}
+						$(".news_con").html(str);
+					}
+				});
+			}
+			</script>					
+			<!-- 定时运行queryMsgUnreadNum() -->
+			<script type="text/javascript">
+			 	$(function(){
+					queryMsgUnreadNum();
+					setInterval("queryMsgUnreadNum();",10*1000);
+				}) 
+			</script>
+			</@shiro.user>
+		</div>
+	</div>
+</div>
+<!--页眉结束-->

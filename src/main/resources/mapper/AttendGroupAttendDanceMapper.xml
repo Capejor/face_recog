@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.AttendGroupAttendDanceMapper" >
+  <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.AttendGroupAttendDance" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="ad_id" property="adId" jdbcType="VARCHAR" />
+    <result column="ag_id" property="agId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ad_id, ag_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fr_attend_group_attenddance
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fr_attend_group_attenddance
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.faceRecog.manage.model.AttendGroupAttendDance" >
+    insert into fr_attend_group_attenddance (id, ad_id, ag_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{adId,jdbcType=VARCHAR}, #{agId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceRecog.manage.model.AttendGroupAttendDance" >
+    insert into fr_attend_group_attenddance
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="adId != null" >
+        ad_id,
+      </if>
+      <if test="agId != null" >
+        ag_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="adId != null" >
+        #{adId,jdbcType=VARCHAR},
+      </if>
+      <if test="agId != null" >
+        #{agId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.AttendGroupAttendDance" >
+    update fr_attend_group_attenddance
+    <set >
+      <if test="adId != null" >
+        ad_id = #{adId,jdbcType=VARCHAR},
+      </if>
+      <if test="agId != null" >
+        ag_id = #{agId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.AttendGroupAttendDance" >
+    update fr_attend_group_attenddance
+    set ad_id = #{adId,jdbcType=VARCHAR},
+      ag_id = #{agId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!--  自定义sql -->
+  
+  <!--批量新增考勤组班次信息  -->
+  <insert id="insertBatchAttendDance" parameterType="map">
+  	insert fr_attend_group_attenddance
+	  (id,ag_id,ad_id) values
+	   <foreach collection="scheduleIds" item="scheduleId" index="index" separator=",">
+          (#{scheduleId.id,jdbcType=VARCHAR},#{agId,jdbcType=VARCHAR},#{scheduleId.scheduleId,jdbcType=VARCHAR} )
+	   </foreach>
+  </insert>
+  
+  <!--根据考勤组id查询考勤组班次信息  -->
+  <select id="selectAttendDanceByAgId" parameterType="string" resultMap="BaseResultMap">
+  select GROUP_CONCAT(ad_id)as ad_id from fr_attend_group_attenddance
+  where ag_id = #{agId,jdbcType=VARCHAR} group by  ag_id
+  </select>
+  
+  <!-- 根据考勤组id删除考勤组班次表信息 -->
+  <delete id="deleteAttendGroupAttendDanceByAgId" parameterType="string">
+  delete from fr_attend_group_attenddance
+  where ag_id = #{agId,jdbcType=VARCHAR}
+  </delete>
+  
+  <!--根据考勤组id查询考勤组班次信息  -->
+  <select id="selectAttendDanceInfoByAgId" parameterType="string" resultType="map">
+  select ad.id,ad.name
+  from fr_attend_group_attenddance agad
+  left join fr_attendance ad on ad.id=agad.ad_id
+  where agad.ag_id = #{agId,jdbcType=VARCHAR}
+  </select>
+</mapper>

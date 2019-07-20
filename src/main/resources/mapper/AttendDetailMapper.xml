@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.AttendDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.AttendDetail" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="emp_id" property="empId" jdbcType="VARCHAR" />
+    <result column="attend_id" property="attendId" jdbcType="VARCHAR" />
+    <result column="year_month_str" property="yearMonthStr" jdbcType="VARCHAR" />
+    <result column="date_str" property="dateStr" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, emp_id, attend_id, year_month_str, date_str, create_time, update_time, create_user_id, 
+    status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from attend_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from attend_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.faceRecog.manage.model.AttendDetail" >
+    insert into attend_detail (id, emp_id, attend_id, 
+      year_month_str, date_str, create_time, 
+      update_time, create_user_id, status
+      )
+    values (#{id,jdbcType=VARCHAR}, #{empId,jdbcType=VARCHAR}, #{attendId,jdbcType=VARCHAR}, 
+      #{yearMonthStr,jdbcType=VARCHAR}, #{dateStr,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceRecog.manage.model.AttendDetail" >
+    insert into attend_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="empId != null" >
+        emp_id,
+      </if>
+      <if test="attendId != null" >
+        attend_id,
+      </if>
+      <if test="yearMonthStr != null" >
+        year_month_str,
+      </if>
+      <if test="dateStr != null" >
+        date_str,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="empId != null" >
+        #{empId,jdbcType=VARCHAR},
+      </if>
+      <if test="attendId != null" >
+        #{attendId,jdbcType=VARCHAR},
+      </if>
+      <if test="yearMonthStr != null" >
+        #{yearMonthStr,jdbcType=VARCHAR},
+      </if>
+      <if test="dateStr != null" >
+        #{dateStr,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.AttendDetail" >
+    update attend_detail
+    <set >
+      <if test="empId != null" >
+        emp_id = #{empId,jdbcType=VARCHAR},
+      </if>
+      <if test="attendId != null" >
+        attend_id = #{attendId,jdbcType=VARCHAR},
+      </if>
+      <if test="yearMonthStr != null" >
+        year_month_str = #{yearMonthStr,jdbcType=VARCHAR},
+      </if>
+      <if test="dateStr != null" >
+        date_str = #{dateStr,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.AttendDetail" >
+    update attend_detail
+    set emp_id = #{empId,jdbcType=VARCHAR},
+      attend_id = #{attendId,jdbcType=VARCHAR},
+      year_month_str = #{yearMonthStr,jdbcType=VARCHAR},
+      date_str = #{dateStr,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!--自定义的sql  -->
+  
+  <!--根据考勤组id删除考勤数据  -->
+  <delete id="deleteAttendDetailByempId" parameterType="string">
+  delete from attend_detail
+  where emp_id = #{empId,jdbcType=VARCHAR}
+  </delete>
+  
+  <!--根据考勤组id查询考勤排班明细   -->
+  <select id="selectAttendDetailByEmpId" parameterType="map" resultType="map">
+  select adc.id,adc.name,ad.date_str as dateStr
+  from fr_emp_attend_group eag
+  left join attend_detail ad on ad.emp_id=eag.emp_id
+  left join fr_attendance adc on adc.id=ad.attend_id
+  where eag.emp_id = #{empId,jdbcType=VARCHAR} and ad.year_month_str=#{yearMonth,jdbcType=VARCHAR}
+   order by DATE_FORMAT(ad.date_str,'%Y-%m-%d') asc
+  </select>
+  
+  <!--根据员工id和日期修改员工考勤明细  -->
+  <update id="updateAttendDetailByEmpIdAndDateStr" parameterType="map" >
+  update attend_detail
+  set attend_id = #{attendId,jdbcType=VARCHAR}
+  where emp_id = #{empId,jdbcType=VARCHAR} and  date_str = #{dateStr,jdbcType=VARCHAR}
+  </update>
+</mapper>

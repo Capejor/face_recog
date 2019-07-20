@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.VisitEquipMapper" >
+  <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.VisitEquip" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="visit_id" property="visitId" jdbcType="VARCHAR" />
+    <result column="equip_id" property="equipId" jdbcType="VARCHAR" />
+    <result column="visit_auth_id" property="visitAuthId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, visit_id, equip_id, visit_auth_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fr_visit_equip
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fr_visit_equip
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.faceRecog.manage.model.VisitEquip" >
+    insert into fr_visit_equip (id, visit_id, equip_id, 
+      visit_auth_id)
+    values (#{id,jdbcType=VARCHAR}, #{visitId,jdbcType=VARCHAR}, #{equipId,jdbcType=VARCHAR}, 
+      #{visitAuthId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceRecog.manage.model.VisitEquip" >
+    insert into fr_visit_equip
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="visitId != null" >
+        visit_id,
+      </if>
+      <if test="equipId != null" >
+        equip_id,
+      </if>
+      <if test="visitAuthId != null" >
+        visit_auth_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="visitId != null" >
+        #{visitId,jdbcType=VARCHAR},
+      </if>
+      <if test="equipId != null" >
+        #{equipId,jdbcType=VARCHAR},
+      </if>
+      <if test="visitAuthId != null" >
+        #{visitAuthId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.VisitEquip" >
+    update fr_visit_equip
+    <set >
+      <if test="visitId != null" >
+        visit_id = #{visitId,jdbcType=VARCHAR},
+      </if>
+      <if test="equipId != null" >
+        equip_id = #{equipId,jdbcType=VARCHAR},
+      </if>
+      <if test="visitAuthId != null" >
+        visit_auth_id = #{visitAuthId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.VisitEquip" >
+    update fr_visit_equip
+    set visit_id = #{visitId,jdbcType=VARCHAR},
+      equip_id = #{equipId,jdbcType=VARCHAR},
+      visit_auth_id = #{visitAuthId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!--根据访客id删除访客设备中间表数据-->
+  <delete id="deleteVisitEquipByVisitId" parameterType="string">
+    delete from fr_visit_equip
+    where visit_id = #{visitId,jdbcType=VARCHAR}
+  </delete>
+</mapper>

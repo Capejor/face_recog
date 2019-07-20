@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.AccountMapper">
+    <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.Account">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="emp_id" property="empId" jdbcType="VARCHAR"/>
+        <result column="alter_time" property="alterTime" jdbcType="TIMESTAMP"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="original_sum" property="originalSum" jdbcType="REAL"/>
+        <result column="alter_sum" property="alterSum" jdbcType="REAL"/>
+        <result column="balance" property="balance" jdbcType="REAL"/>
+        <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, emp_id, alter_time, type, original_sum, alter_sum, balance, create_user_id, status
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_account
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from fr_account
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.faceRecog.manage.model.Account">
+    insert into fr_account (id, emp_id, alter_time, 
+      type, original_sum, alter_sum, 
+      balance, create_user_id, status
+      )
+    values (#{id,jdbcType=VARCHAR}, #{empId,jdbcType=VARCHAR}, #{alterTime,jdbcType=TIMESTAMP}, 
+      #{type,jdbcType=VARCHAR}, #{originalSum,jdbcType=REAL}, #{alterSum,jdbcType=REAL}, 
+      #{balance,jdbcType=REAL}, #{createUserId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.faceRecog.manage.model.Account">
+        insert into fr_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="empId != null">
+                emp_id,
+            </if>
+            <if test="alterTime != null">
+                alter_time,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="originalSum != null">
+                original_sum,
+            </if>
+            <if test="alterSum != null">
+                alter_sum,
+            </if>
+            <if test="balance != null">
+                balance,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="empId != null">
+                #{empId,jdbcType=VARCHAR},
+            </if>
+            <if test="alterTime != null">
+                #{alterTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="originalSum != null">
+                #{originalSum,jdbcType=REAL},
+            </if>
+            <if test="alterSum != null">
+                #{alterSum,jdbcType=REAL},
+            </if>
+            <if test="balance != null">
+                #{balance,jdbcType=REAL},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.Account">
+        update fr_account
+        <set>
+            <if test="empId != null">
+                emp_id = #{empId,jdbcType=VARCHAR},
+            </if>
+            <if test="alterTime != null">
+                alter_time = #{alterTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="originalSum != null">
+                original_sum = #{originalSum,jdbcType=REAL},
+            </if>
+            <if test="alterSum != null">
+                alter_sum = #{alterSum,jdbcType=REAL},
+            </if>
+            <if test="balance != null">
+                balance = #{balance,jdbcType=REAL},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.Account">
+    update fr_account
+    set emp_id = #{empId,jdbcType=VARCHAR},
+      alter_time = #{alterTime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=VARCHAR},
+      original_sum = #{originalSum,jdbcType=REAL},
+      alter_sum = #{alterSum,jdbcType=REAL},
+      balance = #{balance,jdbcType=REAL},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <!--判断该员工是否为新账户-->
+    <!-- <select id="selectCount" parameterType="string" resultType="int">
+    SELECT  count(emp_id) FROM fr_account
+    WHERE emp_id = #{empId,jdbcType=VARCHAR}
+    </select>-->
+
+    <!--查询最后一条账户数据-->
+    <select id="selectLastAccount" parameterType="string" resultType="com.faceRecog.manage.model.Account">
+    SELECT  original_sum as originalSum, alter_sum as alterSum , balance
+    FROM fr_account
+    WHERE emp_id = #{empId,jdbcType=VARCHAR}
+    ORDER BY alter_time DESC LIMIT 1
+  </select>
+
+    <!--查询余额-->
+    <select id="selectBalance" parameterType="string" resultType="com.faceRecog.manage.model.vo.AccountBalanceVO">
+        SELECT e.id as empId,e.`name` as empName,c.card_num as cardNum,d.dept_name as deptName,balance
+        FROM fr_account a
+        LEFT JOIN fr_employee e ON e.id = a.emp_id
+        LEFT JOIN fr_emp_card ec ON e.id = ec.emp_id
+        LEFT JOIN fr_card c ON ec.card_id = c.id
+        LEFT JOIN fr_department d ON e.dept_id = d.id
+        <where>
+            d.id = #{deptId,jdbcType=VARCHAR}
+            <if test="empName != '' ">
+                AND CONCAT(e.name) LIKE CONCAT('%',#{empName},'%')
+            </if>
+                AND alter_time IN (SELECT max(alter_time) FROM fr_account GROUP BY emp_id)
+        </where>
+    </select>
+
+    <!--查询余额-->
+    <select id="selectAllBalance" parameterType="string" resultType="com.faceRecog.manage.model.vo.AccountBalanceVO">
+        SELECT e.id as empId,e.`name` as empName,c.card_num as cardNum,d.dept_name as deptName,balance
+        FROM fr_account a
+        LEFT JOIN fr_employee e ON e.id = a.emp_id
+        LEFT JOIN fr_emp_card ec ON e.id = ec.emp_id
+        LEFT JOIN fr_card c ON ec.card_id = c.id
+        LEFT JOIN fr_department d ON e.dept_id = d.id
+        <where>
+            <if test="empName != '' ">
+                AND CONCAT(e.name) LIKE CONCAT('%',#{empName},'%')
+            </if>
+            AND alter_time IN (SELECT max(alter_time) FROM fr_account GROUP BY emp_id)
+        </where>
+    </select>
+
+
+    <!--查询充值明细-->
+    <select id="selectAllTopUp" parameterType="string" resultType="com.faceRecog.manage.model.vo.AccountTopUpVO">
+        SELECT a.id as id ,e.id as empId,e.`name` as empName,c.card_num as cardNum,d.dept_name as deptName,balance,alter_time as alterTime,
+        type, original_sum as originalSum, alter_sum as alterSum,a.create_user_id as createUserId
+        FROM fr_account a
+        LEFT JOIN fr_employee e ON e.id = a.emp_id
+        LEFT JOIN fr_emp_card ec ON e.id = ec.emp_id
+        LEFT JOIN fr_card c ON ec.card_id = c.id
+        LEFT JOIN fr_department d ON e.dept_id = d.id
+        <where>
+            type = 1 AND e.id = #{empId,jdbcType=VARCHAR}
+            <if test="startTime != null and startTime != ''">
+                AND alter_time  <![CDATA[ >= ]]> #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND alter_time  <![CDATA[ <= ]]> #{endTime}
+            </if>
+        </where>
+        ORDER BY alter_time DESC
+    </select>
+
+    <!--查询消费记录-->
+    <select id="selectConsumeRecord" parameterType="map" resultType="com.faceRecog.manage.model.vo.AccountTopUpVO">
+        SELECT a.id as id ,e.id as empId,e.`name` as empName,c.card_num as cardNum,d.dept_name as deptName,balance,alter_time as alterTime,
+        type, original_sum as originalSum, alter_sum as alterSum
+        FROM fr_account a
+        LEFT JOIN fr_employee e ON e.id = a.emp_id
+        LEFT JOIN fr_emp_card ec ON e.id = ec.emp_id
+        LEFT JOIN fr_card c ON ec.card_id = c.id
+        LEFT JOIN fr_department d ON e.dept_id = d.id
+        <where>
+            type = -1 AND e.id = #{empId,jdbcType=VARCHAR}
+            <if test="startTime != null and startTime != ''">
+                AND alter_time  <![CDATA[ >= ]]> #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND alter_time  <![CDATA[ <= ]]> #{endTime}
+            </if>
+        </where>
+        ORDER BY alter_time DESC
+    </select>
+
+    <!--清空账户-->
+    <delete id="deleteByEmpId" parameterType="list">
+        delete from fr_account
+        <where>
+            emp_id in
+            <foreach collection="empIds" index="empId" open="(" close=")" separator=",">
+                #{empId}
+            </foreach>
+        </where>
+    </delete>
+
+
+</mapper>

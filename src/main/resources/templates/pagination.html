@@ -1,0 +1,168 @@
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>分页</title>    
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
+	<style type="text/css">
+	/*-----------------------分页------------------*/
+	.paging{padding:5px 16px 5px 0;background-color:#fff;}
+	.page_box{display: inline-block;float:right;}
+	.pages{display: inline-block;}
+	.paging_left{line-height:28px;}
+	.pages input{height:30px;vertical-align:top;padding: 1px 5px;background-color:#009688;border-color:#009688;color:#fff;}
+	.paging_left select{width:60px;height:30px;vertical-align:top;margin-bottom:0;}
+	
+	/* .me_foot{width:100%;padding: 15px 0;margin: auto;text-align:right;}
+	.li_page{color: #333;padding: 1px 5px;}
+	.page, .record{display: inline-block;}
+	.page span{font-size: 14px;color: #555;}
+	.pages select{width:60px;height:27px;
+	border:1px solid #DDD; 
+	background:#FFF url(../image/down.png) right no-repeat;}
+	.page button{width: 55px;height: 26px;background: none;font-size: 15px;color: #555;border: 1px solid #DDD;background:#FFF;box-shadow:none;} */
+	.record{margin-left:10px;display: block;height: 28px;line-height: 28px;padding: 0px 10px;border: 1px solid #DDD;
+	background: #FFF;float: right;font-size: 14px;color: #555;}		
+	</style>
+	<script>
+	var formId="submit_query_form";
+	function show(url){
+// 		var str=url+getQueryParameter(formId);
+// 		console.log('url:'+str);
+// 		return;
+		window.location.href=url+getQueryParameter(formId);
+	}
+	function showPage(url){
+// 		alert(url+getQueryParameter(formId));	
+// 		return;
+		window.location.href=url+getQueryParameter(formId);
+	}
+	function getQueryParameter(formId){
+		if(formId!=null&&formId!=undefined){
+			//debugger;
+			var str="";
+			$("#"+formId).find("input[type='text'],select,input[type='password'],input[type='hidden'],input[type='checkbox']:checked").each(function(index,obj){	
+				//debugger;
+				if($(obj).attr('notLoad')==undefined||!$(obj).attr('notLoad')){
+					if($(obj).attr('id')!=undefined&&$(obj).val()!=null&&$(obj).val()!=""){
+						//myData[$(obj).attr('id')]=$(obj).val();	
+						str+="&"+$(obj).attr('id')+"="+$(obj).val();
+					}
+				}								
+			});
+			console.log('str:'+str);
+			return str;
+		}
+	}
+	//选择页数
+	function selecedPage(actionName){	
+	   show(actionName+"?pageNo="+($("#indexPage").val()==null||$("#indexPage").val()==''||$("#indexPage").val()==undefined?1:$("#indexPage").val())+"&pageSize="+$("#sumPageShow").val());
+	}
+	//选择条数
+	function selecedPageSize(actionName){
+	   show(actionName+"?pageNo=1&pageSize="+$("#sumPageShow").val());
+	}
+	// 去掉字符两端的空白字符        
+	String.prototype.Trim=function () {        
+	    return this.replace(/(^[\t\n\r]*)|([\t\n\r]*$)/g,'');        
+	}; 
+	//带参数查询
+	function searchPage(param){
+		var actionName;
+		var queryTemp='';
+		for(key in param){
+			if(key == 'actionName'){
+				actionName=param[key];
+			}else{
+				queryTemp+='&'+key+'='+param[key].toString().Trim();
+			}
+		}
+		if(actionName==null||actionName==''){
+			try{
+				layer.msg("请求参数非法！");
+			}catch(e){
+				alert("请求参数非法");
+			}
+			return;
+		}
+		console.log(actionName+"?pageNo="+($("#indexPage").val()==null||$("#indexPage").val()==''||$("#indexPage").val()==undefined?1:$("#indexPage").val())+"&pageSize="+$("#sumPageShow").val()+queryTemp);
+		 
+	   show(actionName+"?pageNo="+($("#indexPage").val()==null||$("#indexPage").val()==''||$("#indexPage").val()==undefined?1:$("#indexPage").val())+"&pageSize="+$("#sumPageShow").val()+queryTemp);
+	}
+	</script>
+  </head>
+  
+  <body>
+		<div class="paging" >
+        	<div class="paging_left ">
+<!-- 	            	每页显示<em class="paging_total" id="sumPageShow">${pageSize}</em>条 -->
+			每页显示
+			<select class="search_page box" id="sumPageShow" onchange='selecedPageSize("${actionName}")' >
+				<#list [1,2,3,4,5] as ch>
+		           <#if pageSize==ch*5>
+		           		<option value="${ch*5}" selected="selected">
+								${ch*5}
+						</option>
+		           <#else>
+		           		<option value="${ch*5}">
+								${ch*5}
+						</option>
+		           </#if>
+		        </#list>				
+	        </select>
+	              条
+	       <div class="page_box">
+	       <div class="pages">	       
+			<#if pageNo==1>
+				<input type="button" class="page_btn blue" value="首页" />
+			<#else>
+				<input type="button" class="page_btn blue" value="首页" onclick="javascript:showPage('${actionName}?pageNo=1&pageSize=${pageSize}')" />
+			</#if>			
+			<#if pageNo-1 &lt;=0>
+				<input type="button" class="page_turning blue" value="上一页"  />
+			<#else>
+				<input type="button" class="page_turning blue" value="上一页"  onclick="javascript:showPage('${actionName}?pageNo=${pageNo-1}&pageSize=${pageSize}')" />
+			</#if>
+	        <select class="search_page box" id="indexPage" onchange='selecedPage("${actionName}")' >	        	
+				<#list 1..totalPage as ch>
+					<#if pageNo == ch>
+						<option value="${ch}" selected="selected">
+								${ch}
+						</option>
+					<#else>
+						<option value="${ch}">
+								${ch}
+						</option>
+					</#if>
+				</#list>
+	        </select>	        
+			<#if (pageNo+1) gt totalPage>
+				<input type="button" class="page_turning blue" value="下一页" />
+			<#else>
+				<input type="button" class="page_turning blue" value="下一页" onclick="javascript:showPage('${actionName}?pageNo=${pageNo+1}&pageSize=${pageSize}')"/>
+			</#if>			
+			<#if pageNo==totalPage>
+				 <input type="button" class="page_btn blue" value="尾页" />
+			<#else>
+				<input type="button" class="page_btn blue" value="尾页"  onclick="javascript:showPage('${actionName}?pageNo=${totalPage}&pageSize=${pageSize}')"/>
+			</#if>
+			</div>
+	        <div class="record">
+	                               当前第
+	            <span id="diji">${pageNo}</span>
+	             /
+	            <span id="zongye">${totalPage}</span>
+	                              页共
+	            <span id="sumPage">${sumNum}</span>
+	           	 条记录
+	        </div>
+	        </div>
+	         </div>
+   		</div>
+	</body>
+</html>

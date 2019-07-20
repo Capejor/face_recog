@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.RetroactiveMapper">
+    <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.Retroactive">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="retroact_time" property="retroactTime" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="reason" property="reason" jdbcType="VARCHAR"/>
+        <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, retroact_time, type, reason, create_user_id, create_time, update_time, status
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_retroactive
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from fr_retroactive
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.faceRecog.manage.model.Retroactive">
+    insert into fr_retroactive (id, retroact_time, type, 
+      reason, create_user_id, create_time, 
+      update_time, status)
+    values (#{id,jdbcType=VARCHAR}, #{retroactTime,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{reason,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.faceRecog.manage.model.Retroactive">
+        insert into fr_retroactive
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="retroactTime != null">
+                retroact_time,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="reason != null">
+                reason,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="retroactTime != null">
+                #{retroactTime,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="reason != null">
+                #{reason,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.Retroactive">
+        update fr_retroactive
+        <set>
+            <if test="retroactTime != null">
+                retroact_time = #{retroactTime,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="reason != null">
+                reason = #{reason,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.Retroactive">
+    update fr_retroactive
+    set retroact_time = #{retroactTime,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <!--自定义SQL-->
+    <!--查询全公司员工的补签卡-->
+    <select id="selectAllRetroactive"  resultType="com.faceRecog.manage.model.vo.EmpRetVO">
+        SELECT r.id AS id ,e.id AS empId, e.name AS name,e.job_post AS jobPost ,
+        d.dept_name AS deptName ,r.retroact_time AS retroactTime,
+        reason,e.status as status
+        FROM fr_emp_retroact er
+        LEFT JOIN fr_employee e ON er.emp_id = e.id
+        LEFT JOIN fr_department d ON e.dept_id = d.id
+        LEFT JOIN fr_retroactive r ON er.retroact_id = r.id
+    </select>
+
+
+    <!--查询当前部门员工的补签卡-->
+    <select id="selectRetroactiveByDeptId" parameterType="string" resultType="com.faceRecog.manage.model.vo.EmpRetVO">
+        SELECT r.id AS id ,e.id AS empId, e.name AS name,e.job_post AS jobPost ,
+        d.dept_name AS deptName ,r.retroact_time AS retroactTime,
+        reason,e.status as status
+        FROM fr_emp_retroact er
+        LEFT JOIN fr_employee e ON er.emp_id = e.id
+        LEFT JOIN fr_department d ON e.dept_id = d.id
+        LEFT JOIN fr_retroactive r ON er.retroact_id = r.id
+        WHERE e.dept_id = #{deptId,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--模糊搜索全公司员工补签卡-->
+    <select id="selectByParams" parameterType="map" resultType="com.faceRecog.manage.model.vo.EmpRetVO">
+        SELECT r.id AS id ,e.id AS empId, e.name AS name,e.job_post AS jobPost ,
+        d.dept_name AS deptName ,r.retroact_time AS retroactTime,
+        reason,e.status as status
+        FROM fr_emp_retroact er
+        LEFT JOIN fr_employee e ON er.emp_id = e.id
+        LEFT JOIN fr_department d ON e.dept_id = d.id
+        LEFT JOIN fr_retroactive r ON er.retroact_id = r.id
+        <where> e.status = 1
+            <if test="empName != null and empName !=''">
+                and CONCAT(e.name) like CONCAT('%',#{empName},'%')
+            </if>
+            <if test="startTime != null and startTime !=''">
+                and r.retroact_time <![CDATA[ >= ]]> #{startTime}
+            </if>
+            <if test="endTime != null and endTime !=''">
+                and r.retroact_time <![CDATA[ <= ]]> #{endTime}
+            </if>
+        </where>
+    </select>
+
+
+
+
+    <!--批量删除补签卡-->
+    <delete id="deleteRetroactive" parameterType="list">
+        delete from fr_retroactive
+        <where>
+               id in
+            <foreach collection="retIds" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+    
+    <!--根据员工id查询补签信息  -->
+    <select id="selectRetroactiveByEmpId" parameterType="map" resultType="com.faceRecog.manage.model.vo.EmpRetVO">
+        SELECT r.id AS id ,e.id AS empId, e.name AS name,e.job_post AS jobPost ,
+        d.dept_name AS deptName ,r.retroact_time AS retroactTime,
+        reason,e.status as status
+        FROM fr_emp_retroact er
+        LEFT JOIN fr_employee e ON er.emp_id = e.id
+        LEFT JOIN fr_department d ON e.dept_id = d.id
+        LEFT JOIN fr_retroactive r ON er.retroact_id = r.id
+        where er.emp_id=#{empId,jdbcType=VARCHAR}
+    </select>
+</mapper>

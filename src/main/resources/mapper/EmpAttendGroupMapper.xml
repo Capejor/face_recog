@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.EmpAttendGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.EmpAttendGroup" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="ag_id" property="agId" jdbcType="VARCHAR" />
+    <result column="emp_id" property="empId" jdbcType="VARCHAR" />
+    <result column="prev_id" property="prevId" jdbcType="VARCHAR" />
+    <result column="apply_time" property="applyTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ag_id, emp_id, prev_id, apply_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fr_emp_attend_group
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fr_emp_attend_group
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.faceRecog.manage.model.EmpAttendGroup" >
+    insert into fr_emp_attend_group (id, ag_id, emp_id, 
+      prev_id, apply_time)
+    values (#{id,jdbcType=VARCHAR}, #{agId,jdbcType=VARCHAR}, #{empId,jdbcType=VARCHAR}, 
+      #{prevId,jdbcType=VARCHAR}, #{applyTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceRecog.manage.model.EmpAttendGroup" >
+    insert into fr_emp_attend_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="agId != null" >
+        ag_id,
+      </if>
+      <if test="empId != null" >
+        emp_id,
+      </if>
+      <if test="prevId != null" >
+        prev_id,
+      </if>
+      <if test="applyTime != null" >
+        apply_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="agId != null" >
+        #{agId,jdbcType=VARCHAR},
+      </if>
+      <if test="empId != null" >
+        #{empId,jdbcType=VARCHAR},
+      </if>
+      <if test="prevId != null" >
+        #{prevId,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        #{applyTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.EmpAttendGroup" >
+    update fr_emp_attend_group
+    <set >
+      <if test="agId != null" >
+        ag_id = #{agId,jdbcType=VARCHAR},
+      </if>
+      <if test="empId != null" >
+        emp_id = #{empId,jdbcType=VARCHAR},
+      </if>
+      <if test="prevId != null" >
+        prev_id = #{prevId,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        apply_time = #{applyTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.EmpAttendGroup" >
+    update fr_emp_attend_group
+    set ag_id = #{agId,jdbcType=VARCHAR},
+      emp_id = #{empId,jdbcType=VARCHAR},
+      prev_id = #{prevId,jdbcType=VARCHAR},
+      apply_time = #{applyTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+   <!--自定义sql  -->
+  
+  
+  <!--根据考勤组id查询员工信息  -->
+	<select id="selectEmpInfoByAgId" parameterType="string"  resultType="map">
+	select eag.emp_id as empId, em.create_time as createTime,ag.type
+	from fr_attend_group ag
+	left join fr_emp_attend_group eag on eag.ag_id=ag.id
+	left join fr_employee em on em.id=eag.emp_id
+	where ag.id = #{agId,jdbcType=VARCHAR}
+	</select>
+	
+	<!--批量新增中间表数据  -->
+	<insert id="insertBatchEmpAttendGroup" parameterType="map">
+		insert fr_emp_attend_group
+	  	(id,ag_id,emp_id,apply_time) values
+	   <foreach collection="empIds" item="empId" index="index" separator=",">
+          	(#{empId.id,jdbcType=VARCHAR},#{agId,jdbcType=VARCHAR},#{empId.empId,jdbcType=VARCHAR},#{applyTime,jdbcType=VARCHAR})
+	   </foreach>
+	</insert>
+	
+	<!--根据考勤组id删除数据  -->
+	<delete id="deleteEmpAttendGroupByAgId" parameterType="string">
+	delete from fr_emp_attend_group
+	where ag_id = #{agId,jdbcType=VARCHAR}
+	</delete>
+	
+	<!--查询考勤组人员信息根据考勤组id  -->
+	<select id="selectEmpAgInfoByAgId" parameterType="string" resultMap="BaseResultMap">
+	select 
+	 GROUP_CONCAT(emp_id)as emp_id
+	from fr_emp_attend_group
+	where ag_id = #{agId,jdbcType=VARCHAR}
+	</select>
+	
+	<!--批量删除考勤组员工信息  -->
+	<delete id="deleteBatchEmpAttendGroupByEmpId" parameterType="list">
+	delete from fr_emp_attend_group
+	where emp_id in 
+	<foreach collection="empIdLs" item="empId" index="index" open="(" close=")" separator=",">
+      	#{empId,jdbcType=VARCHAR} 
+   	</foreach>
+	</delete>
+	
+	<!--根据员工id查询员工的绑定的考勤组信息  -->
+	<select id="selectEmpAttendGroupByEmpId" parameterType="string" resultType="com.faceRecog.manage.model.vo.EmpAttendGroupVO">
+	select 
+	emp.name,emp.id as empId,eag.apply_time as applyTime,DATE_FORMAT(ff.create_time,'%Y-%m-%d') as entryTime
+	from fr_emp_attend_group eag
+	left join fr_employee emp on emp.id=eag.emp_id
+	left join fr_face_file ff on ff.emp_id=emp.id
+	where eag.emp_id=#{empId.id,jdbcType=VARCHAR}
+	</select>
+	
+	<!--根据员工id删除考勤组信息  -->
+  <delete id="deleteEmpAttendGroupByEmpId" parameterType="string">
+  	delete from fr_emp_attend_group
+	where emp_id=#{empId,jdbcType=VARCHAR}
+  </delete>
+</mapper>

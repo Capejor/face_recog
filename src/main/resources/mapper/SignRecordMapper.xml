@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.SignRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.SignRecord" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="sign_in_one" property="signInOne" jdbcType="TIMESTAMP" />
+    <result column="sign_out_one" property="signOutOne" jdbcType="TIMESTAMP" />
+    <result column="sign_in_two" property="signInTwo" jdbcType="TIMESTAMP" />
+    <result column="sign_out_two" property="signOutTwo" jdbcType="TIMESTAMP" />
+    <result column="sign_in_three" property="signInThree" jdbcType="TIMESTAMP" />
+    <result column="sign_out_three" property="signOutThree" jdbcType="TIMESTAMP" />
+    <result column="emp_id" property="empId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="sign_date" property="signDate" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sign_in_one, sign_out_one, sign_in_two, sign_out_two, sign_in_three, sign_out_three, 
+    emp_id, create_time, status, sign_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fr_sign_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fr_sign_record
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.faceRecog.manage.model.SignRecord" >
+    insert into fr_sign_record (id, sign_in_one, sign_out_one, 
+      sign_in_two, sign_out_two, sign_in_three, 
+      sign_out_three, emp_id, create_time, 
+      status, sign_date)
+    values (#{id,jdbcType=VARCHAR}, #{signInOne,jdbcType=TIMESTAMP}, #{signOutOne,jdbcType=TIMESTAMP}, 
+      #{signInTwo,jdbcType=TIMESTAMP}, #{signOutTwo,jdbcType=TIMESTAMP}, #{signInThree,jdbcType=TIMESTAMP}, 
+      #{signOutThree,jdbcType=TIMESTAMP}, #{empId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR}, #{signDate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceRecog.manage.model.SignRecord" >
+    insert into fr_sign_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="signInOne != null" >
+        sign_in_one,
+      </if>
+      <if test="signOutOne != null" >
+        sign_out_one,
+      </if>
+      <if test="signInTwo != null" >
+        sign_in_two,
+      </if>
+      <if test="signOutTwo != null" >
+        sign_out_two,
+      </if>
+      <if test="signInThree != null" >
+        sign_in_three,
+      </if>
+      <if test="signOutThree != null" >
+        sign_out_three,
+      </if>
+      <if test="empId != null" >
+        emp_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="signDate != null" >
+        sign_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="signInOne != null" >
+        #{signInOne,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signOutOne != null" >
+        #{signOutOne,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signInTwo != null" >
+        #{signInTwo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signOutTwo != null" >
+        #{signOutTwo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signInThree != null" >
+        #{signInThree,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signOutThree != null" >
+        #{signOutThree,jdbcType=TIMESTAMP},
+      </if>
+      <if test="empId != null" >
+        #{empId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="signDate != null" >
+        #{signDate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.SignRecord" >
+    update fr_sign_record
+    <set >
+      <if test="signInOne != null" >
+        sign_in_one = #{signInOne,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signOutOne != null" >
+        sign_out_one = #{signOutOne,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signInTwo != null" >
+        sign_in_two = #{signInTwo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signOutTwo != null" >
+        sign_out_two = #{signOutTwo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signInThree != null" >
+        sign_in_three = #{signInThree,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signOutThree != null" >
+        sign_out_three = #{signOutThree,jdbcType=TIMESTAMP},
+      </if>
+      <if test="empId != null" >
+        emp_id = #{empId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="signDate != null" >
+        sign_date = #{signDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.SignRecord" >
+    update fr_sign_record
+    set sign_in_one = #{signInOne,jdbcType=TIMESTAMP},
+      sign_out_one = #{signOutOne,jdbcType=TIMESTAMP},
+      sign_in_two = #{signInTwo,jdbcType=TIMESTAMP},
+      sign_out_two = #{signOutTwo,jdbcType=TIMESTAMP},
+      sign_in_three = #{signInThree,jdbcType=TIMESTAMP},
+      sign_out_three = #{signOutThree,jdbcType=TIMESTAMP},
+      emp_id = #{empId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      sign_date = #{signDate,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+   <!--自定义的sql  -->
+	
+	<!--查询当前打卡员工当天是否有打卡记录  -->
+    <select id="selectSignRecordByEmpId" parameterType="map" resultMap="BaseResultMap">
+        select   d.id,d.sign_in_one, d.sign_out_one, d.sign_in_two, d.sign_out_two, d.sign_in_three, d.sign_out_three
+        from  (select DATE_FORMAT(sign_date,'%Y-%m-%d')as date ,id,sign_in_one, sign_out_one, sign_in_two,
+        sign_out_two, sign_in_three, sign_out_three from fr_sign_record where emp_id=#{empId,jdbcType=VARCHAR})d
+         where d.date=DATE_FORMAT(#{signDate,jdbcType=VARCHAR},'%Y-%m-%d')
+    </select>
+
+    <!--根据考勤组id查询考勤组内员工的某天的考勤打卡明细要求  -->
+    <select id="selectAttendGroupEmpSignInfoByEmpId" parameterType="map" resultType="map">
+    select sr.id, sr.sign_in_one as signInOne, sr.sign_out_one as signOutOne, sr.sign_in_two as signInTwo,
+    sr.sign_out_two as signOutTwo, sr.sign_in_three as signInThree, sr.sign_out_three as signOutThree,
+    sr.emp_id as empId, sr.sign_date as signDate,ae.type as atDanceType,ag.type as agType
+     from fr_sign_record sr
+	LEFT JOIN  fr_emp_attend_group eag on eag.emp_id=sr.emp_id
+	LEFT JOIN fr_attend_detail ad on ad.emp_id=eag.emp_id and ad.date_str=sr.sign_date
+	LEFT JOIN fr_attendance ae on ae.id=ad.attend_id
+	where sr.emp_id=#{empId,jdbcType=VARCHAR} and sr.sign_date=#{yesterDay,jdbcType=VARCHAR}
+    </select>
+</mapper>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.DepartmentMapper">
+    <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.Department">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="dept_name" property="deptName" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="parent_id" property="parentId" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id,  dept_name, create_time, update_time, parent_id, status, create_user_id
+  	</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_department
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from fr_department
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.faceRecog.manage.model.Department">
+    insert into fr_department (id, dept_name, 
+      create_time, update_time, parent_id, 
+      status, create_user_id)
+    values (#{id,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{parentId,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.faceRecog.manage.model.Department">
+        insert into fr_department
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="deptName != null">
+                dept_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="deptName != null">
+                #{deptName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.Department">
+        update fr_department
+        <set>
+            <if test="deptName != null">
+                dept_name = #{deptName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.Department">
+    update fr_department
+    set dept_name = #{deptName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <!--自定义SQL-->
+
+    <!--查询第一级-->
+    <select id="selectTopDept" resultType="map">
+		SELECT id,dept_name as deptName,parent_id as parentId
+		FROM  fr_department
+	    WHERE id = -1
+	</select>
+
+    <!--根据父级id 查询部门-->
+    <select id="selectOneById" parameterType="string" resultType="map">
+	  SELECT id,dept_name as deptName,parent_id as parentId
+	  FROM fr_department
+	  WHERE parent_id = #{parentId,jdbcType=VARCHAR}
+	  ORDER BY create_time ASC
+	</select>
+
+    <!--查询下级部门信息-->
+    <select id="selectChildDeptById" parameterType="string" resultType="com.faceRecog.manage.model.Department">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM fr_department
+        WHERE parent_id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询当前部门及下级部门信息-->
+    <select id="selectDeptByParentIdOrId" parameterType="string" resultType="com.faceRecog.manage.model.Department">
+	SELECT
+           id,dept_name as deptName,parent_id as parentId
+	  FROM
+	      fr_department
+	  WHERE parent_id = #{id,jdbcType=VARCHAR}
+	  OR  id = #{id,jdbcType=VARCHAR}
+	</select>
+
+    <!--判断部门名称是否重复-->
+    <select id="selectByDeptNameAndParentId" parameterType="string" resultType="int">
+	SELECT count(0) FROM fr_department
+	  WHERE dept_name = #{deptName,jdbcType=VARCHAR}
+	  AND parent_id = #{parentId,jdbcType=VARCHAR}
+	</select>
+
+
+    <!--判断部门名称是否重复 除去自己-->
+    <select id="selectByDeptNameAndParentIdExceptOwn" parameterType="string" resultType="int">
+	SELECT count(0) FROM fr_department
+	  WHERE dept_name = #{deptName,jdbcType=VARCHAR}
+	  AND parent_id = #{parentId,jdbcType=VARCHAR}
+	  AND id != #{id,jdbcType=VARCHAR}
+	</select>
+
+    <!--查询所有部门根据父部门id  -->
+    <select id="selectAllChildDepartByParentId" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_department
+        where parent_id = #{deptId,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询最顶级的部门信息  -->
+    <select id="selectFirstDepart" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_department
+        where id=-1
+    </select>
+</mapper>

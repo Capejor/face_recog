@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.ClockMapper" >
+  <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.Clock" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="clock_in" property="clockIn" jdbcType="TIMESTAMP" />
+    <result column="clock_out" property="clockOut" jdbcType="TIMESTAMP" />
+    <result column="emp_id" property="empId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, clock_in, clock_out, emp_id, create_time, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fr_clock
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fr_clock
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.faceRecog.manage.model.Clock" >
+    insert into fr_clock (id, clock_in, clock_out, 
+      emp_id, create_time, status
+      )
+    values (#{id,jdbcType=VARCHAR}, #{clockIn,jdbcType=TIMESTAMP}, #{clockOut,jdbcType=TIMESTAMP}, 
+      #{empId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceRecog.manage.model.Clock" >
+    insert into fr_clock
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="clockIn != null" >
+        clock_in,
+      </if>
+      <if test="clockOut != null" >
+        clock_out,
+      </if>
+      <if test="empId != null" >
+        emp_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="clockIn != null" >
+        #{clockIn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clockOut != null" >
+        #{clockOut,jdbcType=TIMESTAMP},
+      </if>
+      <if test="empId != null" >
+        #{empId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.Clock" >
+    update fr_clock
+    <set >
+      <if test="clockIn != null" >
+        clock_in = #{clockIn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clockOut != null" >
+        clock_out = #{clockOut,jdbcType=TIMESTAMP},
+      </if>
+      <if test="empId != null" >
+        emp_id = #{empId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.Clock" >
+    update fr_clock
+    set clock_in = #{clockIn,jdbcType=TIMESTAMP},
+      clock_out = #{clockOut,jdbcType=TIMESTAMP},
+      emp_id = #{empId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+   <!--自定义的sql  -->
+	
+    <select id="selectClockIn" parameterType="string" resultMap="BaseResultMap">
+        select   d.id from 
+         (select day(create_time)as day ,id from fr_clock where emp_id=#{empId,jdbcType=VARCHAR})d 
+         where d.day=day(CURDATE())
+    </select>
+
+
+    <select id="selectClockOut" parameterType="string" resultType="int">
+        SELECT COUNT(0) FROM fr_clock c
+        LEFT JOIN fr_emp_clock ec ON ec.clock_id = c.id
+        LEFT JOIN fr_employee e ON e.id = ec.emp_id
+        <where>
+            e.id = #{empId}
+            AND c.clock_in IS NOT NULL
+        </where>
+    </select>
+
+
+    <select id="selectClockId" resultType="string" parameterType="string">
+        select clock_id as clockId from fr_emp_clock
+        where emp_id = #{empId,jdbcType=VARCHAR}
+    </select>
+</mapper>

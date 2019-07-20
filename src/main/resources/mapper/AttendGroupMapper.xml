@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.AttendGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.AttendGroup" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, create_time, update_time, create_user_id, status, type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fr_attend_group
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fr_attend_group
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.faceRecog.manage.model.AttendGroup" >
+    insert into fr_attend_group (id, name, create_time, 
+      update_time, create_user_id, status, 
+      type)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.faceRecog.manage.model.AttendGroup" >
+    insert into fr_attend_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.AttendGroup" >
+    update fr_attend_group
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.AttendGroup" >
+    update fr_attend_group
+    set name = #{name,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+   <!--自定义sql  -->
+  
+  <!--查询考勤组列表  -->
+  <select id="selectAllAttendGroup" resultType="map">
+   select 
+	ag.id,ag.name,COUNT(eag.emp_id) as empCount,ag.type
+	from fr_attend_group ag
+	left join fr_emp_attend_group eag on ag.id=eag.ag_id
+	group by ag.id
+  </select>
+  
+  <!--根据考勤组id和时间查询某天的考勤班次  -->
+  <select id="selectAttendGroupAttendDanceInfo" parameterType="map" resultType="map">
+  SELECT ae.allow_late as allowLate,ae.allow_early as allowEarly,
+	CONCAT(#{dateStr,jdbcType = VARCHAR},' ',tf.attend_time) as workOnTime,CONCAT(#{dateStr,jdbcType = VARCHAR},' ',tf.close_time) as workOffTime
+	,ae.type,ae.after_overtime afterOvertime,tf.in_across as inAcross,tf.out_across as outAcross
+	from fr_employee emp 
+	LEFT JOIN attend_detail ad on ad.emp_id=emp.id 
+	LEFT JOIN fr_attendance ae on ae.id=ad.attend_id
+	LEFT JOIN fr_time_frame tf on tf.attend_id=ae.id
+	where emp.id= #{empId,jdbcType = VARCHAR} and ad.date_str= #{dateStr,jdbcType = VARCHAR}
+  </select>
+  
+  <!--查询固定班制考勤组  -->
+  <select id="selectFixedAttendGroup" resultMap="BaseResultMap">
+  select <include refid="Base_Column_List" />
+  from fr_attend_group
+  where type=1
+  </select>
+  
+  <!--根据员工id查询员工所属考勤组班制类型  -->
+  <select id="selectEmpAttendGroupType" parameterType="string" resultMap="BaseResultMap">
+  	select ag.type,ag.id
+  	from fr_attend_group ag
+  	left join fr_emp_attend_group eag on eag.ag_id=ag.id
+  	left join fr_employee emp on emp.id=eag.emp_id
+  	where eag.emp_id=#{empId,jdbcType = VARCHAR}
+  </select>
+  
+  <!--根据考勤组名称查询名称是否被占用  -->
+  <select id="selectAttendGroupNameExist" parameterType="map" resultType="int">
+  select count(id) from fr_attend_group
+  where
+  <choose>
+  	<when test="agId != null and agId !='' ">
+  	name =#{attendGroupName,jdbcType = VARCHAR} and id !=#{agId,jdbcType = VARCHAR}
+  	</when>
+  	<otherwise>
+  	name= #{attendGroupName,jdbcType = VARCHAR}
+  	</otherwise>
+  </choose>
+  
+  </select>
+</mapper>

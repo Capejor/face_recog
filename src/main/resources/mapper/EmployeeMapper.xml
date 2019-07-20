@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.faceRecog.manage.mapper.EmployeeMapper">
+    <resultMap id="BaseResultMap" type="com.faceRecog.manage.model.Employee">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="birth" property="birth" jdbcType="VARCHAR"/>
+        <result column="id_card" property="idCard" jdbcType="VARCHAR"/>
+        <result column="nation" property="nation" jdbcType="VARCHAR"/>
+        <result column="native_place" property="nativePlace" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="employ_time" property="employTime" jdbcType="VARCHAR"/>
+        <result column="job_post" property="jobPost" jdbcType="VARCHAR"/>
+        <result column="duty" property="duty" jdbcType="VARCHAR"/>
+        <result column="is_dimiss" property="isDimiss" jdbcType="VARCHAR"/>
+        <result column="photo_url" property="photoUrl" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="face_reg" property="faceReg" jdbcType="VARCHAR"/>
+        <result column="dept_id" property="deptId" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, name, sex, birth, id_card, nation, native_place, phone, address, employ_time, 
+    job_post, duty, is_dimiss, photo_url, status, create_user_id, create_time, face_reg, 
+    dept_id, update_time
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from fr_employee
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from fr_employee
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.faceRecog.manage.model.Employee">
+    insert into fr_employee (id, name, sex, 
+      birth, id_card, nation, 
+      native_place, phone, address, 
+      employ_time, job_post, duty, 
+      is_dimiss, photo_url, status, 
+      create_user_id, create_time, face_reg, 
+      dept_id, update_time
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{birth,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, 
+      #{nativePlace,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{employTime,jdbcType=VARCHAR}, #{jobPost,jdbcType=VARCHAR}, #{duty,jdbcType=VARCHAR}, 
+      #{isDimiss,jdbcType=VARCHAR}, #{photoUrl,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{faceReg,jdbcType=VARCHAR}, 
+      #{deptId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.faceRecog.manage.model.Employee">
+        insert into fr_employee
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="birth != null">
+                birth,
+            </if>
+            <if test="idCard != null">
+                id_card,
+            </if>
+            <if test="nation != null">
+                nation,
+            </if>
+            <if test="nativePlace != null">
+                native_place,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="employTime != null">
+                employ_time,
+            </if>
+            <if test="jobPost != null">
+                job_post,
+            </if>
+            <if test="duty != null">
+                duty,
+            </if>
+            <if test="isDimiss != null">
+                is_dimiss,
+            </if>
+            <if test="photoUrl != null">
+                photo_url,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="faceReg != null">
+                face_reg,
+            </if>
+            <if test="deptId != null">
+                dept_id,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="birth != null">
+                #{birth,jdbcType=VARCHAR},
+            </if>
+            <if test="idCard != null">
+                #{idCard,jdbcType=VARCHAR},
+            </if>
+            <if test="nation != null">
+                #{nation,jdbcType=VARCHAR},
+            </if>
+            <if test="nativePlace != null">
+                #{nativePlace,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="employTime != null">
+                #{employTime,jdbcType=VARCHAR},
+            </if>
+            <if test="jobPost != null">
+                #{jobPost,jdbcType=VARCHAR},
+            </if>
+            <if test="duty != null">
+                #{duty,jdbcType=VARCHAR},
+            </if>
+            <if test="isDimiss != null">
+                #{isDimiss,jdbcType=VARCHAR},
+            </if>
+            <if test="photoUrl != null">
+                #{photoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="faceReg != null">
+                #{faceReg,jdbcType=VARCHAR},
+            </if>
+            <if test="deptId != null">
+                #{deptId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.faceRecog.manage.model.Employee">
+        update fr_employee
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="birth != null">
+                birth = #{birth,jdbcType=VARCHAR},
+            </if>
+            <if test="idCard != null">
+                id_card = #{idCard,jdbcType=VARCHAR},
+            </if>
+            <if test="nation != null">
+                nation = #{nation,jdbcType=VARCHAR},
+            </if>
+            <if test="nativePlace != null">
+                native_place = #{nativePlace,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="employTime != null">
+                employ_time = #{employTime,jdbcType=VARCHAR},
+            </if>
+            <if test="jobPost != null">
+                job_post = #{jobPost,jdbcType=VARCHAR},
+            </if>
+            <if test="duty != null">
+                duty = #{duty,jdbcType=VARCHAR},
+            </if>
+            <if test="isDimiss != null">
+                is_dimiss = #{isDimiss,jdbcType=VARCHAR},
+            </if>
+            <if test="photoUrl != null">
+                photo_url = #{photoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="faceReg != null">
+                face_reg = #{faceReg,jdbcType=VARCHAR},
+            </if>
+            <if test="deptId != null">
+                dept_id = #{deptId,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.faceRecog.manage.model.Employee">
+    update fr_employee
+    set name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      birth = #{birth,jdbcType=VARCHAR},
+      id_card = #{idCard,jdbcType=VARCHAR},
+      nation = #{nation,jdbcType=VARCHAR},
+      native_place = #{nativePlace,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      employ_time = #{employTime,jdbcType=VARCHAR},
+      job_post = #{jobPost,jdbcType=VARCHAR},
+      duty = #{duty,jdbcType=VARCHAR},
+      is_dimiss = #{isDimiss,jdbcType=VARCHAR},
+      photo_url = #{photoUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      face_reg = #{faceReg,jdbcType=VARCHAR},
+      dept_id = #{deptId,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+    <!--自定义sql-->
+
+    <!--将员工移到默认分组  deptId改为1-->
+    <update id="updateByDeptId" parameterType="string">
+    update fr_employee
+    set dept_id = 1
+    where dept_id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <!--判断部门下是否有员工-->
+    <select id="selectCountById" parameterType="string" resultType="int">
+	SELECT count(0) FROM fr_employee
+	  WHERE dept_id = #{deptId,jdbcType=VARCHAR}
+	</select>
+
+    <!--查询当前部门员工信息-->
+    <select id="selectEmployee" parameterType="string" resultType="com.faceRecog.manage.model.vo.EmpVO">
+        SELECT e.id,e.name as name ,d.dept_name as deptName ,c.card_num as cardNum, job_post as jobPost,duty,
+        <!--CASE face_reg WHEN '0' THEN '未注册' WHEN '1' THEN '已注册' END as faceReg,--> face_reg as faceReg,
+        birth ,id_card as idCard,sex,nation,native_place as nativePlace, phone, address,e.employ_time as employTime,
+        education, politics, is_married as isMarried, blood, emer_per as emerPer, emer_phone as emerPhone, car_no as
+        carNo,labor_con as laborCon,labor_con_no as laborConNo, remark,
+        GROUP_CONCAT(f.photo_url) AS photoUrl ,i.id as empInfoId,c.id as cardId
+        FROM fr_employee e
+        LEFT JOIN fr_employee_info i ON e.id= i.emp_id
+        LEFT JOIN fr_department d ON e.dept_id = d.id
+        LEFT JOIN fr_emp_card ec ON e.id = ec.emp_id
+        LEFT JOIN fr_card c ON c.id = ec.card_id
+        LEFT JOIN fr_face_file f ON e.id = f.emp_id
+        <where>dept_id = #{deptId,jdbcType=VARCHAR}
+            and e.is_dimiss = 1
+            <!-- <if test="searchParam != null and searchParam != '' ">
+                 and CONCAT(e.name,e.id_card,c.card_num,d.dept_name) LIKE CONCAT('%', #{searchParam}, '%')
+                 or CONCAT(e.id_card) LIKE CONCAT('%', #{searchParam}, '%')
+                 or CONCAT(c.card_num) LIKE CONCAT('%', #{searchParam}, '%')
+                 or CONCAT(d.dept_name) LIKE CONCAT('%', #{searchParam}, '%')
+            </if>-->
+        </where>
+        group by e.id
+        order by e.create_time desc
+    </select>
+
+    <!--全公司模糊搜索员工信息-->
+    <select id="selectAllEmpByParam" parameterType="string" resultType="com.faceRecog.manage.model.vo.EmpVO">
+        SELECT e.id,e.name as name ,d.dept_name as deptName ,c.card_num as cardNum, job_post as jobPost,duty,
+        <!--CASE face_reg WHEN '0' THEN '未注册' WHEN '1' THEN '已注册' END as faceReg,--> face_reg as faceReg,
+        birth ,id_card as idCard,sex,nation,native_place as nativePlace, phone, address,e.employ_time as employTime,
+        education, politics, is_married as isMarried, blood, emer_per as emerPer, emer_phone as emerPhone, car_no as
+        carNo,labor_con as laborCon,labor_con_no as laborConNo, remark,
+        GROUP_CONCAT(f.photo_url) AS photoUrl ,i.id as empInfoId,c.id as cardId
+        FROM fr_employee e
+        LEFT JOIN fr_employee_info i ON e.id= i.emp_id
+        LEFT JOIN fr_department d ON e.dept_id = d.id
+        LEFT JOIN fr_emp_card ec ON e.id = ec.emp_id
+        LEFT JOIN fr_card c ON c.id = ec.card_id
+        LEFT JOIN fr_face_file f ON e.id = f.emp_id
+        <where>
+            e.is_dimiss = 1
+            <if test=" searchParam != '' ">
+                and CONCAT(e.name,e.id_card,c.card_num,d.dept_name) LIKE CONCAT('%', #{searchParam}, '%')
+                <!--or CONCAT(e.id_card) LIKE CONCAT('%', #{searchParam}, '%')
+                or CONCAT(c.card_num) LIKE CONCAT('%', #{searchParam}, '%')
+                or CONCAT(d.dept_name) LIKE CONCAT('%', #{searchParam}, '%')-->
+            </if>
+
+        </where>
+        group by e.id
+        order by e.create_time desc
+    </select>
+
+
+    <!--查询全公司员工信息-->
+    <select id="selectAllEmployee" resultType="com.faceRecog.manage.model.vo.EmpVO">
+        SELECT e.id,e.name as name ,d.dept_name as deptName ,c.card_num as cardNum, job_post as jobPost,duty,
+        face_reg as faceReg,birth ,id_card as idCard,sex,nation,native_place as nativePlace, phone, address,
+        e.employ_time as employTime,education, politics, is_married as isMarried, blood, emer_per as emerPer,
+        emer_phone as emerPhone, car_no as carNo,labor_con as laborCon,labor_con_no as laborConNo, remark,
+        GROUP_CONCAT(f.photo_url) AS photoUrl ,i.id as empInfoId,c.id as cardId
+        FROM fr_employee e
+        LEFT JOIN fr_employee_info i ON e.id= i.emp_id
+        LEFT JOIN fr_department d ON e.dept_id = d.id
+        LEFT JOIN fr_emp_card ec ON e.id = ec.emp_id
+        LEFT JOIN fr_card c ON c.id = ec.card_id
+        LEFT JOIN fr_face_file f ON e.id = f.emp_id
+        where is_dimiss = 1
+        group by e.id
+        order by e.create_time desc
+    </select>
+
+
+    <!--查询员工记录-->
+    <select id="selectEmpRecord" parameterType="map" resultType="com.faceRecog.manage.model.vo.EmpVO">
+        SELECT e.id,e.name as name ,d.dept_name as deptName ,c.card_num as cardNum, job_post as jobPost,duty,
+        <!--CASE face_reg WHEN '0' THEN '未注册' WHEN '1' THEN '已注册' END as faceReg,--> face_reg as faceReg,
+        birth ,id_card as idCard,sex,nation,native_place as nativePlace, phone, address,e.employ_time as employTime,
+        education, politics, is_married as isMarried, blood, emer_per as emerPer, emer_phone as emerPhone, car_no as
+        carNo, labor_con as laborCon,labor_con_no as laborConNo,remark,
+        case is_dimiss when '1' then '在职' when '0' then '离职' end as isDimiss,
+        GROUP_CONCAT(f.photo_url) AS photoUrl ,i.id as empInfoId
+        FROM fr_employee e
+        LEFT JOIN fr_employee_info i ON e.id= i.emp_id
+        LEFT JOIN fr_department d ON e.dept_id = d.id
+        LEFT JOIN fr_emp_card ec ON e.id = ec.emp_id
+        LEFT JOIN fr_card c ON c.id = ec.card_id
+        LEFT JOIN fr_face_file f ON e.id = f.emp_id
+        <where>dept_id = #{deptId,jdbcType=VARCHAR}
+            <if test="empName != null and empName != '' ">
+                and CONCAT(e.name) LIKE CONCAT('%', #{empName}, '%')
+            </if>
+            <if test="startTime != null and startTime != ''">
+                and e.employ_time <![CDATA[ >= ]]> #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and e.employ_time <![CDATA[ <= ]]> #{endTime}
+            </if>
+
+        </where>
+        group by e.id
+        order by e.create_time desc
+    </select>
+
+    <!--查询员工记录-->
+    <select id="selectAllEmpRecord" parameterType="map" resultType="com.faceRecog.manage.model.vo.EmpVO">
+        SELECT e.id,e.name as name ,d.dept_name as deptName ,c.card_num as cardNum, job_post as jobPost,duty,
+        <!--CASE face_reg WHEN '0' THEN '未注册' WHEN '1' THEN '已注册' END as faceReg,--> face_reg as faceReg,
+        birth ,id_card as idCard,sex,nation,native_place as nativePlace, phone, address,e.employ_time as employTime,
+        education, politics, is_married as isMarried, blood, emer_per as emerPer, emer_phone as emerPhone, car_no as
+        carNo, labor_con as laborCon,labor_con_no as laborConNo,remark,
+        case is_dimiss when '1' then '在职' when '0' then '离职' end as isDimiss,
+        GROUP_CONCAT(f.photo_url) AS photoUrl ,i.id as empInfoId
+        FROM fr_employee e
+        LEFT JOIN fr_employee_info i ON e.id= i.emp_id
+        LEFT JOIN fr_department d ON e.dept_id = d.id
+        LEFT JOIN fr_emp_card ec ON e.id = ec.emp_id
+        LEFT JOIN fr_card c ON c.id = ec.card_id
+        LEFT JOIN fr_face_file f ON e.id = f.emp_id
+        <where>
+            <if test="empName != null and empName != '' ">
+                and CONCAT(e.name) LIKE CONCAT('%', #{empName}, '%')
+            </if>
+            <if test="startTime != null and startTime != ''">
+                and e.employ_time <![CDATA[ >= ]]> #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and e.employ_time <![CDATA[ <= ]]> #{endTime}
+            </if>
+
+        </where>
+        group by e.id
+        order by e.create_time desc
+
+    </select>
+
+    <!--批量删除-->
+    <delete id="deleteById" parameterType="list">
+        delete from fr_employee
+        <where>
+            id IN
+            <foreach collection="empIds" item="arr" open="(" close=")" separator=",">
+                #{arr}
+            </foreach>
+        </where>
+    </delete>
+
+
+    <!--将员工faceReg字段修改为"1":"已注册"-->
+    <update id="updateFaceReg" parameterType="string">
+        UPDATE fr_employee SET
+         face_reg = '1'
+         where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+
+    <!--调动员工部门-->
+    <update id="updateDeptByEmp" parameterType="map">
+        update fr_employee set
+        dept_id = #{deptId,jdbcType = VARCHAR}
+        <where>
+            id in
+            <foreach collection="ids" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </update>
+
+
+    <!--查询所有的在职员工  -->
+    <select id="selectAllEmp" resultType="com.faceRecog.manage.model.serverVO.EmpServer">
+        SELECT e.id,e.name as name ,GROUP_CONCAT(f.photo_url) AS photoUrl ,
+        GROUP_CONCAT(f.photo_size) AS photoSize, IFNULL(c.card_num,'') AS cardNum
+        FROM fr_employee e
+        LEFT JOIN fr_face_file f ON e.id = f.emp_id
+        LEFT JOIN fr_emp_card ec ON ec.emp_id = e.id
+        LEFT JOIN fr_card c ON ec.card_id = c.id
+        where e.status=1
+        and is_dimiss = 1
+        GROUP BY e.id
+        order by e.create_time desc
+    </select>
+
+
+
+
+    <!--根据部门id查询该部门下是否包含员工  -->
+    <select id="selectEmployeeCountByDeptId" parameterType="string" resultType="int">
+	   select getChildEmpNum(#{dptId,mode=IN,jdbcType=VARCHAR}) from dual
+	  </select>
+
+
+    <!--查询当前部门离职人员数量  -->
+    <select id="selectDimissEmpCountByDeptId" parameterType="string" resultType="int">
+	   select getChildDissEmpNum(#{dptId,mode=IN,jdbcType=VARCHAR}) from dual
+	  </select>
+
+
+    <!--查询当前部门所有人员数量  -->
+    <select id="selectAllEmpCountByDeptId" parameterType="string" resultType="int" >
+        select getChildAllEmpNum(#{dptId,mode=IN,jdbcType=VARCHAR}) from dual
+	  </select>
+
+
+    <select id="selectAuthCount" resultType="int" parameterType="string">
+        select count(0) from fr_emp_equip
+        where emp_id =  #{empId,jdbcType = VARCHAR}
+        and equip_id =  #{eqId,jdbcType = VARCHAR}
+    </select>
+
+    <!--根据人员id查询人员考勤信息  -->
+    <select id="selectAttendInfo" parameterType="string" resultType="map">
+	SELECT ae.allow_late as allowLate,ae.allow_early as allowEarly,
+	CONCAT(ad.date_str,' ',tf.attend_time) as workOnTime,CONCAT(ad.date_str,' ',tf.close_time) as workOffTime
+	,ae.type,ae.after_overtime afterOvertime
+	from fr_employee em
+	LEFT JOIN fr_emp_attend_group eag on  eag.emp_id=em.id
+	LEFT JOIN fr_attend_detail ad on ad.emp_id=eag.emp_id
+	LEFT JOIN fr_attendance ae on ae.id=ad.attend_id
+	LEFT JOIN fr_time_frame tf on tf.attend_id=ae.id
+	where em.id= #{empId,jdbcType = VARCHAR} and ad.date_str= #{dateStr,jdbcType = VARCHAR}
+	</select>
+
+    <!-- 查询所有员工的排程 -->
+    <select id="selectAllEmpWorkSchedule" resultType="map">
+    SELECT ad.id as attendId,concat(ad.date_str,' ',tf.attend_time) as workOnTime,concat(ad.date_str,' ',tf.close_time) as workOffTime
+    ,ad.date_str as dateStr,tf.sort,tf.in_across as inAcorss,tf.out_across as outAcross
+	from  fr_attend_detail ad
+	LEFT JOIN fr_attendance ae on ae.id=ad.attend_id
+	LEFT JOIN fr_time_frame tf on tf.attend_id=ae.id
+	 where date_format(ad.date_str, '%Y-%m-%d')&gt;=current_date
+    </select>
+
+    <!--根据部门id查询部门下员工  -->
+    <select id="selectEmployeeByDeptId" parameterType="string" resultMap="BaseResultMap">
+    select id, name
+    from fr_employee
+    where dept_id= #{deptId,jdbcType = VARCHAR} and  is_dimiss=1
+    </select>
+
+    <!--根据部门批量查询员工  -->
+    <select id="selectBatchEmpByDeptId" parameterType="list" resultMap="BaseResultMap">
+        select id, name
+        from fr_employee
+        where dept_id in
+        <foreach collection="deptIds" item="deptId" open="(" close=")" separator=",">
+            #{deptId,jdbcType = VARCHAR}
+        </foreach>
+    </select>
+
+    <!--查询所有的员工信息  -->
+    <select id="selectAllEmpInfo" resultType="map">
+    select e.id, e.name,d.dept_name as deptName
+	    from fr_employee e
+	    left join  fr_department d ON e.dept_id = d.id
+	    where e.status=1
+    </select>
+
+
+    <!--导出所有员工  -->
+    <select id="exportEmployee" resultType="com.faceRecog.manage.model.vo.EmpVO">
+        SELECT e.id,e.name as name ,d.dept_name as deptName ,c.card_num as cardNum, job_post as jobPost,duty,
+        face_reg as faceReg,birth,id_card as idCard,sex,nation,native_place as nativePlace, phone, address,e.employ_time as employTime,
+        education, politics, is_married as isMarried, blood, emer_per as emerPer, emer_phone as emerPhone, car_no as
+        carNo, labor_con as laborCon,labor_con_no as laborConNo, remark,
+        GROUP_CONCAT(f.photo_url) AS photoUrl,i.id as empInfoId
+        FROM fr_employee e
+        LEFT JOIN fr_employee_info i ON e.id= i.emp_id
+        LEFT JOIN fr_department d ON e.dept_id = d.id
+        LEFT JOIN fr_emp_card ec ON e.id = ec.emp_id
+        LEFT JOIN fr_card c ON c.id = ec.card_id
+        LEFT JOIN fr_face_file f ON e.id = f.emp_id
+        where  is_dimiss = 1
+        group by e.id
+        order by e.create_time desc
+    </select>
+
+    <!--查询所有固定班制员工排班  -->
+    <select id="selectAllEmpWorkPeriodSchedule" resultType="map">
+        select em.id as empId,tf.attend_time as workOnTime,tf.close_time as workOffTime,ad.date_str as dateStr,tf.sort
+        from fr_attend_group ag on eag.ag_id=ag.id
+        LEFT JOIN fr_attend_group_period agp on agp.ag_id=ag.id
+        LEFT JOIN fr_period pr on pr.id=agp.pr_id
+        LEFT JOIN fr_period_attend pa on pa.period_id=pr.id
+        LEFT JOIN fr_attendance ae on ae.id=pa.attend_id
+        LEFT JOIN fr_time_frame tf on tf.attend_id=ae.id
+        where ag.type=1<!--固定班制  --> order by pa.sort asc
+    </select>
+
+    <!--查询所有员工所属的考勤班制类型信息  -->
+    <select id="selectAllEmpAttendInfo" resultType="map">
+	select emp.id as empId,agp.pr_id as attendId,ag.type
+	  from fr_attend_group ag
+		left join fr_emp_attend_group eag on eag.ag_id=ag.id
+		left join fr_employee emp on emp.id=eag.emp_id
+		left join fr_attend_group_period agp on agp.ag_id=ag.id
+	where    ag.type=1  
+	union all
+	select emp.id as empId,ad.id as attendId,ag.type
+	  from fr_attend_group ag
+		left join fr_emp_attend_group eag on eag.ag_id=ag.id
+		left join fr_employee emp on emp.id=eag.emp_id
+		left join fr_attend_detail ad on ad.emp_id=emp.id
+	where    ag.type=2
+	union all
+	select id as empId ,''  as  attendId,'3' as type
+		 from fr_employee where id not in(select emp_id from fr_emp_attend_group)
+    </select>
+
+    <!--根据部门id查询部门所有的员工  -->
+    <!--<select id="selectChildEmployeeByDeptId" parameterType="string" resultMap="BaseResultMap" statementType="CALLABLE">
+	   <![CDATA[
+                  {call sp_showEmpChild(#{dptId,mode=IN,jdbcType=VARCHAR})};
+        ]]>
+	  </select>-->
+
+    <!--根据员工id修改员工人脸注册状态  -->
+    <update id="updateEmpFaceRegState" parameterType="map">
+	 update fr_employee
+	 set face_reg=#{state,jdbcType = VARCHAR}
+	 where id= #{empId,jdbcType = VARCHAR}
+	 </update>
+
+    <!--判断当前员工是否离职-->
+    <select id="selectCountByIsDimiss" parameterType="string" resultType="int">
+       select count(0) from fr_employee
+       where is_dimiss = 0
+       and id= #{empId,jdbcType = VARCHAR}
+    </select>
+
+    <!--查询所有的在职员工  -->
+    <select id="selectAllEmpDetail" resultType="com.faceRecog.manage.model.serverVO.EmpServer">
+        SELECT e.id,e.name as name ,GROUP_CONCAT(f.photo_url) AS photoUrl ,
+        GROUP_CONCAT(f.photo_size) AS photoSize, IFNULL(c.card_num,'') AS cardNum,dp.dept_name as depetName
+        FROM fr_employee e
+        LEFT JOIN fr_face_file f ON e.id = f.emp_id
+        LEFT JOIN fr_emp_card ec ON ec.emp_id = e.id
+        LEFT JOIN fr_card c ON ec.card_id = c.id
+        left join fr_department dp on dp.id=e.dept_id
+        where e.status=1
+        and is_dimiss = 1
+        GROUP BY e.id
+        order by e.create_time desc
+    </select>
+    
+    <!--根据员工id查询员工信息  -->
+    <select id="selectEmpInfoByParam" parameterType="list" resultType="map">
+    	SELECT e.id,e.name as name, IFNULL(c.card_num,'') AS cardNum,
+    	IFNULL(dept.dept_name,'')as deptName,IFNULL(e.duty,'')as duty
+        FROM fr_employee e
+        LEFT JOIN fr_department dept ON e.dept_id = dept.id
+        LEFT JOIN fr_emp_card ec ON ec.emp_id = e.id
+        LEFT JOIN fr_card c ON ec.card_id = c.id
+        where e.status=1
+        and is_dimiss = 1
+        GROUP BY e.id
+        order by e.create_time desc
+    </select>
+    
+</mapper>
